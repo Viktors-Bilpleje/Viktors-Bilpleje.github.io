@@ -209,6 +209,42 @@ section{padding-block:clamp(3.5rem,8vw,6rem)}
 .copy{font:500 .85rem/1 var(--font-mono); color:var(--hall-muted); background:none; border:0; padding:.3rem 0; cursor:pointer; width:fit-content; text-decoration:underline; text-underline-offset:3px}
 .sms-tip{font-size:.92rem; border-top:1px solid #FFFFFF1F; padding-top:1rem}
 
+
+/* Anmeldelser */
+.reviews{display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:clamp(1.5rem,4vw,3rem); align-items:start}
+@media (max-width:900px){.reviews{grid-template-columns:1fr}}
+.r-summary{display:flex; align-items:center; gap:1rem; margin-bottom:1.2rem}
+.r-avg{font:700 2.6rem/1 var(--font-mono)}
+.stars-row{display:inline-flex; gap:2px; color:var(--signal)}
+.stars-row svg{display:block}
+.stars-row .off{color:var(--line)}
+.r-count{color:var(--muted); font-size:.92rem}
+.r-list{display:grid; gap:1rem}
+.r-card{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:1.3rem 1.4rem; display:grid; gap:.6rem; min-width:0}
+.r-card p{margin:0}
+.r-meta{display:flex; justify-content:space-between; gap:1rem; flex-wrap:wrap; color:var(--muted); font-size:.88rem}
+.r-meta b{color:var(--ink)}
+.r-empty{border:1.5px dashed var(--line); border-radius:var(--r); padding:2rem 1.5rem; display:grid; gap:.5rem; justify-items:start; color:var(--muted)}
+.r-empty strong{color:var(--ink); font:700 1.2rem/1.2 var(--font-display); font-stretch:112%}
+.r-form{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:clamp(1.25rem,3vw,1.8rem); display:grid; gap:1rem}
+.r-form h3{font-size:1.5rem; font-weight:800}
+.r-form .hint{color:var(--muted); font-size:.9rem; margin:0}
+.star-pick{border:0; padding:0; margin:0; display:grid; gap:.4rem}
+.star-pick legend{font-size:.9rem; font-weight:600; padding:0; margin-bottom:.4rem}
+.star-btns{display:flex; gap:.25rem}
+.star-btns label{cursor:pointer; color:var(--line); transition:transform 160ms var(--ease-out), color 150ms ease; display:block}
+.star-btns label:active{transform:scale(0.9)}
+.star-btns label.on{color:var(--signal)}
+.star-btns input{position:absolute; opacity:0; width:1px; height:1px}
+.star-btns input:focus-visible + svg{outline:3px solid var(--water); outline-offset:2px; border-radius:6px}
+.star-txt{font-size:.88rem; color:var(--muted); min-height:1.3em}
+.r-field{display:grid; gap:.35rem}
+.r-field label{font-size:.9rem; font-weight:600}
+.r-field input,.r-field textarea{font:inherit; font-size:1rem; color:var(--ink); background:var(--bg); border:1.5px solid var(--line); border-radius:10px; padding:.75rem .85rem; width:100%; transition:border-color 200ms ease}
+.r-field textarea{min-height:7rem; resize:vertical}
+.r-field input:focus,.r-field textarea:focus{outline:none; border-color:var(--water)}
+.r-err{color:#C2412D; font-size:.88rem; margin:0}
+.r-form .btn{justify-content:center; background:var(--ink); color:var(--bg)}
 footer{background:var(--hall); color:var(--hall-muted); font-size:.9rem}
 footer .wrap{padding-block:2.5rem; display:flex; flex-wrap:wrap; justify-content:space-between; gap:1rem}
 footer b{color:var(--hall-ink)}
@@ -225,7 +261,7 @@ footer b{color:var(--hall-ink)}
       Viktors Bilpleje
     </a>
     <nav class="nav" aria-label="Hovedmenu">
-      <a href="#priser">Priser</a><a href="#haandvask">Hvorfor håndvask</a><a href="#kontakt">Kontakt</a>
+      <a href="#priser">Priser</a><a href="#haandvask">Hvorfor håndvask</a><a href="#anmeldelser">Anmeldelser</a><a href="#kontakt">Kontakt</a>
     </nav>
     <a class="btn btn-signal" href="#kontakt">Book vask</a>
   </div>
@@ -382,6 +418,34 @@ footer b{color:var(--hall-ink)}
     </div>
   </section>
 
+  <section id="anmeldelser" aria-labelledby="anm-h">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">Anmeldelser</span>
+        <h2 id="anm-h">Det siger kunderne</h2>
+      </div>
+      <div class="reviews">
+        <div>
+          <div class="r-summary" id="r-summary" hidden></div>
+          <div class="r-list" id="r-list"></div>
+        </div>
+        <form class="r-form reveal" id="r-form" novalidate>
+          <h3>Skriv en anmeldelse</h3>
+          <fieldset class="star-pick">
+            <legend>Hvor tilfreds var du?</legend>
+            <div class="star-btns" id="star-btns"><label class="on" title="1 stjerne"><input type="radio" name="stars" id="star-1" value="1"><svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">1 stjerne</span></label><label class="on" title="2 stjerner"><input type="radio" name="stars" id="star-2" value="2"><svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">2 stjerner</span></label><label class="on" title="3 stjerner"><input type="radio" name="stars" id="star-3" value="3"><svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">3 stjerner</span></label><label class="on" title="4 stjerner"><input type="radio" name="stars" id="star-4" value="4"><svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">4 stjerner</span></label><label class="on" title="5 stjerner"><input type="radio" name="stars" id="star-5" value="5" checked><svg width="36" height="36" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg><span class="sr" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">5 stjerner</span></label></div>
+            <span class="star-txt" id="star-txt">5 af 5 stjerner: Fantastisk</span>
+          </fieldset>
+          <div class="r-field"><label for="r-name">Dit navn</label><input id="r-name" autocomplete="name" placeholder="Fx Mette fra Helsinge"></div>
+          <div class="r-field"><label for="r-text">Din anmeldelse</label><textarea id="r-text" placeholder="Hvordan var vasken? Hvad var du glad for?"></textarea></div>
+          <p class="r-err" id="r-err" hidden>Skriv dit navn og et par ord om vasken.</p>
+          <button class="btn" type="submit"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Send anmeldelse</button>
+          <p class="hint">Anmeldelsen åbner som en SMS til Viktor. Den kommer på siden, når den er godkendt.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+
   <section id="kontakt" aria-labelledby="kontakt-h">
     <div class="wrap contact">
       <div class="area">
@@ -469,6 +533,44 @@ footer b{color:var(--hall-ink)}
   }));
   firstBox.addEventListener('change',update);
   update();
+
+  // Anmeldelser: tilføj godkendte anmeldelser her, nyeste først.
+  // Eksempel: {stars:5, name:'Mette fra Helsinge', date:'2026-11-01', text:'Bilen har aldrig været så ren.'}
+  const REVIEWS=[];
+  const starSvg=(n,size)=>Array.from({length:5},(_,i)=>'<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="currentColor" class="'+(i<n?'':'off')+'" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>').join('');
+  const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  (function(){
+    const list=document.getElementById('r-list'), sum=document.getElementById('r-summary');
+    if(!REVIEWS.length){
+      list.innerHTML='<div class="r-empty"><strong>Ingen anmeldelser endnu</strong><span>Har du fået vasket bilen hos Viktor? Bliv den første til at skrive en anmeldelse.</span><a class="btn btn-signal" href="#r-form">Skriv en anmeldelse</a></div>';
+      return;
+    }
+    const avg=REVIEWS.reduce((a,r)=>a+r.stars,0)/REVIEWS.length;
+    sum.hidden=false;
+    sum.innerHTML='<span class="r-avg">'+avg.toLocaleString('da-DK',{minimumFractionDigits:1,maximumFractionDigits:1})+'</span><div><span class="stars-row" role="img" aria-label="'+avg.toFixed(1)+' af 5 stjerner">'+starSvg(Math.round(avg),22)+'</span><div class="r-count">'+REVIEWS.length+' anmeldelse'+(REVIEWS.length>1?'r':'')+'</div></div>';
+    list.innerHTML=REVIEWS.map(r=>'<article class="r-card"><span class="stars-row" role="img" aria-label="'+r.stars+' af 5 stjerner">'+starSvg(r.stars,18)+'</span><p>'+esc(r.text)+'</p><div class="r-meta"><b>'+esc(r.name)+'</b><span>'+(r.date?new Date(r.date+'T12:00').toLocaleDateString('da-DK',{day:'numeric',month:'long',year:'numeric'}):'')+'</span></div></article>').join('');
+  })();
+
+  // Skriv anmeldelse → SMS
+  (function(){
+    const words={1:'Dårlig',2:'Under middel',3:'Okay',4:'God',5:'Fantastisk'};
+    const labels=[...document.querySelectorAll('#star-btns label')];
+    const txt=document.getElementById('star-txt');
+    let stars=5;
+    const paint=n=>{labels.forEach((l,i)=>l.classList.toggle('on',i<n)); txt.textContent=n+' af 5 stjerner: '+words[n]};
+    document.querySelectorAll('input[name="stars"]').forEach(inp=>inp.addEventListener('change',()=>{stars=+inp.value;paint(stars)}));
+    labels.forEach((l,i)=>{l.addEventListener('mouseenter',()=>paint(i+1));});
+    document.getElementById('star-btns').addEventListener('mouseleave',()=>paint(stars));
+    document.getElementById('r-form').addEventListener('submit',e=>{
+      e.preventDefault();
+      const name=document.getElementById('r-name'), text=document.getElementById('r-text');
+      const bad=[name,text].filter(x=>!x.value.trim());
+      document.getElementById('r-err').hidden=!bad.length;
+      if(bad.length){bad[0].focus();return}
+      const body=['Anmeldelse til Viktors Bilpleje','','★'.repeat(stars)+'☆'.repeat(5-stars)+' ('+stars+'/5)','Navn: '+name.value.trim(),'',text.value.trim(),'','Jeg giver lov til, at anmeldelsen bliver vist på hjemmesiden.'].join('\n');
+      location.href=smsHref(body);
+    });
+  })();
 
   // Kopiér nummer
   const copy=document.getElementById('copy');
