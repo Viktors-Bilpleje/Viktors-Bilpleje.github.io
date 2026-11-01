@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Priser og booking – Viktors Bilpleje</title>
+<meta name="description" content="Priser på håndvask af personbiler, store biler og varevogne. 20 % rabat på første vask. Bestil via SMS.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100,400;100,500;100,600;112,700;112,800&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="top-left">
+      <button class="burger" id="burger" type="button" aria-label="Åbn menu" aria-expanded="false" aria-controls="drawer">
+        <span></span><span></span><span></span>
+      </button>
+      <a class="logo" href="index.html" aria-label="Viktors Bilpleje – forside">
+        <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3c4.5 6.2 8.5 11 8.5 16.2A8.5 8.5 0 0 1 7.5 19.2C7.5 14 11.5 9.2 16 3z" fill="#4FC0E6"/><circle cx="12.5" cy="19.5" r="2.4" fill="#FFC531"/></svg>
+        <span class="logo-name">Viktors Bilpleje</span>
+      </a>
+    </div>
+    <a class="btn btn-signal" href="priser.html#kontakt">Book vask</a>
+  </div>
+</header>
+
+<div class="scrim" id="scrim" hidden></div>
+<nav class="drawer" id="drawer" aria-label="Menu" inert>
+  <div class="drawer-head">
+    <span class="eyebrow" style="color:var(--signal)">Menu</span>
+    <button class="drawer-close" id="drawer-close" type="button" aria-label="Luk menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <ul class="drawer-list">
+    <li><a href="index.html"><span class="d-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></span><span><b>Forside</b><small>Velkommen til Viktors Bilpleje</small></span></a></li>
+    <li><a href="priser.html" aria-current="page"><span class="d-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg></span><span><b>Priser og booking</b><small>Pakker, biltyper og bestil via SMS</small></span></a></li>
+    <li><a href="hvorfor.html"><span class="d-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3.5 4.8 6.5 8.4 6.5 12A6.5 6.5 0 0 1 5.5 15C5.5 11.4 8.5 7.8 12 3z"/></svg></span><span><b>Hvorfor os?</b><small>Håndvask frem for vaskehallen</small></span></a></li>
+    <li><a href="galleri.html"><span class="d-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-8 8"/></svg></span><span><b>Billedgalleri</b><small>Biler vi har vasket</small></span></a></li>
+    <li><a href="anmeldelser.html"><span class="d-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg></span><span><b>Anmeldelser</b><small>Læs eller skriv en anmeldelse</small></span></a></li>
+  </ul>
+  <div class="drawer-foot">
+    <span>Skriv SMS eller ring til Viktor</span>
+    <a class="mono" href="tel:+4561302294">+45 6130 2294</a>
+  </div>
+</nav>
+
+<main id="top">
+<section class="page-first" id="priser" aria-labelledby="priser-h">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">Priser</span>
+        <h1 id="priser-h">Vælg din vask</h1>
+        <p>Faste priser. Vælg din biltype og tryk på en pakke. Så åbner din telefon en færdig SMS til Viktor.</p>
+      </div>
+      <div class="promo reveal">
+        <div class="promo-badge mono">−20 %</div>
+        <div class="promo-txt">
+          <strong>20 % rabat på jeres første vask</strong>
+          <p>Gælder én gang pr. husstand. Har I flere biler, får alle bilerne på samme bestilling rabatten.</p>
+        </div>
+        <label class="switch" for="first">
+          <input type="checkbox" id="first">
+          <span class="track" aria-hidden="true"></span>
+          <span>Det er vores første vask</span>
+        </label>
+      </div>
+      <div class="sizes" role="group" aria-label="Biltype">
+        <button type="button" id="size-car" data-size="car" aria-pressed="true">Personbil</button>
+        <button type="button" id="size-big" data-size="big" aria-pressed="false">Store biler</button>
+        <button type="button" id="size-van" data-size="van" aria-pressed="false">Varevogn</button>
+      </div>
+      <p class="size-desc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg><span id="size-desc" aria-live="polite"><strong>Personbil:</strong> 3- og 5-dørs biler og almindelige familiebiler, fx stationcars.</span></p>
+      <div class="size-rules"><span>Mere end 20 km fra Blistrup: <b>+50 kr.</b> for kørsel</span><span>Kræver en vandslange hos dig. Ellers kan bilen vaskes hjemme hos Viktor for <b>+50 kr.</b></span><span>Betal kontant eller med MobilePay</span></div>
+      <div class="programs">
+        <article class="prog reveal">
+          <div class="prog-top"></div>
+          <h3>Udvendig Vask</h3>
+          <div class="price"><span class="mono" data-price='{"car":250,"big":350}'>250</span><small>kr.</small></div>
+          <p class="dur" data-dur='{"car": "ca. 30 min – 1 time", "big": "ca. 30 min – 1 time"}'><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b class="dur-t">ca. 30 min – 1 time</b><span class="dur-n">Meget beskidte biler tager lidt længere.</span></span></p>
+          <p class="desc">Grundig håndvask af bilen, så snavs, vejsalt og insekter forsvinder.</p>
+          <ul>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Håndvask med skånsom shampoo og mikrofiber</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Fælgene gjort rene</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Rene ruder udvendigt</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Tørret af i hånden</li>
+          </ul>
+          <a class="btn" href="sms:+4561302294" data-pkg="Udvendig Vask"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Bestil via SMS</a>
+        </article>
+        <article class="prog reveal">
+          <div class="prog-top"></div>
+          <h3>Indvendig Vask</h3>
+          <div class="price"><span class="mono" data-price='{"car":300,"big":400,"van":250}'>300</span><small>kr.</small></div>
+          <p class="dur" data-dur='{"car": "ca. 1–2 timer", "big": "ca. 1–2 timer", "van": "ca. 1–1½ time"}'><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b class="dur-t">ca. 1–2 timer</b><span class="dur-n">Meget beskidte biler tager lidt længere.</span></span></p>
+          <p class="desc">Grundig rengøring af kabinen, så bilen både ser frisk ud og føles behagelig.</p>
+          <ul>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Støvsugning af gulv, sæder og bagagerum</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Aftørring af støv og snavs på instrumentbræt, døre og paneler</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Rene ruder indvendigt</li>
+          </ul>
+          <a class="btn" href="sms:+4561302294" data-pkg="Indvendig Vask"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Bestil via SMS</a>
+        </article>
+        <article class="prog reveal">
+          <div class="prog-top"></div>
+          <h3>Fuld Vask</h3>
+          <div class="price"><span class="mono" data-price='{"car":500,"big":600}'>500</span><small>kr.</small></div>
+          <p class="dur" data-dur='{"car": "ca. 1½–3 timer", "big": "ca. 1½–3 timer"}'><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b class="dur-t">ca. 1½–3 timer</b><span class="dur-n">Meget beskidte biler tager lidt længere.</span></span></p>
+          <p class="desc">Den komplette omgang. Hele bilen ind og ud i ét besøg.</p>
+          <ul>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Alt fra Udvendig Vask</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Alt fra Indvendig Vask</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Den nemmeste vej til en helt ren bil</li>
+          </ul>
+          <a class="btn" href="sms:+4561302294" data-pkg="Fuld Vask"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Bestil via SMS</a>
+        </article>
+        <article class="prog best reveal">
+          <div class="prog-top"><span class="tag">Populær</span></div>
+          <h3>Fuld Vask + Voks</h3>
+          <div class="price"><span class="mono" data-price='{"car":600,"big":700}'>600</span><small>kr.</small></div>
+          <p class="dur" data-dur='{"car": "ca. 1½–3 timer + voks", "big": "ca. 1½–3 timer + voks"}'><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b class="dur-t">ca. 1½–3 timer + voks</b><span class="dur-n">Meget beskidte biler tager lidt længere.</span></span></p>
+          <p class="desc">Fuld vask med ekstra lak-beskyttelse for dyb glans.</p>
+          <ul>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Alt fra Fuld Vask</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Et lag voks, der beskytter lakken</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Vandet perler af</li>
+            <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Snavs sætter sig ikke så let fast</li>
+          </ul>
+          <a class="btn" href="sms:+4561302294" data-pkg="Fuld Vask + Voks"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Bestil via SMS</a>
+        </article>
+      </div>
+    </div>
+  </section>
+
+<section id="kontakt" aria-labelledby="kontakt-h">
+    <div class="wrap contact">
+      <div class="area">
+        <div class="head reveal" style="margin-bottom:0">
+          <span class="eyebrow">Område</span>
+          <h2>Vi holder til i Blistrup</h2>
+          <p>Bor du mere end 20 km væk, tillægges 50 kr. for kørsel.</p>
+        </div>
+        <div class="km reveal" aria-label="Kørselstillæg">
+          <div class="km-row"><span>Op til 20 km fra Blistrup</span><span class="mono">0 kr.</span></div>
+          <div class="km-row"><span>Mere end 20 km fra Blistrup</span><span class="mono">+ 50 kr.</span></div>
+        </div>
+        <div class="good reveal" aria-label="Godt at vide">
+          <div class="good-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12h7a3 3 0 0 1 3 3v1"/><path d="M13 16h3l3-3"/><circle cx="20.5" cy="11.5" r="1.5"/><path d="M3 9v6"/></svg><div><b>Du skal have en vandslange</b><span>Vasken kræver, at der er en vandslange hos dig. Jeg har udstyr til at gøre den længere, så den når hele vejen rundt om bilen.</span></div></div>
+          <div class="good-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg><div><b>Ingen vandslange?</b><span>Så kan du få vasket bilen hjemme hos Viktor for 50 kr. ekstra.</span></div></div>
+          <div class="good-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9.5v5M18 9.5v5"/></svg><div><b>Betaling</b><span>Jeg tager imod både kontanter og MobilePay.</span></div></div>
+        </div>
+      </div>
+      <div class="callcard reveal">
+        <span class="eyebrow" style="color:var(--signal)">Book en vask</span>
+        <h2 id="kontakt-h">Skriv SMS eller ring til Viktor</h2>
+        <div style="display:grid; gap:.3rem">
+          <span class="phone" id="phone">+45 6130 2294</span>
+          <button class="copy" type="button" id="copy">Kopiér nummer</button>
+        </div>
+        <div class="cta">
+          <a class="btn btn-signal" id="sms" href="sms:+4561302294">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/></svg>Send SMS</a>
+          <a class="btn btn-ghost" href="tel:+4561302294">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>Ring op</a>
+        </div>
+        <p class="sms-tip" id="tip">Tryk på "Bestil via SMS" ved en pakke, så åbner beskeden færdigskrevet på din telefon. Du skal kun tilføje adresse og tidspunkt. Første vask er 20 % billigere, én gang pr. husstand.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><b>Viktors Bilpleje</b> · Håndvask af biler · Blistrup</span>
+    <span class="mono">+45 6130 2294</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

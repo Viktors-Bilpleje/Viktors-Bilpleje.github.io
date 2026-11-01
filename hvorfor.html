@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Hvorfor håndvask? – Viktors Bilpleje</title>
+<meta name="description" content="Derfor er håndvask bedre for din bil end vaskehallen: ingen ridser, ingen kalkpletter og ingen glemte hjørner.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100,400;100,500;100,600;112,700;112,800&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="top-left">
+      <button class="burger" id="burger" type="button" aria-label="Åbn menu" aria-expanded="false" aria-controls="drawer">
+        <span></span><span></span><span></span>
+      </button>
+      <a class="logo" href="index.html" aria-label="Viktors Bilpleje – forside">
+        <svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><path d="M16 3c4.5 6.2 8.5 11 8.5 16.2A8.5 8.5 0 0 1 7.5 19.2C7.5 14 11.5 9.2 16 3z" fill="#4FC0E6"/><circle cx="12.5" cy="19.5" r="2.4" fill="#FFC531"/></svg>
+        <span class="logo-name">Viktors Bilpleje</span>
+      </a>
+    </div>
+    <a class="btn btn-signal" href="priser.html#kontakt">Book vask</a>
+  </div>
+</header>
+
+<div class="scrim" id="scrim" hidden></div>
+<nav class="drawer" id="drawer" aria-label="Menu" inert>
+  <div class="drawer-head">
+    <span class="eyebrow" style="color:var(--signal)">Menu</span>
+    <button class="drawer-close" id="drawer-close" type="button" aria-label="Luk menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <ul class="drawer-list">
+    <li><a href="index.html"><span class="d-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></span><span><b>Forside</b><small>Velkommen til Viktors Bilpleje</small></span></a></li>
+    <li><a href="priser.html"><span class="d-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg></span><span><b>Priser og booking</b><small>Pakker, biltyper og bestil via SMS</small></span></a></li>
+    <li><a href="hvorfor.html" aria-current="page"><span class="d-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3.5 4.8 6.5 8.4 6.5 12A6.5 6.5 0 0 1 5.5 15C5.5 11.4 8.5 7.8 12 3z"/></svg></span><span><b>Hvorfor os?</b><small>Håndvask frem for vaskehallen</small></span></a></li>
+    <li><a href="galleri.html"><span class="d-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-8 8"/></svg></span><span><b>Billedgalleri</b><small>Biler vi har vasket</small></span></a></li>
+    <li><a href="anmeldelser.html"><span class="d-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg></span><span><b>Anmeldelser</b><small>Læs eller skriv en anmeldelse</small></span></a></li>
+  </ul>
+  <div class="drawer-foot">
+    <span>Skriv SMS eller ring til Viktor</span>
+    <a class="mono" href="tel:+4561302294">+45 6130 2294</a>
+  </div>
+</nav>
+
+<main id="top">
+<section id="haandvask" class="why page-first" aria-labelledby="why-h">
+    <div class="wrap">
+      <div class="head reveal">
+        <span class="eyebrow">Hvorfor håndvask</span>
+        <h1 id="why-h">Det slipper din bil for med håndvask</h1>
+      </div>
+      <div class="why-grid">
+        <div class="why-item reveal">
+          <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 18 14 6M9 20l10-12M4 12l6-7"/></svg></span>
+          <h3><s>Ridser</s></h3>
+          <p>Skånsom shampoo og rene mikrofiberklude i stedet for hårde børster.</p>
+        </div>
+        <div class="why-item reveal">
+          <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="7" cy="8" r="2.5"/><circle cx="16" cy="6" r="1.8"/><circle cx="15" cy="15" r="3.2"/><circle cx="6" cy="17" r="1.6"/></svg></span>
+          <h3><s>Kalkpletter</s></h3>
+          <p>Bilen bliver tørret af i hånden, så vandet ikke tørrer ind som hvide pletter.</p>
+        </div>
+        <div class="why-item reveal">
+          <span class="ico"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="2.5"/><path d="M12 3.5v6M12 14.5v6M3.5 12h6M14.5 12h6"/></svg></span>
+          <h3><s>Glemte hjørner</s></h3>
+          <p>Fælge, dørkarme og kanter bliver gjort rene, hvor maskiner ikke kommer til.</p>
+        </div>
+      </div>
+
+      <div class="cmp-intro reveal">
+        <h3>Håndvask eller vaskehal på tanken?</h3>
+        <p>En tur gennem vaskehallen på tankstationen er hurtig, men ikke altid billigere. Med børster og blæsere bliver alle biler vasket og tørret på samme måde, og ingen ser efter bagefter. Ved en håndvask bliver hver flade vasket, tørret og tjekket af et menneske.</p>
+      </div>
+      <div class="cmp">
+        <div class="cmp-card them reveal">
+          <h4>Vaskehal på tankstationen</h4>
+          <dl>
+            <div><dt>Vask</dt><dd>Roterende børster, der kan trække sand hen over lakken og give fine ridser. De ses især på mørke biler i sollys.</dd></div>
+            <div><dt>Tørring</dt><dd>En blæser fjerner det meste vand. Resten tørrer ind og kan efterlade hvide kalkpletter.</dd></div>
+            <div><dt>Detaljer</dt><dd>Børsterne kommer ikke ind i dørkarme, kanter og dybe fælge.</dd></div>
+            <div><dt>Indvendigt</dt><dd>Selvbetjent støvsuger, som du selv skal bruge.</dd></div>
+            <div><dt>Kontrol</dt><dd>Programmet kører færdigt, uanset om bilen er blevet ren.</dd></div>
+          </dl>
+        </div>
+        <div class="cmp-card love reveal">
+          <h4>Det kan betale sig at vælge håndvask</h4>
+          <p>De dyreste programmer i vaskehallen koster tit mere end en håndvask hos mig. For de samme penge eller mindre får du en grundigere vask, og du slipper for ridser, kalkpletter og glemte hjørner.</p>
+          <p class="love-line">Husk at give din bil den kærlighed, den fortjener.</p>
+          <a class="btn btn-signal" href="priser.html">Se priser</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span><b>Viktors Bilpleje</b> · Håndvask af biler · Blistrup</span>
+    <span class="mono">+45 6130 2294</span>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
