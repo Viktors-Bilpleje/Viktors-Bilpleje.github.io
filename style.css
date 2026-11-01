@@ -42,7 +42,8 @@ body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-in
 .top{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:#08161FE6; backdrop-filter:blur(10px); color:var(--hall-ink)}
 .top .wrap{display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-block:.8rem}
 .logo{display:flex; align-items:center; gap:.6rem; text-decoration:none; color:inherit; font:800 1.15rem/1 var(--font-display); font-stretch:112%; letter-spacing:-.01em}
-.logo svg{flex-shrink:0}
+.logo svg,.logo-img{flex-shrink:0}
+.logo-img{display:block; height:34px; width:auto}
 .top-left{display:flex; align-items:center; gap:.4rem; min-width:0}
 .burger{width:44px; height:44px; flex-shrink:0; margin-left:-10px; border:0; background:transparent; border-radius:10px; cursor:pointer;
   display:flex; flex-direction:column; justify-content:center; align-items:center; gap:5px; transition:background-color 200ms ease, transform 160ms var(--ease-out)}
@@ -50,7 +51,7 @@ body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-in
 @media (hover:hover){.burger:hover{background:#FFFFFF14}}
 .burger span{display:block; width:22px; height:2px; border-radius:2px; background:var(--hall-ink)}
 .logo,.top .btn{white-space:nowrap}
-@media (max-width:420px){.logo{font-size:1.02rem; gap:.45rem}.logo svg{width:28px; height:28px}.top .btn{padding:.6rem .85rem}}
+@media (max-width:420px){.logo{font-size:1.02rem; gap:.45rem}.logo-img{height:28px}.top .btn{padding:.6rem .85rem}}
 @media (max-width:360px){.logo-name{display:none}}
 .scrim{position:fixed; inset:0; z-index:20; background:#08161F99; opacity:0; transition:opacity 300ms var(--ease-out)}
 .scrim.open{opacity:1}
