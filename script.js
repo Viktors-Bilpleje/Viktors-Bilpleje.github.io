@@ -14,8 +14,8 @@
   function smsText(pkg,price,first){
     const lines=['Hej Viktor!','',
       'Jeg vil gerne bestille '+pkg+' til min '+sizeNames[size]+' ('+(first?kr(Math.round(price*.8))+' med 20 % rabat på første vask':kr(price))+').'];
-    if(first) lines.push('Det er vores første vask hos dig. Har vi flere biler, skriver jeg det her: ');
-    lines.push('','Adresse: ','Det passer mig bedst: ','','Venlig hilsen');
+    if(first) lines.push('Det er vores første vask hos dig.');
+    lines.push('','Antal biler: ','Adresse: ','Det passer mig bedst: ','','Venlig hilsen');
     return lines.join('\n');
   }
 
@@ -46,7 +46,7 @@
       big:'<strong>Store biler:</strong> 7-personers, store SUV’er, pickups og lignende.',
       van:'<strong>Varevogn:</strong> Kun indvendig vask af førerkabinen. Det kræver ikke en vandslange, så vi kan godt tage varevognen, selvom der ikke er en tilgængelig.'
     }[size];
-    const smsEl=document.getElementById('sms'); if(smsEl) smsEl.href=smsHref(['Hej Viktor!','','Jeg vil gerne høre om en vask af min bil.'+(first?' Det er vores første gang, så vi får 20 % rabat.':''),'','Adresse: ','Det passer mig bedst: ','','Venlig hilsen'].join('\n'));
+    const smsEl=document.getElementById('sms'); if(smsEl) smsEl.href=smsHref(['Hej Viktor!','','Jeg vil gerne høre om en vask af min bil.'+(first?' Det er vores første gang, så vi får 20 % rabat.':''),'','Antal biler: ','Adresse: ','Det passer mig bedst: ','','Venlig hilsen'].join('\n'));
   }
   document.querySelectorAll('.sizes button').forEach(b=>b.addEventListener('click',()=>{
     size=b.dataset.size;
