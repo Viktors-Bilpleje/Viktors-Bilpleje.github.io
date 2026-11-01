@@ -108,6 +108,17 @@ section{padding-block:clamp(3.5rem,8vw,6rem)}
 .switch:active .track::after{width:24px}
 .switch input:checked + .track:active::after{transform:translateX(14px)}
 .price{flex-wrap:wrap}
+.dur{display:flex; gap:.5rem; align-items:flex-start; margin:-.3rem 0 0; font-size:.9rem; color:var(--muted)}
+.dur svg{flex-shrink:0; margin-top:.2rem; color:var(--water)}
+.best .dur{color:var(--hall-muted)} .best .dur svg{color:var(--signal)}
+.dur b{display:block; color:var(--ink); font-weight:600}
+.best .dur b{color:var(--hall-ink)}
+.dur-n{display:block; font-size:.84rem}
+.good{display:grid; gap:.8rem}
+.good-item{display:flex; gap:.8rem; align-items:flex-start; background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:1rem 1.1rem}
+.good-item svg{flex-shrink:0; color:var(--water); margin-top:.15rem}
+.good-item b{display:block}
+.good-item span{color:var(--muted); font-size:.95rem}
 .price s{font-family:var(--font-mono); color:var(--muted); font-size:1rem; order:-1; width:100%; text-decoration-color:var(--signal); text-decoration-thickness:2px}
 .best .price s{color:var(--hall-muted)}
 .disc{display:none; font-family:var(--font-mono); font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--water); margin-left:.3rem}
@@ -313,12 +324,13 @@ footer b{color:var(--hall-ink)}
         <button type="button" id="size-van" data-size="van" aria-pressed="false">Varevogn</button>
       </div>
       <p class="size-desc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg><span id="size-desc" aria-live="polite"><strong>Personbil:</strong> 3- og 5-dørs biler og almindelige familiebiler, fx stationcars.</span></p>
-      <div class="size-rules"><span>Mere end 20 km fra Blistrup: <b>+50 kr.</b> for kørsel</span></div>
+      <div class="size-rules"><span>Mere end 20 km fra Blistrup: <b>+50 kr.</b> for kørsel</span><span>Kræver en vandslange hos dig. Ellers kan bilen vaskes hjemme hos Viktor for <b>+50 kr.</b></span><span>Betal kontant eller med MobilePay</span></div>
       <div class="programs">
         <article class="prog reveal">
           <div class="prog-top"></div>
           <h3>Udvendig Vask</h3>
           <div class="price"><span class="mono" data-price='{"car":250,"big":350}'>250</span><small>kr.</small></div>
+          <p class="dur" data-dur='{"car": "ca. 30 min – 1 time", "big": "ca. 30 min – 1 time"}'><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b class="dur-t">ca. 30 min – 1 time</b><span class="dur-n">Meget beskidte biler tager lidt længere.</span></span></p>
           <p class="desc">Grundig håndvask af bilen, så snavs, vejsalt og insekter forsvinder.</p>
           <ul>
             <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Håndvask med skånsom shampoo og mikrofiber</li>
@@ -332,6 +344,7 @@ footer b{color:var(--hall-ink)}
           <div class="prog-top"></div>
           <h3>Indvendig Vask</h3>
           <div class="price"><span class="mono" data-price='{"car":300,"big":400,"van":250}'>300</span><small>kr.</small></div>
+          <p class="dur" data-dur='{"car": "ca. 1–2 timer", "big": "ca. 1–2 timer", "van": "ca. 1–1½ time"}'><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b class="dur-t">ca. 1–2 timer</b><span class="dur-n">Meget beskidte biler tager lidt længere.</span></span></p>
           <p class="desc">Grundig rengøring af kabinen, så bilen både ser frisk ud og føles behagelig.</p>
           <ul>
             <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Støvsugning af gulv, sæder og bagagerum</li>
@@ -344,6 +357,7 @@ footer b{color:var(--hall-ink)}
           <div class="prog-top"></div>
           <h3>Fuld Vask</h3>
           <div class="price"><span class="mono" data-price='{"car":500,"big":600}'>500</span><small>kr.</small></div>
+          <p class="dur" data-dur='{"car": "ca. 1½–3 timer", "big": "ca. 1½–3 timer"}'><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b class="dur-t">ca. 1½–3 timer</b><span class="dur-n">Meget beskidte biler tager lidt længere.</span></span></p>
           <p class="desc">Den komplette omgang. Hele bilen ind og ud i ét besøg.</p>
           <ul>
             <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Alt fra Udvendig Vask</li>
@@ -356,6 +370,7 @@ footer b{color:var(--hall-ink)}
           <div class="prog-top"><span class="tag">Populær</span></div>
           <h3>Fuld Vask + Voks</h3>
           <div class="price"><span class="mono" data-price='{"car":600,"big":700}'>600</span><small>kr.</small></div>
+          <p class="dur" data-dur='{"car": "ca. 1½–3 timer + voks", "big": "ca. 1½–3 timer + voks"}'><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span><b class="dur-t">ca. 1½–3 timer + voks</b><span class="dur-n">Meget beskidte biler tager lidt længere.</span></span></p>
           <p class="desc">Fuld vask med ekstra lak-beskyttelse for dyb glans.</p>
           <ul>
             <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Alt fra Fuld Vask</li>
@@ -458,6 +473,11 @@ footer b{color:var(--hall-ink)}
           <div class="km-row"><span>Op til 20 km fra Blistrup</span><span class="mono">0 kr.</span></div>
           <div class="km-row"><span>Mere end 20 km fra Blistrup</span><span class="mono">+ 50 kr.</span></div>
         </div>
+        <div class="good reveal" aria-label="Godt at vide">
+          <div class="good-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M3 12h7a3 3 0 0 1 3 3v1"/><path d="M13 16h3l3-3"/><circle cx="20.5" cy="11.5" r="1.5"/><path d="M3 9v6"/></svg><div><b>Du skal have en vandslange</b><span>Vasken kræver, at der er en vandslange hos dig. Jeg har udstyr til at gøre den længere, så den når hele vejen rundt om bilen.</span></div></div>
+          <div class="good-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg><div><b>Ingen vandslange?</b><span>Så kan du få vasket bilen hjemme hos Viktor for 50 kr. ekstra.</span></div></div>
+          <div class="good-item"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/><path d="M6 9.5v5M18 9.5v5"/></svg><div><b>Betaling</b><span>Jeg tager imod både kontanter og MobilePay.</span></div></div>
+        </div>
       </div>
       <div class="callcard reveal">
         <span class="eyebrow" style="color:var(--signal)">Book en vask</span>
@@ -518,6 +538,11 @@ footer b{color:var(--hall-ink)}
       wrap.classList.toggle('is-first',first);
       const btn=card.querySelector('[data-pkg]');
       btn.href=smsHref(smsText(btn.dataset.pkg,price,first));
+    });
+    const durNote={car:'Meget beskidte biler tager lidt længere.',big:'Store og meget beskidte biler tager lidt længere.',van:'Meget beskidte varevogne tager lidt længere.'}[size];
+    document.querySelectorAll('.dur').forEach(el=>{
+      const d=JSON.parse(el.dataset.dur)[size];
+      if(d){el.querySelector('.dur-t').textContent=d; el.querySelector('.dur-n').textContent=durNote;}
     });
     document.getElementById('size-desc').innerHTML={
       car:'<strong>Personbil:</strong> 3- og 5-dørs biler og almindelige familiebiler, fx stationcars.',
