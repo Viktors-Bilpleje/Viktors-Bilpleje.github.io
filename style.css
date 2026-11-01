@@ -333,6 +333,7 @@ section{padding-block:clamp(3.5rem,8vw,6rem); scroll-margin-top:52px}
 footer{background:var(--hall); color:var(--hall-muted); font-size:.9rem}
 footer .wrap{padding-block:2.5rem; display:flex; flex-wrap:wrap; justify-content:space-between; gap:1rem}
 footer b{color:var(--hall-ink)}
+.foot-logo{display:block; width:110px; height:auto; flex-basis:100%; max-width:110px}
 
 @media (prefers-reduced-motion:reduce){*{animation:none!important; transition:none!important; scroll-behavior:auto!important}}
 
