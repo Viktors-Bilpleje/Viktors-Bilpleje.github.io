@@ -112,6 +112,15 @@
     });
   })();
 
+  // Generelle SMS-knapper (forsiden og kontaktboksen): færdig tekst at udfylde
+  (function(){
+    const body=['Hej Viktor!','','Jeg vil gerne bestille en vask af min bil.','','Pakke: ','Biltype: ','Antal biler: ','Adresse: ','Det passer mig bedst: ','','Venlig hilsen'].join('\n');
+    document.querySelectorAll('[data-sms]').forEach(a=>{
+      if(a.id==='sms'&&document.getElementById('first')) return; // på Priser-siden sættes teksten ud fra valgene
+      a.href=smsHref(body);
+    });
+  })();
+
   // Menu (burger)
   (function(){
     const btn=document.getElementById('burger'), drawer=document.getElementById('drawer'), scrim=document.getElementById('scrim'), close=document.getElementById('drawer-close');
