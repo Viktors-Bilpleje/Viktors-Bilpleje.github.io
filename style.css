@@ -50,7 +50,7 @@ body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-in
 @media (hover:hover){.burger:hover{background:#FFFFFF14}}
 .burger span{display:block; width:22px; height:2px; border-radius:2px; background:var(--hall-ink)}
 .logo,.top .btn{white-space:nowrap}
-@media (max-width:420px){.logo{font-size:1.02rem; gap:.45rem}.logo svg{width:32px; height:17px}.top .btn{padding:.6rem .85rem}}
+@media (max-width:420px){.logo{font-size:1.02rem; gap:.45rem}.logo svg{width:28px; height:28px}.top .btn{padding:.6rem .85rem}}
 @media (max-width:360px){.logo-name{display:none}}
 .scrim{position:fixed; inset:0; z-index:20; background:#08161F99; opacity:0; transition:opacity 300ms var(--ease-out)}
 .scrim.open{opacity:1}
