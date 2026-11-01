@@ -105,6 +105,13 @@ body.menu-open{overflow:hidden}
 .hero h1 em{font-style:normal; color:var(--signal)}
 .hero .lead{max-width:48ch; color:var(--hall-muted); font-size:clamp(1.05rem,1.6vw,1.25rem)}
 .hero .cta{display:flex; flex-wrap:wrap; gap:.75rem}
+.hero-tags{display:flex; flex-wrap:wrap; gap:.6rem; align-items:center}
+.hero-rating{display:inline-flex; align-items:center; gap:.55rem; background:#FFFFFF14; color:var(--hall-ink); text-decoration:none; padding:.4rem .85rem .4rem .7rem; border-radius:999px; font-size:.9rem; transition:background-color 200ms ease, transform 160ms var(--ease-out)}
+.hero-rating:active{transform:scale(0.97)}
+@media (hover:hover){.hero-rating:hover{background:#FFFFFF24}}
+.hero-rating .stars-row{color:var(--signal)}
+.hero-rating b{font-family:var(--font-mono); font-weight:700}
+.hero-rating span.cnt{color:var(--hall-muted)}
 .pill{display:inline-flex; align-items:center; gap:.55rem; font-family:var(--font-mono); font-size:.82rem;
   background:#FFFFFF10; padding:.45rem .8rem; border-radius:999px; width:fit-content}
 .pill svg{color:var(--signal)}
