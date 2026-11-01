@@ -124,14 +124,17 @@
       if(isVan) pkg.value='ind';
       $('o-van').hidden=!isVan; $('o-hose-wrap').hidden=isVan; if(isVan) hose.checked=false;
       const n=Math.min(10,Math.max(1,parseInt(count.value,10)||1));
-      const full=PRICES[size.value][pkg.value]*n;
-      const price=first.checked?Math.round(full*.8):full;
+      const wash=PRICES[size.value][pkg.value]*n;
+      const extra=hose.checked?50*n:0;           // vask hjemme hos Viktor: +50 kr. pr. bil
+      const full=wash+extra;
+      const price=(first.checked?Math.round(wash*.8):wash)+extra;  // rabatten gælder selve vasken
       $('o-price').textContent=krf(price);
       $('o-old').textContent=krf(full); $('o-old').hidden=!first.checked;
       const lines=['Hej Viktor!','','Jeg vil gerne bestille:','Pakke: '+PKG[pkg.value],'Biltype: '+SIZE[size.value],'Antal biler: '+n,
-        'Pris: '+krf(price)+(first.checked?' (20 % rabat på første vask, normalt '+krf(full)+')':'')];
+        'Pris i alt: '+krf(price)+(first.checked?' (20 % rabat på første vask, normalt '+krf(full)+')':'')];
+      if(extra) lines.push('Heraf '+krf(extra)+' for vask hjemme hos dig.');
       if(first.checked) lines.push('Det er vores første vask hos dig.');
-      if(hose.checked) lines.push('Vi har ingen vandslange, så bilen skal vaskes hos dig (+50 kr.).');
+      if(hose.checked) lines.push('Vi har ingen vandslange, så '+(n>1?'bilerne':'bilen')+' skal vaskes hjemme hos dig.');
       lines.push('','Adresse: '+($('o-addr').value.trim()),'Det passer mig bedst: '+($('o-when').value.trim()),'','Venlig hilsen');
       const body=lines.join('\n');
       $('o-preview').textContent=body;
