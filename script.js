@@ -40,10 +40,11 @@
       const d=JSON.parse(el.dataset.dur)[size];
       if(d){el.querySelector('.dur-t').textContent=d; el.querySelector('.dur-n').textContent=durNote;}
     });
+    const hose=document.getElementById('hose-pill'); if(hose) hose.hidden=size==='van';
     document.getElementById('size-desc').innerHTML={
       car:'<strong>Personbil:</strong> 3- og 5-dørs biler og almindelige familiebiler, fx stationcars.',
       big:'<strong>Store biler:</strong> 7-personers, store SUV’er, pickups og lignende.',
-      van:'<strong>Varevogn:</strong> Kun indvendig vask af førerkabinen.'
+      van:'<strong>Varevogn:</strong> Kun indvendig vask af førerkabinen. Det kræver ikke en vandslange, så vi kan godt tage varevognen, selvom der ikke er en tilgængelig.'
     }[size];
     const smsEl=document.getElementById('sms'); if(smsEl) smsEl.href=smsHref(['Hej Viktor!','','Jeg vil gerne høre om en vask af min bil.'+(first?' Det er vores første gang, så vi får 20 % rabat.':''),'','Adresse: ','Det passer mig bedst: ','','Venlig hilsen'].join('\n'));
   }
