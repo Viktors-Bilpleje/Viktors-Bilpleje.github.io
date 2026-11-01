@@ -269,6 +269,28 @@ section{padding-block:clamp(3.5rem,8vw,6rem); scroll-margin-top:52px}
 .phone{font:700 clamp(1.7rem,4.5vw,2.4rem)/1.1 var(--font-mono); letter-spacing:-.01em; user-select:all; color:var(--signal)}
 .callcard .cta{display:flex; flex-wrap:wrap; gap:.6rem}
 .copy{font:500 .85rem/1 var(--font-mono); color:var(--hall-muted); background:none; border:0; padding:.3rem 0; cursor:pointer; width:fit-content; text-decoration:underline; text-underline-offset:3px}
+.order{display:grid; gap:.9rem}
+.o-grid{display:grid; grid-template-columns:1fr 1fr; gap:.8rem}
+@media (max-width:480px){.o-grid{grid-template-columns:1fr}}
+.o-field{display:grid; gap:.35rem; min-width:0}
+.o-full{grid-column:1/-1}
+.o-field label{font-size:.85rem; font-weight:600; color:var(--hall-muted)}
+.o-field input,.o-field select{font:inherit; font-size:1rem; color:var(--hall-ink); background:#FFFFFF0F; border:1.5px solid #FFFFFF26; border-radius:10px; padding:.7rem .8rem; width:100%; min-width:0; transition:border-color 200ms ease; color-scheme:dark}
+.o-field input::placeholder{color:#93AEBB99}
+.o-field input:focus,.o-field select:focus{outline:none; border-color:var(--signal)}
+.o-field select option{color:#0B1A24}
+.o-check{display:flex; gap:.6rem; align-items:flex-start; font-size:.95rem; cursor:pointer}
+.o-check input{width:20px; height:20px; margin:.1rem 0 0; accent-color:var(--signal); flex-shrink:0}
+.o-van{margin:0; font-size:.9rem; color:var(--signal)}
+.o-total{display:flex; justify-content:space-between; align-items:baseline; gap:1rem; padding:.8rem 0; border-block:1px solid #FFFFFF1F}
+.o-total b{font-size:1.5rem; color:var(--hall-ink)}
+.o-total s{color:var(--hall-muted); font-family:var(--font-mono); font-size:.95rem}
+.o-total > span:first-child{color:var(--hall-muted); font-size:.9rem}
+.o-preview{display:grid; gap:.35rem}
+.o-label{font-size:.85rem; font-weight:600; color:var(--hall-muted)}
+.o-preview pre{margin:0; white-space:pre-wrap; word-break:break-word; font:inherit; font-size:.92rem; line-height:1.5; background:#FFFFFF0A; border:1px dashed #FFFFFF2E; border-radius:10px; padding:.85rem .95rem; color:var(--hall-ink)}
+.o-phone{display:flex; flex-wrap:wrap; align-items:baseline; gap:.4rem 1rem; padding-top:.4rem}
+.o-phone .phone{font-size:clamp(1.3rem,4vw,1.6rem)}
 .sms-tip{font-size:.92rem; border-top:1px solid #FFFFFF1F; padding-top:1rem}
 
 

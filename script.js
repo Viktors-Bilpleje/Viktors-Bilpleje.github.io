@@ -32,8 +32,6 @@
       old.textContent=kr(price); old.hidden=!first;
       el.textContent=first?Math.round(price*.8):price;
       wrap.classList.toggle('is-first',first);
-      const btn=card.querySelector('[data-pkg]');
-      btn.href=smsHref(smsText(btn.dataset.pkg,price,first));
     });
     const durNote={car:'Meget beskidte biler tager lidt længere.',big:'Store og meget beskidte biler tager lidt længere.',van:'Meget beskidte varevogne tager lidt længere.'}[size];
     document.querySelectorAll('.dur').forEach(el=>{
@@ -46,7 +44,6 @@
       big:'<strong>Store biler:</strong> 7-personers, store SUV’er, pickups og lignende.',
       van:'<strong>Varevogn:</strong> Kun indvendig vask af førerkabinen. Det kræver ikke en vandslange, så vi kan godt tage varevognen, selvom der ikke er en tilgængelig.'
     }[size];
-    const smsEl=document.getElementById('sms'); if(smsEl) smsEl.href=smsHref(['Hej Viktor!','','Jeg vil gerne høre om en vask af min bil.'+(first?' Det er vores første gang, så vi får 20 % rabat.':''),'','Antal biler: ','Adresse: ','Det passer mig bedst: ','','Venlig hilsen'].join('\n'));
   }
   document.querySelectorAll('.sizes button').forEach(b=>b.addEventListener('click',()=>{
     size=b.dataset.size;
@@ -112,13 +109,49 @@
     });
   })();
 
-  // Generelle SMS-knapper (forsiden og kontaktboksen): færdig tekst at udfylde
+  // Bestillingsformular: SMS'en skrives ud fra valgene
   (function(){
-    const body=['Hej Viktor!','','Jeg vil gerne bestille en vask af min bil.','','Pakke: ','Biltype: ','Antal biler: ','Adresse: ','Det passer mig bedst: ','','Venlig hilsen'].join('\n');
-    document.querySelectorAll('[data-sms]').forEach(a=>{
-      if(a.id==='sms'&&document.getElementById('first')) return; // på Priser-siden sættes teksten ud fra valgene
-      a.href=smsHref(body);
-    });
+    const f=document.getElementById('order'); if(!f) return;
+    const PRICES={car:{udv:250,ind:300,fuld:500,voks:600},big:{udv:350,ind:400,fuld:600,voks:700},van:{ind:250}};
+    const PKG={udv:'Udvendig Vask',ind:'Indvendig Vask',fuld:'Fuld Vask',voks:'Fuld Vask + Voks'};
+    const SIZE={car:'Personbil',big:'Store biler',van:'Varevogn (kun førerkabinen)'};
+    const $=id=>document.getElementById(id);
+    const pkg=$('o-pkg'), size=$('o-size'), count=$('o-count'), first=$('o-first'), hose=$('o-hose');
+    const krf=n=>n.toLocaleString('da-DK')+' kr.';
+    function render(){
+      const isVan=size.value==='van';
+      [...pkg.options].forEach(o=>o.disabled=isVan&&o.value!=='ind');
+      if(isVan) pkg.value='ind';
+      $('o-van').hidden=!isVan; $('o-hose-wrap').hidden=isVan; if(isVan) hose.checked=false;
+      const n=Math.min(10,Math.max(1,parseInt(count.value,10)||1));
+      const full=PRICES[size.value][pkg.value]*n;
+      const price=first.checked?Math.round(full*.8):full;
+      $('o-price').textContent=krf(price);
+      $('o-old').textContent=krf(full); $('o-old').hidden=!first.checked;
+      const lines=['Hej Viktor!','','Jeg vil gerne bestille:','Pakke: '+PKG[pkg.value],'Biltype: '+SIZE[size.value],'Antal biler: '+n,
+        'Pris: '+krf(price)+(first.checked?' (20 % rabat på første vask, normalt '+krf(full)+')':'')];
+      if(first.checked) lines.push('Det er vores første vask hos dig.');
+      if(hose.checked) lines.push('Vi har ingen vandslange, så bilen skal vaskes hos dig (+50 kr.).');
+      lines.push('','Adresse: '+($('o-addr').value.trim()),'Det passer mig bedst: '+($('o-when').value.trim()),'','Venlig hilsen');
+      const body=lines.join('\n');
+      $('o-preview').textContent=body;
+      $('sms').href=smsHref(body);
+    }
+    f.addEventListener('input',render); f.addEventListener('change',render);
+    f.addEventListener('submit',e=>e.preventDefault());
+    // Fra pakkekortene på Priser-siden: udfyld formularen og hop ned til den
+    const KEY={'Udvendig Vask':'udv','Indvendig Vask':'ind','Fuld Vask':'fuld','Fuld Vask + Voks':'voks'};
+    document.querySelectorAll('[data-pkg]').forEach(a=>a.addEventListener('click',e=>{
+      e.preventDefault();
+      const pressed=document.querySelector('.sizes button[aria-pressed="true"]');
+      if(pressed) size.value=pressed.dataset.size;
+      pkg.value=KEY[a.dataset.pkg];
+      const fb=document.getElementById('first'); if(fb) first.checked=fb.checked;
+      render();
+      document.getElementById('bestil').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
+      setTimeout(()=>$('o-addr').focus({preventScroll:true}),450);
+    }));
+    render();
   })();
 
   // Menu (burger)
