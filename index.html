@@ -239,7 +239,7 @@ footer b{color:var(--hall-ink)}
       </div>
       <div class="facts">
         <span><b>20 %</b> på første vask</span>
-        <span>Fra <b>200 kr.</b></span>
+        <span>Fra <b>250 kr.</b></span>
         <span>Op til <b>20 km</b> uden tillæg</span>
         <span>Tlf. <b>61 30 22 94</b></span>
       </div>
@@ -271,7 +271,7 @@ footer b{color:var(--hall-ink)}
         <button type="button" id="size-big" data-size="big" aria-pressed="false">Store biler</button>
         <button type="button" id="size-van" data-size="van" aria-pressed="false">Varevogn</button>
       </div>
-      <p class="van-note" id="van-note" hidden>Til varevogne tilbyder vi Indvendig Vask til 200 kr.</p>
+      <p class="van-note" id="van-note" hidden>Til varevogne tilbyder vi Indvendig Vask til 250 kr.</p>
       <div class="programs">
         <article class="prog reveal">
           <div class="prog-top"></div>
@@ -289,7 +289,7 @@ footer b{color:var(--hall-ink)}
         <article class="prog reveal">
           <div class="prog-top"></div>
           <h3>Indvendig Vask</h3>
-          <div class="price"><span class="mono" data-price='{"car":300,"big":400,"van":200}'>300</span><small>kr.</small></div>
+          <div class="price"><span class="mono" data-price='{"car":300,"big":400,"van":250}'>300</span><small>kr.</small></div>
           <p class="desc">Grundig rengøring af kabinen, så bilen både ser frisk ud og føles behagelig.</p>
           <ul>
             <li><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Støvsugning af gulv, sæder og bagagerum</li>
@@ -451,7 +451,7 @@ footer b{color:var(--hall-ink)}
       btn.href=smsHref(smsText(btn.dataset.pkg,price,first));
     });
     document.getElementById('van-note').hidden=size!=='van';
-    document.getElementById('van-note').textContent='Til varevogne tilbyder vi Indvendig Vask til '+(first?'160 kr. første gang (normalt 200 kr.).':'200 kr.');
+    document.getElementById('van-note').textContent='Til varevogne tilbyder vi Indvendig Vask til '+(first?'200 kr. første gang (normalt 250 kr.).':'250 kr.');
     document.getElementById('sms').href=smsHref(['Hej Viktor!','','Jeg vil gerne høre om en vask af min bil.'+(first?' Det er vores første gang, så vi får 20 % rabat.':''),'','Adresse: ','Det passer mig bedst: ','','Venlig hilsen'].join('\n'));
   }
   document.querySelectorAll('.sizes button').forEach(b=>b.addEventListener('click',()=>{
