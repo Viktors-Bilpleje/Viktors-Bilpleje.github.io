@@ -113,7 +113,9 @@ section{padding-block:clamp(3.5rem,8vw,6rem)}
 .disc{display:none; font-family:var(--font-mono); font-size:.72rem; letter-spacing:.06em; text-transform:uppercase; color:var(--water); margin-left:.3rem}
 .best .disc{color:var(--signal)}
 .is-first .disc{display:inline}
-.van-note{margin-bottom:1rem; padding:1rem 1.2rem; border-radius:var(--r); background:var(--water-soft); font-size:.95rem}
+.size-desc{display:flex; align-items:center; gap:.6rem; margin:-.6rem 0 1.4rem; color:var(--muted); font-size:.98rem}
+.size-desc svg{flex-shrink:0; color:var(--water)}
+.size-desc strong{color:var(--ink)}
 .price .mono{transition:opacity 160ms var(--ease-out)}
 .programs{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem}
 @media (max-width:1000px){.programs{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -271,7 +273,7 @@ footer b{color:var(--hall-ink)}
         <button type="button" id="size-big" data-size="big" aria-pressed="false">Store biler</button>
         <button type="button" id="size-van" data-size="van" aria-pressed="false">Varevogn</button>
       </div>
-      <p class="van-note" id="van-note" hidden>Til varevogne tilbyder vi Indvendig Vask til 250 kr.</p>
+      <p class="size-desc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg><span id="size-desc" aria-live="polite"><strong>Personbil:</strong> 3- og 5-dørs biler og almindelige familiebiler, fx stationcars.</span></p>
       <div class="programs">
         <article class="prog reveal">
           <div class="prog-top"></div>
@@ -449,8 +451,11 @@ footer b{color:var(--hall-ink)}
       const btn=card.querySelector('[data-pkg]');
       btn.href=smsHref(smsText(btn.dataset.pkg,price,first));
     });
-    document.getElementById('van-note').hidden=size!=='van';
-    document.getElementById('van-note').textContent='Til varevogne tilbyder vi Indvendig Vask til '+(first?'200 kr. første gang (normalt 250 kr.).':'250 kr.');
+    document.getElementById('size-desc').innerHTML={
+      car:'<strong>Personbil:</strong> 3- og 5-dørs biler og almindelige familiebiler, fx stationcars.',
+      big:'<strong>Store biler:</strong> 7-personers biler og lignende store biler.',
+      van:'<strong>Varevogn:</strong> Kun indvendig vask af førerkabinen.'
+    }[size];
     document.getElementById('sms').href=smsHref(['Hej Viktor!','','Jeg vil gerne høre om en vask af min bil.'+(first?' Det er vores første gang, så vi får 20 % rabat.':''),'','Adresse: ','Det passer mig bedst: ','','Venlig hilsen'].join('\n'));
   }
   document.querySelectorAll('.sizes button').forEach(b=>b.addEventListener('click',()=>{
