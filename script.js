@@ -122,8 +122,11 @@
       const isVan=size.value==='van';
       [...pkg.options].forEach(o=>o.disabled=isVan&&o.value!=='ind');
       if(isVan) pkg.value='ind';
-      $('o-leather-wrap').hidden=pkg.value==='udv'||isVan; if(pkg.value==='udv'||isVan) $('o-leather').checked=false;
-      $('o-dog-wrap').hidden=pkg.value==='udv'; if(pkg.value==='udv') $('o-dog').checked=false;
+      const noIn=pkg.value==='udv';
+      $('o-leather').disabled=noIn||isVan; $('o-leather-wrap').classList.toggle('off',noIn||isVan); if(noIn||isVan) $('o-leather').checked=false;
+      $('o-dog').disabled=noIn; $('o-dog-wrap').classList.toggle('off',noIn); if(noIn) $('o-dog').checked=false;
+      $('o-addon-hint').hidden=!(noIn||isVan);
+      $('o-addon-hint').textContent=isVan?'Læderpleje kan ikke vælges til varevogne.':'Hund og læderpleje kan vælges til Indvendig Vask og Fuld Vask.'; 
       $('o-van').hidden=!isVan; $('o-hose-wrap').hidden=isVan; if(isVan) hose.checked=false;
       const n=Math.min(10,Math.max(1,parseInt(count.value,10)||1));
       const wash=PRICES[size.value][pkg.value]*n;
