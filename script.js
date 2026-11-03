@@ -159,6 +159,78 @@
     render();
   })();
 
+
+  // Før/efter-galleri
+  (function(){
+    if(!document.querySelector('.ba')) return;
+    const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const ease=t=>t<.5?4*t*t*t:1-Math.pow(-2*t+2,3)/2; // ease-in-out til bevægelse på skærmen
+    function initBA(box,auto){
+      const input=box.querySelector('input');
+      const tags=box.querySelectorAll('.ba-tag');
+      let anim=null, touched=false;
+      const set=v=>{box.style.setProperty('--pos',v+'%'); input.value=v;
+        tags[0].style.opacity=v<12?0:1; tags[1].style.opacity=v>88?0:1;};
+      const stop=()=>{touched=true; if(anim){cancelAnimationFrame(anim); anim=null;}};
+      input.addEventListener('input',()=>{stop(); set(+input.value);});
+      input.addEventListener('pointerdown',()=>{stop(); box.classList.add('dragging');});
+      addEventListener('pointerup',()=>box.classList.remove('dragging'));
+      // Automatisk glid første gang billedet kommer frem: før → efter → midten
+      const keys=[[0,50],[900,100],[2200,0],[3100,50]];
+      function play(){
+        if(reduce||touched) return;
+        const t0=performance.now();
+        const step=now=>{
+          const t=now-t0; let i=0; while(i<keys.length-2&&t>keys[i+1][0]) i++;
+          const [ta,va]=keys[i],[tb,vb]=keys[i+1];
+          const p=Math.min(1,Math.max(0,(t-ta)/(tb-ta)));
+          set(va+(vb-va)*ease(p));
+          if(t<keys[keys.length-1][0]) anim=requestAnimationFrame(step); else {anim=null; set(50);}
+        };
+        anim=requestAnimationFrame(step);
+      }
+      set(50);
+      if(!auto) return;
+      if('IntersectionObserver' in window){
+        const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ io.disconnect(); setTimeout(play,250);} }),{threshold:.6});
+        io.observe(box);
+      } else play();
+    }
+    document.querySelectorAll('.ba-list .ba').forEach(b=>initBA(b,true));
+  
+    // Stor visning
+    const lb=document.getElementById('lb'), slot=document.getElementById('lb-slot');
+    let last=null;
+    function openLB(card,btn){
+      last=btn;
+      const clone=card.querySelector('.ba').cloneNode(true);
+      clone.classList.remove('dragging');
+      slot.replaceChildren(clone); initBA(clone,false);
+      document.getElementById('lb-title').textContent=card.querySelector('.ba-cap b').textContent;
+      document.getElementById('lb-sub').textContent=card.querySelector('.ba-cap span').textContent;
+      lb.hidden=false; document.body.classList.add('lb-lock');
+      requestAnimationFrame(()=>lb.classList.add('open'));
+      document.getElementById('lb-close').focus({preventScroll:true});
+    }
+    function closeLB(){
+      lb.classList.remove('open'); document.body.classList.remove('lb-lock');
+      setTimeout(()=>{lb.hidden=true; slot.replaceChildren();},220);
+      if(last) last.focus({preventScroll:true});
+    }
+    document.querySelectorAll('.ba-card').forEach(card=>{
+      const btn=card.querySelector('.ba-open');
+      btn.addEventListener('click',e=>{e.stopPropagation(); openLB(card,btn);});
+      // tryk (uden at trække) på billedet åbner også stor visning
+      const box=card.querySelector('.ba'); let sx=0, sy=0, moved=false;
+      box.addEventListener('pointerdown',e=>{sx=e.clientX; sy=e.clientY; moved=false;});
+      box.addEventListener('pointermove',e=>{if(Math.abs(e.clientX-sx)>6||Math.abs(e.clientY-sy)>6) moved=true;});
+      box.addEventListener('click',e=>{ if(!moved && e.target.tagName!=='BUTTON') openLB(card,btn); });
+    });
+    document.getElementById('lb-close').addEventListener('click',closeLB);
+    lb.addEventListener('click',e=>{ if(e.target===lb) closeLB(); });
+    document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!lb.hidden) closeLB(); });
+  })();
+
   // Menu (burger)
   (function(){
     const btn=document.getElementById('burger'), drawer=document.getElementById('drawer'), scrim=document.getElementById('scrim'), close=document.getElementById('drawer-close');
