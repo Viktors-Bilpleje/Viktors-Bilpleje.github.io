@@ -134,7 +134,7 @@
       $('o-price').textContent=krf(price);
       $('o-old').textContent=krf(full); $('o-old').hidden=!first.checked;
       const lines=['Hej Viktor!','','Jeg vil gerne bestille:','Pakke: '+PKG[pkg.value],'Biltype: '+SIZE[size.value],'Antal biler: '+n,
-        ...(leather?['Tilvalg: Læderpleje af sæderne (+'+krf(leather)+')']:[]),
+        ...(leather?['Tilvalg: Læderpleje af læder-/kunstlædersæder (+'+krf(leather)+')']:[]),
         'Pris i alt: '+krf(price)+(first.checked?' (20 % rabat på første vask, normalt '+krf(full)+')':'')];
       if(hose.checked) lines.push('Heraf '+krf(50*n)+' for vask hjemme hos dig.');
       if(first.checked) lines.push('Det er vores første vask hos dig.');
