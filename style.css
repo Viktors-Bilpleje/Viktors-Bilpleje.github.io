@@ -202,6 +202,10 @@ section{padding-block:clamp(3.5rem,8vw,6rem); scroll-margin-top:52px}
 .prog li{display:flex; gap:.55rem; align-items:flex-start}
 .prog li svg{flex-shrink:0; margin-top:.32rem; color:var(--water)}
 .best li svg{color:var(--signal)}
+.pet-note{display:flex; gap:.55rem; align-items:flex-start; margin:0; padding:.7rem .8rem; border-radius:10px; background:var(--water-soft); font-size:.88rem; line-height:1.45; color:var(--ink)}
+.pet-note svg{flex-shrink:0; margin-top:.1rem; color:var(--water)}
+.best .pet-note{background:#FFFFFF12; color:var(--hall-ink)}
+.best .pet-note svg{color:var(--signal)}
 .prog .btn{margin-top:auto; justify-content:center; background:var(--water-soft); color:var(--ink)}
 .prog.best .btn{background:var(--signal); color:var(--on-signal)}
 .note{margin-top:1.2rem; color:var(--muted); font-size:.92rem}

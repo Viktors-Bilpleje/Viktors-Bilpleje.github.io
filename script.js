@@ -122,6 +122,7 @@
       const isVan=size.value==='van';
       [...pkg.options].forEach(o=>o.disabled=isVan&&o.value!=='ind');
       if(isVan) pkg.value='ind';
+      $('o-dog-wrap').hidden=pkg.value==='udv'; if(pkg.value==='udv') $('o-dog').checked=false;
       $('o-van').hidden=!isVan; $('o-hose-wrap').hidden=isVan; if(isVan) hose.checked=false;
       const n=Math.min(10,Math.max(1,parseInt(count.value,10)||1));
       const wash=PRICES[size.value][pkg.value]*n;
@@ -134,6 +135,7 @@
         'Pris i alt: '+krf(price)+(first.checked?' (20 % rabat på første vask, normalt '+krf(full)+')':'')];
       if(extra) lines.push('Heraf '+krf(extra)+' for vask hjemme hos dig.');
       if(first.checked) lines.push('Det er vores første vask hos dig.');
+      if($('o-dog').checked&&pkg.value!=='udv') lines.push('Der er hundehår i bilen, så der kommer et tillæg på 100-150 kr.');
       if(hose.checked) lines.push('Vi har ingen vandslange, så '+(n>1?'bilerne':'bilen')+' skal vaskes hjemme hos dig.');
       lines.push('','Adresse: '+($('o-addr').value.trim()),'Det passer mig bedst: '+($('o-when').value.trim()),'','Venlig hilsen');
       const body=lines.join('\n');
