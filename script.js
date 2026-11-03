@@ -130,7 +130,7 @@
       $('o-van').hidden=!isVan; $('o-hose-wrap').hidden=isVan; if(isVan) hose.checked=false;
       const n=Math.min(10,Math.max(1,parseInt(count.value,10)||1));
       const wash=PRICES[size.value][pkg.value]*n;
-      const leather=$('o-leather').checked&&pkg.value!=='udv'&&size.value!=='van'?100*n:0; // læderpleje +100 kr. pr. bil
+      const leather=$('o-leather').checked&&pkg.value!=='udv'&&size.value!=='van'?50*n:0; // læderpleje +50 kr. pr. bil
       const extra=(hose.checked?50*n:0)+leather;           // vask hos Viktor +50 kr. pr. bil
       const full=wash+extra;
       const price=(first.checked?Math.round(wash*.8):wash)+extra;  // rabatten gælder selve vasken
