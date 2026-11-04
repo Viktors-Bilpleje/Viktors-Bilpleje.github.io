@@ -197,10 +197,13 @@
       }
       set(50);
       if(!auto) return;
-      if('IntersectionObserver' in window){
-        const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ io.disconnect(); setTimeout(play,250);} }),{threshold:.6});
+      // Alle billeder glider én gang, når siden åbnes. Ligger et billede uden for skærmen, glider det igen, når man scroller ned til det.
+      setTimeout(play,400);
+      const r=box.getBoundingClientRect();
+      if(r.top>innerHeight && 'IntersectionObserver' in window){
+        const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ io.disconnect(); touched=false; setTimeout(play,250);} }),{threshold:.5});
         io.observe(box);
-      } else play();
+      }
     }
     document.querySelectorAll('.ba-list .ba').forEach(b=>initBA(b,true));
   
@@ -231,6 +234,21 @@
       box.addEventListener('pointerdown',e=>{sx=e.clientX; sy=e.clientY; moved=false;});
       box.addEventListener('pointermove',e=>{if(Math.abs(e.clientX-sx)>6||Math.abs(e.clientY-sy)>6) moved=true;});
       box.addEventListener('click',e=>{ if(!moved && e.target.tagName!=='BUTTON') openLB(card,btn); });
+    });
+    if(reduce) document.querySelectorAll('.g-ph video').forEach(v=>{v.removeAttribute('autoplay'); v.pause();});
+    document.querySelectorAll('.g-ph').forEach(fig=>{
+      const btn=fig.querySelector('button');
+      btn.addEventListener('click',()=>{
+        last=btn;
+        const media=fig.querySelector('img,video').cloneNode(true); media.className='lb-img';
+        if(media.tagName==='IMG') media.loading='eager'; else { media.controls=true; media.muted=true; }
+        slot.replaceChildren(media); if(media.tagName==='VIDEO') media.play().catch(()=>{});
+        document.getElementById('lb-title').textContent=fig.querySelector('figcaption b').textContent;
+        document.getElementById('lb-sub').textContent=fig.querySelector('figcaption span').textContent;
+        lb.hidden=false; document.body.classList.add('lb-lock');
+        requestAnimationFrame(()=>lb.classList.add('open'));
+        document.getElementById('lb-close').focus({preventScroll:true});
+      });
     });
     document.getElementById('lb-close').addEventListener('click',closeLB);
     lb.addEventListener('click',e=>{ if(e.target===lb) closeLB(); });
