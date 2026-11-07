@@ -144,25 +144,22 @@
     }
     function render(){
       const R=rows();
-      const inside=R.filter(r=>r.pkg!=='udv'), leatherCars=inside.filter(r=>r.size!=='van').reduce((a,r)=>a+r.n,0);
+      const inside=R.filter(r=>r.pkg!=='udv');
       const nonVan=R.filter(r=>r.size!=='van').reduce((a,r)=>a+r.n,0), cars=R.reduce((a,r)=>a+r.n,0);
-      const noIn=!inside.length, noLeather=!leatherCars, allVan=!nonVan;
-      $('o-leather').disabled=noLeather; $('o-leather-wrap').classList.toggle('off',noLeather); if(noLeather) $('o-leather').checked=false;
+      const noIn=!inside.length, allVan=!nonVan;
       $('o-dog').disabled=noIn; $('o-dog-wrap').classList.toggle('off',noIn); if(noIn) $('o-dog').checked=false;
-      $('o-addon-hint').hidden=!(noIn||noLeather);
-      $('o-addon-hint').textContent=noIn?'Hund og læderpleje kan vælges til Indvendig Vask og Fuld Vask.':'Læderpleje kan ikke vælges til varevogne.';
+      $('o-addon-hint').hidden=!noIn;
+      $('o-addon-hint').textContent='Hund kan vælges til Indvendig Vask og Fuld Vask.';
       $('o-van').hidden=!R.some(r=>r.size==='van'); $('o-hose-wrap').hidden=allVan; if(allVan) hose.checked=false;
       const wash=R.reduce((a,r)=>a+r.price,0);
-      const leather=$('o-leather').checked?50*leatherCars:0; // læderpleje +50 kr. pr. bil
       const hoseX=hose.checked?50*nonVan:0;                  // vask hos Viktor +50 kr. pr. bil
-      const full=wash+leather+hoseX;
-      const price=(first.checked?Math.round(wash*.8):wash)+leather+hoseX;  // rabatten gælder selve vasken
+      const full=wash+hoseX;
+      const price=(first.checked?Math.round(wash*.8):wash)+hoseX;  // rabatten gælder selve vasken
       $('o-price').textContent=krf(price);
       $('o-old').textContent=krf(full); $('o-old').hidden=!first.checked;
       const order=R.length===1?['Pakke: '+PKG[R[0].pkg],'Biltype: '+SIZE[R[0].size],'Antal biler: '+R[0].n]
         :R.map((r,k)=>(k+1)+'. '+PKG[r.pkg]+', '+SIZE[r.size]+', '+r.n+' '+(r.n>1?'biler':'bil')+' ('+krf(r.price)+')');
       const lines=['Hej Viktor!','','Jeg vil gerne bestille:',...order,
-        ...(leather?['Tilvalg: Læderpleje af læder-/kunstlædersæder (+'+krf(leather)+')']:[]),
         'Pris i alt: '+krf(price)+(first.checked?' (20 % rabat på første vask, normalt '+krf(full)+')':'')];
       if(hoseX) lines.push('Heraf '+krf(hoseX)+' for vask hjemme hos dig.');
       if(first.checked) lines.push('Det er vores første vask hos dig.');
