@@ -287,6 +287,18 @@ section{padding-block:clamp(3.5rem,8vw,6rem); scroll-margin-top:52px}
 .o-field input::placeholder{color:#93AEBB99}
 .o-field input:focus,.o-field select:focus{outline:none; border-color:var(--signal)}
 .o-field select option{color:#0B1A24}
+.o-extra{display:grid; gap:.8rem}
+.o-extra:empty{display:none}
+.o-row{border:1.5px dashed #FFFFFF26; border-radius:12px; padding:.8rem; display:grid; gap:.7rem}
+.o-row-head{display:flex; justify-content:space-between; align-items:center; font-size:.85rem; font-weight:700; color:var(--hall-ink)}
+.o-row-grid{display:grid; grid-template-columns:1.4fr 1fr .7fr; gap:.7rem}
+@media (max-width:480px){.o-row-grid{grid-template-columns:1fr 1fr}.o-row-grid .o-field:first-child{grid-column:1/-1}}
+.o-del{border:0; background:#FFFFFF14; color:var(--hall-ink); border-radius:8px; padding:.35rem .65rem; font:inherit; font-size:.82rem; cursor:pointer}
+.o-del:hover{background:#FFFFFF26}
+.o-add{display:inline-flex; align-items:center; gap:.5rem; justify-self:start; border:1.5px solid #FFFFFF33; background:transparent; color:var(--hall-ink); font:inherit; font-weight:600; font-size:.95rem; border-radius:999px; padding:.6rem 1rem; cursor:pointer; transition:border-color 200ms ease, transform 160ms ease}
+.o-add:hover{border-color:var(--signal)}
+.o-add:active{transform:scale(.97)}
+.o-add:focus-visible,.o-del:focus-visible{outline:3px solid var(--signal); outline-offset:2px}
 .o-check{display:flex; gap:.6rem; align-items:flex-start; font-size:.95rem; cursor:pointer}
 .o-check input{width:20px; height:20px; margin:.1rem 0 0; accent-color:var(--signal); flex-shrink:0}
 .o-check.off{opacity:.45; cursor:not-allowed}

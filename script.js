@@ -118,31 +118,56 @@
     const $=id=>document.getElementById(id);
     const pkg=$('o-pkg'), size=$('o-size'), count=$('o-count'), first=$('o-first'), hose=$('o-hose');
     const krf=n=>n.toLocaleString('da-DK')+' kr.';
+    const extra=$('o-extra'); let rowId=0;
+    const PKGOPT='<option value="udv">Udvendig Vask</option><option value="ind">Indvendig Vask</option><option value="fuld">Fuld Vask</option><option value="voks">Fuld Vask + Voks</option>';
+    const SIZEOPT='<option value="car">Personbil</option><option value="big">Store biler</option><option value="van">Varevogn</option>';
+    function addRow(){
+      const i=++rowId, d=document.createElement('div'); d.className='o-row';
+      d.innerHTML='<div class="o-row-head"><span>Ydelse '+(extra.children.length+2)+'</span><button type="button" class="o-del">Fjern</button></div>'+
+        '<div class="o-row-grid"><div class="o-field"><label for="r-pkg-'+i+'">Pakke</label><select id="r-pkg-'+i+'" class="r-pkg">'+PKGOPT+'</select></div>'+
+        '<div class="o-field"><label for="r-size-'+i+'">Biltype</label><select id="r-size-'+i+'" class="r-size">'+SIZEOPT+'</select></div>'+
+        '<div class="o-field"><label for="r-count-'+i+'">Antal</label><input id="r-count-'+i+'" class="r-count" type="number" inputmode="numeric" min="1" max="10" value="1"></div></div>';
+      d.querySelector('.r-pkg').value=pkg.value==='ind'?'fuld':'ind';
+      d.querySelector('.o-del').addEventListener('click',()=>{d.remove(); renumber(); render(); $('o-add').focus();});
+      extra.appendChild(d); render(); d.querySelector('.r-pkg').focus();
+    }
+    function renumber(){[...extra.children].forEach((r,k)=>r.querySelector('.o-row-head span').textContent='Ydelse '+(k+2));}
+    $('o-add').addEventListener('click',addRow);
+    function rows(){
+      const list=[{p:pkg,s:size,c:count},...[...extra.children].map(r=>({p:r.querySelector('.r-pkg'),s:r.querySelector('.r-size'),c:r.querySelector('.r-count')}))];
+      return list.map(({p,s,c})=>{
+        const van=s.value==='van';
+        [...p.options].forEach(o=>o.disabled=van&&o.value!=='ind'); if(van) p.value='ind';
+        const n=Math.min(10,Math.max(1,parseInt(c.value,10)||1));
+        return {pkg:p.value,size:s.value,n,price:PRICES[s.value][p.value]*n};
+      });
+    }
     function render(){
-      const isVan=size.value==='van';
-      [...pkg.options].forEach(o=>o.disabled=isVan&&o.value!=='ind');
-      if(isVan) pkg.value='ind';
-      const noIn=pkg.value==='udv';
-      $('o-leather').disabled=noIn||isVan; $('o-leather-wrap').classList.toggle('off',noIn||isVan); if(noIn||isVan) $('o-leather').checked=false;
+      const R=rows();
+      const inside=R.filter(r=>r.pkg!=='udv'), leatherCars=inside.filter(r=>r.size!=='van').reduce((a,r)=>a+r.n,0);
+      const nonVan=R.filter(r=>r.size!=='van').reduce((a,r)=>a+r.n,0), cars=R.reduce((a,r)=>a+r.n,0);
+      const noIn=!inside.length, noLeather=!leatherCars, allVan=!nonVan;
+      $('o-leather').disabled=noLeather; $('o-leather-wrap').classList.toggle('off',noLeather); if(noLeather) $('o-leather').checked=false;
       $('o-dog').disabled=noIn; $('o-dog-wrap').classList.toggle('off',noIn); if(noIn) $('o-dog').checked=false;
-      $('o-addon-hint').hidden=!(noIn||isVan);
-      $('o-addon-hint').textContent=isVan?'Læderpleje kan ikke vælges til varevogne.':'Hund og læderpleje kan vælges til Indvendig Vask og Fuld Vask.'; 
-      $('o-van').hidden=!isVan; $('o-hose-wrap').hidden=isVan; if(isVan) hose.checked=false;
-      const n=Math.min(10,Math.max(1,parseInt(count.value,10)||1));
-      const wash=PRICES[size.value][pkg.value]*n;
-      const leather=$('o-leather').checked&&pkg.value!=='udv'&&size.value!=='van'?50*n:0; // læderpleje +50 kr. pr. bil
-      const extra=(hose.checked?50*n:0)+leather;           // vask hos Viktor +50 kr. pr. bil
-      const full=wash+extra;
-      const price=(first.checked?Math.round(wash*.8):wash)+extra;  // rabatten gælder selve vasken
+      $('o-addon-hint').hidden=!(noIn||noLeather);
+      $('o-addon-hint').textContent=noIn?'Hund og læderpleje kan vælges til Indvendig Vask og Fuld Vask.':'Læderpleje kan ikke vælges til varevogne.';
+      $('o-van').hidden=!R.some(r=>r.size==='van'); $('o-hose-wrap').hidden=allVan; if(allVan) hose.checked=false;
+      const wash=R.reduce((a,r)=>a+r.price,0);
+      const leather=$('o-leather').checked?50*leatherCars:0; // læderpleje +50 kr. pr. bil
+      const hoseX=hose.checked?50*nonVan:0;                  // vask hos Viktor +50 kr. pr. bil
+      const full=wash+leather+hoseX;
+      const price=(first.checked?Math.round(wash*.8):wash)+leather+hoseX;  // rabatten gælder selve vasken
       $('o-price').textContent=krf(price);
       $('o-old').textContent=krf(full); $('o-old').hidden=!first.checked;
-      const lines=['Hej Viktor!','','Jeg vil gerne bestille:','Pakke: '+PKG[pkg.value],'Biltype: '+SIZE[size.value],'Antal biler: '+n,
+      const order=R.length===1?['Pakke: '+PKG[R[0].pkg],'Biltype: '+SIZE[R[0].size],'Antal biler: '+R[0].n]
+        :R.map((r,k)=>(k+1)+'. '+PKG[r.pkg]+', '+SIZE[r.size]+', '+r.n+' '+(r.n>1?'biler':'bil')+' ('+krf(r.price)+')');
+      const lines=['Hej Viktor!','','Jeg vil gerne bestille:',...order,
         ...(leather?['Tilvalg: Læderpleje af læder-/kunstlædersæder (+'+krf(leather)+')']:[]),
         'Pris i alt: '+krf(price)+(first.checked?' (20 % rabat på første vask, normalt '+krf(full)+')':'')];
-      if(hose.checked) lines.push('Heraf '+krf(50*n)+' for vask hjemme hos dig.');
+      if(hoseX) lines.push('Heraf '+krf(hoseX)+' for vask hjemme hos dig.');
       if(first.checked) lines.push('Det er vores første vask hos dig.');
-      if($('o-dog').checked&&pkg.value!=='udv') lines.push('Der er hundehår i bilen, så der kommer et tillæg på 100-150 kr.');
-      if(hose.checked) lines.push('Vi har ingen vandslange, så '+(n>1?'bilerne':'bilen')+' skal vaskes hjemme hos dig.');
+      if($('o-dog').checked) lines.push('Der er hundehår i bilen, så der kommer et tillæg på 100-150 kr.');
+      if(hoseX) lines.push('Vi har ingen vandslange, så '+(cars>1?'bilerne':'bilen')+' skal vaskes hjemme hos dig.');
       lines.push('','Adresse: '+($('o-addr').value.trim()),'Det passer mig bedst: '+($('o-when').value.trim()),'','Venlig hilsen');
       const body=lines.join('\n');
       $('o-preview').textContent=body;
