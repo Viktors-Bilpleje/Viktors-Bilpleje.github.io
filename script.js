@@ -42,7 +42,7 @@
     document.getElementById('size-desc').innerHTML={
       car:'<strong>Personbil:</strong> 3- og 5-dørs biler og almindelige familiebiler, fx stationcars.',
       big:'<strong>Store biler:</strong> 7-personers, store SUV’er, pickups og lignende.',
-      van:'<strong>Varevogn:</strong> Kun indvendig vask af førerkabinen. Det kræver ikke en vandslange, så vi kan godt tage varevognen, selvom der ikke er en tilgængelig.'
+      van:'<strong>Varevogn:</strong> Kun indvendig vask af førerkabinen. Det kræver ikke en vandslange, kun adgang til strøm.'
     }[size];
   }
   document.querySelectorAll('.sizes button').forEach(b=>b.addEventListener('click',()=>{
