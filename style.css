@@ -743,3 +743,5 @@ footer .wrap.foot-bottom{padding-block:1.2rem 2rem; border-top:1px solid #FFFFFF
 @keyframes mp-pulse{0%{transform:scale(.6); opacity:.5}100%{transform:scale(1.8); opacity:0}}
 .mp text{paint-order:stroke; stroke:var(--surface); stroke-width:4px; stroke-linejoin:round}
 .mp-water{stroke:var(--water-soft)!important}
+.mp-zone{fill:var(--signal); fill-opacity:.22; stroke:var(--signal); stroke-width:2.5; stroke-dasharray:7 6; stroke-linejoin:round}
+.mp-key{display:inline-block; width:14px; height:10px; margin-right:.4rem; border-radius:3px; background:color-mix(in srgb,var(--signal) 35%,transparent); border:1.5px dashed var(--signal); vertical-align:-1px}
