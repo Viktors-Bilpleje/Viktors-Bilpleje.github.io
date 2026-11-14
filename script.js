@@ -207,7 +207,7 @@
       if(hoseX) lines.push('Heraf '+krf(hoseX)+' for vask hjemme hos dig.');
       if(dirtyX) lines.push('Heraf '+krf(dirtyX)+' i gebyr, fordi '+(cars>1?'bilerne er':'bilen er')+' ekstra beskidt'+(cars>1?'e':'')+'.');
       if(first.checked) lines.push('Det er vores første vask hos dig.');
-      if($('o-dog').checked) lines.push('Der er hundehår i bilen, så der kommer et tillæg på 100-150 kr.');
+      if($('o-dog').checked) lines.push('Der er hundehår i bilen, så der kommer et tillæg på 100–150 kr.');
       if(hoseX) lines.push('Vi har ingen vandslange, så '+(cars>1?'bilerne':'bilen')+' skal vaskes hjemme hos dig.');
       if($('o-pay')&&$('o-pay').value) lines.push('Betaling: '+$('o-pay').value+'.');
       lines.push('','Adresse: '+($('o-addr').value.trim()),'Det passer mig bedst: '+($('o-when').value.trim()),'','Venlig hilsen'); const nm=$('o-name')&&$('o-name').value.trim(); if(nm) lines.push(nm);
@@ -264,10 +264,14 @@
           const row2=(k,v,sub)=>'<div><dt>'+k+'</dt><dd>'+esc(v)+'<small>'+esc(sub)+'</small></dd></div>';
           sum.innerHTML=R.map(r=>row2(r.n+' × '+SIZE[r.size].replace(' (kun førerkabinen)',''),PKG[r.pkg],'Forventet tid: '+dur(r))).join('')
             +(ex.length?row('Tilvalg',ex.join(', ')):'')
-            +row('Hvornår',$('o-when').value.trim()||'Ikke valgt')+row('Adresse',$('o-addr').value.trim()||'Mangler')+row('Navn',($('o-name')&&$('o-name').value.trim())||'Ikke skrevet')+row('Betaling',($('o-pay')&&$('o-pay').value)||'Ikke valgt');
+            +row('Hvornår',$('o-when').value.trim()||'Ikke valgt')+row('Adresse',$('o-addr').value.trim()||'Mangler')+row('Navn',($('o-name')&&$('o-name').value.trim())||'Ikke skrevet')+row('Betaling',($('o-pay')&&$('o-pay').value)||'Ikke valgt')
+            +'<div class="wz-sum-total"><dt>Pris i alt</dt><dd class="mono">'+esc($('o-price').textContent)+'</dd></div>';
         }
         syncWhen(); syncPay();
       }
+      // Efter tryk på Send SMS: vis at beskeden er klar (vi kan ikke se, om den er sendt)
+      const smsBtn=$('sms'), done=$('wz-done');
+      if(smsBtn&&done) smsBtn.addEventListener('click',()=>{ setTimeout(()=>{ done.hidden=false; if(!REDUCE&&done.animate) done.animate([{opacity:0,transform:'translateY(6px) scale(.98)'},{opacity:1,transform:'none'}],{duration:260,easing:EASE}); },500); });
       const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
       // Trin 1: vælg alle de biltyper, der skal vaskes – hver med sit eget antal

@@ -1,3 +1,4 @@
+img{max-width:100%; height:auto}
 /* Layout: mørk "vådt lak"-hero med skumbobler → fire pakker → hvorfor håndvask → område + kontakt */
 :root{
   --bg:#F3F7F9; --surface:#FFFFFF; --ink:#0B1A24; --muted:#4E626F; --line:#D5E1E7;
@@ -770,3 +771,20 @@ footer .wrap.foot-bottom{padding-block:1.2rem 2rem; border-top:1px solid #FFFFFF
 
 /* prisen må aldrig ligge oven på knapperne */
 .order.wz-on .wz-foot .o-total{min-width:max-content}
+
+/* Efter "Send SMS": beskeden er klar */
+.wz-done{display:flex; gap:.8rem; align-items:flex-start; margin-top:1rem; padding:1rem 1.1rem; border-radius:14px; background:#2BD47D14; border:1.5px solid #2BD47D66}
+.wz-done[hidden]{display:none}
+.wz-done-ic{flex:none; display:grid; place-items:center; width:40px; height:40px; border-radius:50%; background:#2BD47D; color:#06210F}
+.wz-done b{display:block; font:700 1.05rem/1.25 var(--font-display); color:var(--hall-ink)}
+.wz-done p{margin:.25rem 0 0; color:var(--hall-muted); font-size:.92rem}
+.wz-sum .wz-sum-total{background:#FFC5310F}
+.wz-sum .wz-sum-total dt{color:var(--hall-ink); font-weight:700; font-size:.95rem}
+.wz-sum .wz-sum-total dd{font-size:1.15rem; font-weight:700; color:var(--signal)}
+
+/* Apple-principper: øjeblikkelig respons ved tryk, ingen tap-forsinkelse */
+button,.btn,a,label{touch-action:manipulation}
+.wz-card,.wz-chip,.wz-pchip,.wz-seg,.wz-tgl,.wz-back,.wz-stepper button,.o-check{transition:transform .1s ease-out}
+.wz-card:active,.wz-chip:active,.wz-pchip:active,.wz-seg:active,.wz-tgl:active,.wz-back:active,.wz-stepper button:active,.o-check:active{transform:scale(.97)}
+@media (prefers-reduced-transparency:reduce){ .top{background:#08161F; backdrop-filter:none} .hero .pill,.hero-rating{background:#08161F; backdrop-filter:none; -webkit-backdrop-filter:none} }
+@media (prefers-contrast:more){ .top{background:#08161F; border-bottom:1px solid #fff6} }
