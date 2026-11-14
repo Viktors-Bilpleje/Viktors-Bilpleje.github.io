@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="da">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Book bilvask – Viktors Bilpleje</title>
+<meta name="description" content="Book håndvask af din bil i Nordsjælland på 2 minutter. Vælg bil, pakke, tilvalg, dato og adresse, og send bestillingen til Viktor på SMS.">
+<link rel="canonical" href="https://viktors-bilpleje.github.io/book.html">
+<meta name="theme-color" content="#0A0B0C">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="da_DK">
+<meta property="og:site_name" content="Viktors Bilpleje">
+<meta property="og:title" content="Book bilvask – Viktors Bilpleje">
+<meta property="og:description" content="Book håndvask af din bil i Nordsjælland på 2 minutter. Vælg bil, pakke, tilvalg, dato og adresse, og send bestillingen til Viktor på SMS.">
+<meta property="og:url" content="https://viktors-bilpleje.github.io/book.html">
+<meta property="og:image" content="https://viktors-bilpleje.github.io/deling.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Viktors Bilpleje – håndvask af biler i Nordsjælland">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
+<link rel="stylesheet" href="style.css?v=92cadc0b">
+<link rel="stylesheet" href="book.css?v=92cadc0b">
+</head>
+<body class="bk-page">
+<header class="top">
+  <div class="wrap">
+    <div class="top-left">
+      <button class="burger" id="burger" type="button" aria-label="Åbn menu" aria-expanded="false" aria-controls="drawer">
+        <span></span><span></span><span></span>
+      </button>
+      <a class="logo" href="index.html" aria-label="Viktors Bilpleje – forside">
+        <img class="logo-img" src="logo-ikon.png" alt="" width="55" height="32">
+        <span class="logo-name">Viktors Bilpleje</span>
+      </a>
+    </div>
+    <a class="btn btn-signal" href="book.html">Book vask</a>
+  </div>
+</header>
+
+<div class="scrim" id="scrim" hidden></div>
+<nav class="drawer" id="drawer" aria-label="Menu" inert>
+  <div class="drawer-head">
+    <span class="eyebrow" style="color:var(--signal)">Menu</span>
+    <button class="drawer-close" id="drawer-close" type="button" aria-label="Luk menu">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+  </div>
+  <ul class="drawer-list">
+    <li><a href="index.html"><span class="d-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/></svg></span><span><b>Forside</b><small>Velkommen til Viktors Bilpleje</small></span></a></li>
+    <li><a href="priser.html"><span class="d-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></svg></span><span><b>Priser og booking</b><small>Pakker, biltyper og bestil via SMS</small></span></a></li>
+    <li><a href="hvorfor.html"><span class="d-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3c3.5 4.8 6.5 8.4 6.5 12A6.5 6.5 0 0 1 5.5 15C5.5 11.4 8.5 7.8 12 3z"/></svg></span><span><b>Hvorfor os?</b><small>Håndvask frem for vaskehallen</small></span></a></li>
+    <li><a href="galleri.html"><span class="d-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><circle cx="9" cy="10" r="1.8"/><path d="M21 16l-5-5-8 8"/></svg></span><span><b>Billedgalleri</b><small>Biler vi har vasket</small></span></a></li>
+    <li><a href="anmeldelser.html"><span class="d-ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg></span><span><b>Anmeldelser</b><small>Læs eller skriv en anmeldelse</small></span></a></li>
+  </ul>
+  <div class="drawer-foot">
+    <span>Skriv SMS eller ring til Viktor</span>
+    <a class="mono" href="tel:+4561302294">+45 6130 2294</a>
+  </div>
+</nav>
+
+<main id="top" class="bk-wrap">
+  <div class="bk-intro"><span class="eyebrow">Book en vask</span></div>
+  <div id="bk" class="bk-app" aria-live="polite">
+    <noscript><p class="bk-noscript">Bookingen kræver JavaScript. Skriv eller ring i stedet til Viktor på <b>61 30 22 94</b>.</p></noscript>
+  </div>
+</main>
+<footer>
+  <div class="wrap foot">
+    <div class="foot-brand">
+      <img class="foot-logo" src="logo-fuld.png" alt="Viktors Bilpleje" width="110" height="82" loading="lazy">
+      <p>Håndvask af biler i Nordsjælland. Viktor kommer ud til dig med alt udstyret.</p>
+      <a class="btn btn-signal" href="book.html">Book vask</a>
+    </div>
+    <div class="foot-col">
+      <h3>Sider</h3>
+      <ul><li><a href="index.html">Forside</a></li><li><a href="priser.html">Priser og booking</a></li><li><a href="hvorfor.html">Hvorfor håndvask?</a></li><li><a href="galleri.html">Billedgalleri</a></li><li><a href="anmeldelser.html">Anmeldelser</a></li><li><a href="index.html#faq">Ofte stillede spørgsmål</a></li></ul>
+    </div>
+    <div class="foot-col">
+      <h3>Kontakt</h3>
+      <ul><li>Skriv SMS eller ring til Viktor</li><li><span class="mono foot-phone">+45 6130 2294</span></li><li>Betaling: kontant eller MobilePay</li></ul>
+    </div>
+    <div class="foot-col">
+      <h3>Område</h3>
+      <p>Nordsjælland fra Frederiksværk til Hornbæk og Hillerød. Gratis kørsel op til 20 km fra Blistrup.</p>
+    </div>
+  </div>
+  <div class="wrap foot-bottom"><span>© 2026 Viktors Bilpleje</span></div>
+</footer>
+<script src="script.js?v=92cadc0b"></script>
+<script src="book.js?v=92cadc0b"></script>
+<!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e4ab3f9571054a7d9ce45d4cc796ad48"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

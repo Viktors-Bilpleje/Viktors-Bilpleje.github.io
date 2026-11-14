@@ -656,3 +656,10 @@
   });
 
 })();
+
+// Pakkeknapper → bookingsiden med pakke og biltype valgt
+document.querySelectorAll('a[data-pkg][href^="book.html"]').forEach(a=>a.addEventListener('click',()=>{
+  const p=document.querySelector('.sizes button[aria-pressed="true"]');
+  const u=new URL(a.getAttribute('href'),location.href); if(p&&p.dataset.size) u.searchParams.set('bil',p.dataset.size);
+  a.href=u.pathname.split('/').pop()+u.search;
+}));
