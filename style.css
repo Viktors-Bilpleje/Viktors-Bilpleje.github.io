@@ -726,3 +726,4 @@ footer .wrap.foot-bottom{padding-block:1.2rem 2rem; border-top:1px solid #FFFFFF
 @supports not (color: color-mix(in srgb, red 50%, transparent)){ @media (max-width:760px){ .mbar{background:var(--hall)} } }
 .pk .btn:not(.btn-signal){background:var(--hall); color:var(--hall-ink); border-color:var(--hall)}
 #pakker .head a{color:var(--ink); text-underline-offset:3px}
+.km-note{margin:0; font-size:.85rem; color:var(--muted)}
