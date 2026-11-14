@@ -304,7 +304,16 @@
       box.addEventListener('pointermove',e=>{if(Math.abs(e.clientX-sx)>6||Math.abs(e.clientY-sy)>6) moved=true;});
       box.addEventListener('click',e=>{ if(!moved && e.target.tagName!=='BUTTON') openLB(card,btn); });
     });
-    if(reduce) document.querySelectorAll('.g-ph video').forEach(v=>{v.removeAttribute('autoplay'); v.pause();});
+    // Videoer hentes og spiller først, når de er på skærmen (sparer data på telefonen), og pauser igen bagefter
+    const vids=[...document.querySelectorAll('.g-ph video[data-autoplay]')];
+    if(!reduce && 'IntersectionObserver' in window){
+      const vio=new IntersectionObserver(es=>es.forEach(e=>{
+        const v=e.target;
+        if(e.isIntersecting){ if(v.preload==='none') v.preload='auto'; v.play().catch(()=>{}); }
+        else v.pause();
+      }),{rootMargin:'200px 0px',threshold:.25});
+      vids.forEach(v=>vio.observe(v));
+    } else if(!reduce){ vids.forEach(v=>{v.preload='auto'; v.play().catch(()=>{});}); }
     document.querySelectorAll('.g-ph').forEach(fig=>{
       const btn=fig.querySelector('button');
       btn.addEventListener('click',()=>{

@@ -496,3 +496,12 @@ footer b{color:var(--hall-ink)}
   @keyframes staged{0%{box-shadow:0 0 0 0 #FFC53100}25%{box-shadow:0 0 0 6px #FFC531B3}100%{box-shadow:0 0 0 14px #FFC53100}}
 }
 @media (prefers-reduced-motion: reduce){.callcard.staged{animation:none}}
+
+/* Før/efter på forsiden */
+.fe{display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:clamp(1.5rem,4vw,3rem); align-items:center}
+@media (max-width:820px){.fe{grid-template-columns:minmax(0,1fr)}}
+.fe-txt{margin-bottom:0}
+.fe-txt p{max-width:44ch}
+.fe-cta{display:flex; flex-wrap:wrap; align-items:center; gap:.6rem 1.2rem; margin-top:.4rem}
+.fe-link{display:inline-flex; align-items:center; gap:.4rem; min-height:44px; font-weight:600; color:var(--ink); text-underline-offset:3px}
+.fe-one{grid-template-columns:minmax(0,1fr)}
