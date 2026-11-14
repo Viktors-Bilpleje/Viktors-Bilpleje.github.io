@@ -144,7 +144,7 @@
         '<div class="o-field"><label for="r-count-'+i+'">Antal</label><input id="r-count-'+i+'" class="r-count" type="number" inputmode="numeric" min="1" max="10" value="1"></div></div>';
       d.querySelector('.r-pkg').value=pkg.value==='ind'?'fuld':'ind';
       d.querySelector('.o-del').addEventListener('click',()=>{d.remove(); renumber(); render(); $('o-add').focus();});
-      extra.appendChild(d); render(); d.querySelector('.r-pkg').focus();
+      extra.appendChild(d); render(); if(typeof wz!=='undefined'&&wz) wz.sync(); d.querySelector('.r-pkg').focus();
     }
     function renumber(){[...extra.children].forEach((r,k)=>r.querySelector('.o-row-head span').textContent='Ydelse '+(k+2));}
     $('o-add').addEventListener('click',addRow);
@@ -191,6 +191,92 @@
     }
     f.addEventListener('input',render); f.addEventListener('change',render);
     f.addEventListener('submit',e=>e.preventDefault());
+
+    // Bestilling i trin: bil → pakke → tilvalg → tid og sted → send.
+    // Uden JavaScript vises alle felter på én gang som før.
+    const wz=(function(){
+      const steps=[...f.querySelectorAll('.wz-step')];
+      if(steps.length<2) return null;
+      const prog=$('wz-prog'), back=$('wz-back'), next=$('wz-next'), sum=$('wz-sum');
+      f.classList.add('wz-on'); prog.hidden=false;
+      let cur=0, reached=0;
+      prog.innerHTML=steps.map((s,i)=>'<li><button type="button" data-i="'+i+'"><span class="wz-num">'+(i+1)+'</span><span class="wz-lbl">'+s.dataset.title+'</span></button></li>').join('');
+      const progBtns=[...prog.querySelectorAll('button')];
+      progBtns.forEach(b=>b.addEventListener('click',()=>{ const i=+b.dataset.i; if(i<=reached) go(i); }));
+
+      // Kort i stedet for rullemenuer: et tryk vælger og hopper videre
+      const cards=[...f.querySelectorAll('.wz-card')];
+      cards.forEach(c=>c.addEventListener('click',()=>{
+        if(c.disabled) return;
+        const sel=$(c.dataset.for); sel.value=c.dataset.value; sel.dispatchEvent(new Event('change',{bubbles:true}));
+        if(c.dataset.for==='o-pkg' && !extra.children.length) setTimeout(()=>go(cur+1),180);
+      }));
+      function sync(){
+        const s=size.value;
+        cards.forEach(c=>{
+          const on=$(c.dataset.for).value===c.dataset.value; c.setAttribute('aria-pressed',on);
+          if(c.dataset.for==='o-pkg'){
+            const p=JSON.parse(c.dataset.price)[s];
+            c.disabled=p===undefined; c.hidden=p===undefined;
+            c.querySelector('.wz-price').textContent=p===undefined?'':(count.value>1?(+count.value)+' × ':'')+krf(p);
+          }
+        });
+        // opsummering på sidste trin
+        if(sum){
+          const R=rows(), row=(k,v)=>'<div><dt>'+k+'</dt><dd>'+esc(v)+'</dd></div>';
+          const ex=[]; if(first.checked) ex.push('Første vask (−20 %)'); if(hose.checked) ex.push('Vask hos Viktor');
+          if($('o-dirty').checked) ex.push('Ekstra beskidt'); if($('o-dog').checked) ex.push('Hundehår');
+          sum.innerHTML=R.map(r=>row(r.n+' × '+SIZE[r.size].replace(' (kun førerkabinen)',''),PKG[r.pkg])).join('')
+            +(ex.length?row('Tilvalg',ex.join(', ')):'')
+            +row('Hvornår',$('o-when').value.trim()||'Ikke valgt')+row('Adresse',$('o-addr').value.trim()||'Mangler');
+        }
+        chips.forEach(ch=>ch.setAttribute('aria-pressed',$('o-when').value===ch.dataset.when));
+      }
+      const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+      // Antal biler med + og −
+      const setCount=d=>{ count.value=Math.min(10,Math.max(1,(parseInt(count.value,10)||1)+d)); count.dispatchEvent(new Event('input',{bubbles:true})); };
+      f.querySelector('.wz-minus').addEventListener('click',()=>setCount(-1));
+      f.querySelector('.wz-plus').addEventListener('click',()=>setCount(1));
+
+      // Hurtigvalg af tid
+      const chips=[...f.querySelectorAll('.wz-chip')];
+      chips.forEach(ch=>ch.addEventListener('click',()=>{ const w=$('o-when'); w.value=w.value===ch.dataset.when?'':ch.dataset.when; w.dispatchEvent(new Event('input',{bubbles:true})); }));
+
+      function valid(i){
+        if(steps[i].dataset.title==='Tid og sted'){
+          const ok=!!$('o-addr').value.trim(); $('wz-addr-err').hidden=ok;
+          $('o-addr').setAttribute('aria-invalid',!ok); if(!ok) $('o-addr').focus();
+          return ok;
+        }
+        return true;
+      }
+      function go(i,quiet){
+        i=Math.max(0,Math.min(steps.length-1,i));
+        if(i>cur){ for(let k=cur;k<i;k++){ if(!valid(k)){ i=k; break; } } }
+        const dir=i>cur?1:-1, changed=i!==cur;
+        cur=i; reached=Math.max(reached,i);
+        steps.forEach((s,k)=>s.hidden=k!==i);
+        progBtns.forEach((b,k)=>{ b.parentElement.className=k<i?'done':k===i?'now':''; b.disabled=k>reached; if(k===i) b.setAttribute('aria-current','step'); else b.removeAttribute('aria-current'); });
+        back.hidden=i===0; next.hidden=i===steps.length-1;
+        next.textContent=i===steps.length-2&&innerWidth>420?'Se opsummering':'Næste';
+        sync();
+        if(changed && !quiet){
+          slideIn(steps[i],dir);
+          const card=$('bestil'), r=card.getBoundingClientRect();
+          if(r.top<0||r.top>innerHeight*.6) card.scrollIntoView({behavior:REDUCE?'auto':'smooth',block:'start'});
+          const h=steps[i].querySelector('.wz-h'); h.tabIndex=-1; h.focus({preventScroll:true});
+        }
+      }
+      next.addEventListener('click',()=>go(cur+1));
+      back.addEventListener('click',()=>go(cur-1));
+      $('o-addr').addEventListener('input',()=>{ if($('o-addr').value.trim()){ $('wz-addr-err').hidden=true; $('o-addr').removeAttribute('aria-invalid'); } });
+      // Enter i et tekstfelt går videre i stedet for at gøre ingenting
+      f.addEventListener('keydown',e=>{ if(e.key==='Enter' && e.target.matches('input:not([type=checkbox])')){ e.preventDefault(); go(cur+1); } });
+      f.addEventListener('input',()=>sync()); f.addEventListener('change',()=>sync());
+      go(0,true);
+      return {go,sync};
+    })();
     // Fra pakkekortene på Priser-siden: udfyld formularen og hop ned til den
     const KEY={'Udvendig Vask':'udv','Indvendig Vask':'ind','Fuld Vask':'fuld','Fuld Vask + Voks':'voks'};
     document.querySelectorAll('[data-pkg]').forEach(a=>a.addEventListener('click',e=>{
@@ -199,9 +285,8 @@
       if(pressed) size.value=pressed.dataset.size;
       pkg.value=KEY[a.dataset.pkg];
       const fb=document.getElementById('first'); if(fb) first.checked=fb.checked;
-      render();
+      render(); if(wz) wz.go(2,true);
       document.getElementById('bestil').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
-      setTimeout(()=>$('o-addr').focus({preventScroll:true}),450);
       // Ét sted at kigge: bestillingskortet lyser kort op, når man lander der
       const card=document.getElementById('bestil');
       if(!REDUCE && card){ card.classList.remove('staged'); setTimeout(()=>{ void card.offsetWidth; card.classList.add('staged'); setTimeout(()=>card.classList.remove('staged'),1300); },420); }
