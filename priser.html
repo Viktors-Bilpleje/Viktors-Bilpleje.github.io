@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=405bc576">
+<link rel="stylesheet" href="style.css?v=d133fee7">
 </head>
 <body>
 <header class="top">
@@ -211,16 +211,18 @@
           <ol class="wz-prog" id="wz-prog" hidden></ol>
 
           <fieldset class="wz-step" data-title="Bil">
-            <legend class="wz-h">Hvilken bil skal vaskes?</legend>
-            <div class="wz-cards wz-3">
-              <button type="button" class="wz-card" data-for="o-size" data-value="car" aria-pressed="false"><span class="wz-tick"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg></span><b>Personbil</b><small>3- og 5-dørs, stationcars</small></button>
-              <button type="button" class="wz-card" data-for="o-size" data-value="big" aria-pressed="false"><span class="wz-tick"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg></span><b>Store biler</b><small>7-personers, store SUV’er, pickups</small></button>
-              <button type="button" class="wz-card" data-for="o-size" data-value="van" aria-pressed="false"><span class="wz-tick"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg></span><b>Varevogn</b><small>Kun indvendig vask af førerkabinen</small></button>
+            <legend class="wz-h">Hvilke biler skal vaskes?</legend>
+            <p class="wz-small">Vælg alle de biltyper, der skal vaskes, og hvor mange. Pakken vælger du bagefter.</p>
+            <div class="wz-cards wz-3 wz-types">
+              <div class="wz-type" data-size="car"><button type="button" class="wz-card wz-tgl" aria-pressed="false"><span class="wz-tick"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg></span><b>Personbil</b><small>3- og 5-dørs, stationcars</small></button><div class="wz-stepper wz-tcount" hidden><button type="button" data-tstep="-1" aria-label="Én personbil færre">−</button><span class="wz-tnum mono" aria-live="polite">1</span><button type="button" data-tstep="1" aria-label="Én personbil mere">+</button></div></div>
+              <div class="wz-type" data-size="big"><button type="button" class="wz-card wz-tgl" aria-pressed="false"><span class="wz-tick"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg></span><b>Store biler</b><small>7-personers, store SUV’er, pickups</small></button><div class="wz-stepper wz-tcount" hidden><button type="button" data-tstep="-1" aria-label="Én stor bil færre">−</button><span class="wz-tnum mono" aria-live="polite">1</span><button type="button" data-tstep="1" aria-label="Én stor bil mere">+</button></div></div>
+              <div class="wz-type" data-size="van"><button type="button" class="wz-card wz-tgl" aria-pressed="false"><span class="wz-tick"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg></span><b>Varevogn</b><small>Kun indvendig vask af førerkabinen</small></button><div class="wz-stepper wz-tcount" hidden><button type="button" data-tstep="-1" aria-label="Én varevogn færre">−</button><span class="wz-tnum mono" aria-live="polite">1</span><button type="button" data-tstep="1" aria-label="Én varevogn mere">+</button></div></div>
             </div>
+            <p class="wz-err" id="wz-type-hint" hidden>Vælg mindst én biltype.</p>
             <div class="o-grid wz-native">
               <div class="o-field"><label for="o-size">Biltype</label><select id="o-size"><option value="car">Personbil</option><option value="big">Store biler</option><option value="van">Varevogn</option></select></div>
             </div>
-            <div class="o-field wz-count"><label for="o-count">Antal biler</label>
+            <div class="o-field wz-count wz-native"><label for="o-count">Antal biler</label>
               <div class="wz-stepper"><button type="button" data-target="o-count" data-step="-1" aria-label="Én bil færre">−</button><input id="o-count" type="number" inputmode="numeric" min="1" max="10" value="1"><button type="button" data-target="o-count" data-step="1" aria-label="Én bil mere">+</button></div>
             </div>
           </fieldset>
@@ -255,12 +257,13 @@
           </fieldset>
 
           <fieldset class="wz-step" data-title="Tid og sted">
-            <legend class="wz-h">Hvornår og hvor?</legend>
+            <legend class="wz-h">Hvornår, hvor og hvem?</legend>
             <div class="o-field"><label for="o-when">Hvornår passer det?</label>
               <div class="wz-chips"><button type="button" class="wz-chip" data-when="Lørdag formiddag">Lørdag formiddag</button><button type="button" class="wz-chip" data-when="Lørdag eftermiddag">Lørdag eftermiddag</button><button type="button" class="wz-chip" data-when="Søndag formiddag">Søndag formiddag</button><button type="button" class="wz-chip" data-when="Søndag eftermiddag">Søndag eftermiddag</button><button type="button" class="wz-chip" data-when="Hurtigst muligt">Hurtigst muligt</button></div>
               <input id="o-when" placeholder="Eller skriv selv, fx lørdag d. 22. kl. 10">
             </div>
             <div class="o-field"><label for="o-addr">Adresse</label><input id="o-addr" autocomplete="street-address" placeholder="Fx Blistrup Hovedgade 1"><span class="wz-err" id="wz-addr-err" hidden>Skriv adressen, så Viktor ved, hvor han skal køre hen.</span></div>
+            <div class="o-field"><label for="o-name">Dit navn</label><input id="o-name" autocomplete="name" placeholder="Fx Mette Hansen"></div>
             <p class="wz-note">Viktor svarer på SMS og bekræfter tiden.</p>
           </fieldset>
 
@@ -295,7 +298,7 @@
   </div>
 </footer>
 
-<script src="script.js?v=405bc576"></script>
+<script src="script.js?v=d133fee7"></script>
 <!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e4ab3f9571054a7d9ce45d4cc796ad48"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>

@@ -609,3 +609,15 @@ footer b{color:var(--hall-ink)}
 .order.wz-on .wz-skip{display:flex; align-items:center; justify-content:center; min-height:48px; border-radius:12px; border:1.5px solid #FFFFFF33; background:transparent; color:var(--hall-ink); font:inherit; font-weight:600; cursor:pointer}
 .wz-skip:focus-visible{outline:3px solid var(--signal); outline-offset:2px}
 @media (hover:hover){.wz-skip:hover{border-color:#FFFFFF66}}
+/* Trin 1: flere biltyper */
+.wz-small{display:none}
+.order.wz-on .wz-small{display:block; margin:-.45rem 0 0; font-size:.84rem; color:var(--hall-muted)}
+.wz-type{display:grid; gap:.4rem; min-width:0}
+.wz-type .wz-card{height:100%}
+.order.wz-on .wz-tcount{display:grid; grid-template-columns:44px minmax(0,1fr) 44px; align-items:center; gap:.3rem}
+.order.wz-on .wz-tcount[hidden]{display:none}
+.wz-tcount button{display:grid!important; place-items:center; min-height:44px; border-radius:10px; border:1.5px solid #FFFFFF26; background:#FFFFFF0F; color:var(--hall-ink); font:700 1.2rem/1 var(--font-body); cursor:pointer}
+.wz-tcount button:active{transform:scale(.94)}
+.wz-tnum{text-align:center; font-weight:700; font-size:1.05rem; color:var(--hall-ink)}
+.order.wz-on .o-row.wz-auto .wz-segs,.order.wz-on .o-row.wz-auto .wz-count{display:none}
+.wz-sub{margin:-.2rem 0 0; font:800 1rem/1.2 var(--font-display); color:var(--signal)}

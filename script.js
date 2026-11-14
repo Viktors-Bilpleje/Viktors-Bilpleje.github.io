@@ -138,8 +138,9 @@
     const SIZEOPT='<option value="car">Personbil</option><option value="big">Store biler</option><option value="van">Varevogn</option>';
     const TICK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>';
     const PKGPRICE={udv:'{"car":250,"big":350}',ind:'{"car":300,"big":400,"van":250}',fuld:'{"car":500,"big":600}',voks:'{"car":600,"big":700}'};
-    function addRow(){
-      const i=++rowId, d=document.createElement('div'); d.className='o-row';
+    function addRow(opt){
+      opt=opt&&opt.size?opt:{};
+      const i=++rowId, d=document.createElement('div'); d.className='o-row'+(opt.auto?' wz-auto':''); if(opt.auto) d.dataset.auto=opt.size;
       const sz='r-size-'+i, pk='r-pkg-'+i, ct='r-count-'+i;
       const seg=Object.entries({car:'Personbil',big:'Stor bil',van:'Varevogn'}).map(([v,t])=>'<button type="button" class="wz-seg" data-for="'+sz+'" data-value="'+v+'" aria-pressed="false">'+t+'</button>').join('');
       const chips=Object.keys(PKG).map(v=>'<button type="button" class="wz-pchip" data-for="'+pk+'" data-value="'+v+'" data-price=\''+PKGPRICE[v]+'\' data-size-from="'+sz+'" aria-pressed="false"><span class="wz-tick">'+TICK+'</span><b>'+PKG[v]+'</b><span class="wz-price mono"></span></button>').join('');
@@ -149,16 +150,19 @@
         '<div class="o-field wz-count"><label for="'+ct+'">Antal</label><div class="wz-stepper"><button type="button" data-target="'+ct+'" data-step="-1" aria-label="Én bil færre">−</button><input id="'+ct+'" class="r-count" type="number" inputmode="numeric" min="1" max="10" value="1"><button type="button" data-target="'+ct+'" data-step="1" aria-label="Én bil mere">+</button></div></div>'+
         '<div class="o-row-grid wz-native"><div class="o-field"><label for="'+pk+'">Pakke</label><select id="'+pk+'" class="r-pkg">'+PKGOPT+'</select></div>'+
         '<div class="o-field"><label for="'+sz+'">Biltype</label><select id="'+sz+'" class="r-size">'+SIZEOPT+'</select></div></div>';
-      d.querySelector('.r-size').value=size.value;
-      d.querySelector('.r-pkg').value=pkg.value==='ind'?'fuld':'ind';
-      d.querySelector('.o-del').addEventListener('click',()=>{d.remove(); renumber(); render(); if(wz) wz.sync(); $('o-add').focus();});
-      extra.appendChild(d); render(); if(wz) wz.sync();
+      d.querySelector('.r-size').value=opt.size||size.value;
+      d.querySelector('.r-pkg').value=opt.auto?(opt.size==='van'?'ind':(opt.pkg||pkg.value)):(pkg.value==='ind'?'fuld':'ind');
+      if(opt.count) d.querySelector('.r-count').value=opt.count;
+      d.querySelector('.o-del').addEventListener('click',()=>{ const a=d.dataset.auto; d.remove(); if(a&&wz) wz.dropType(a); renumber(); render(); if(wz) wz.sync(); $('o-add').focus();});
+      if(opt.auto){ const firstManual=[...extra.children].find(r=>!r.dataset.auto); extra.insertBefore(d,firstManual||null); } else extra.appendChild(d);
+      renumber(); if(opt.quiet) return d;
+      render(); if(wz) wz.sync();
       if(!REDUCE && d.animate) d.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'none'}],{duration:220,easing:EASE});
       d.scrollIntoView({behavior:REDUCE?'auto':'smooth',block:'nearest'});
       (d.querySelector('.wz-seg[aria-pressed="true"]')||d.querySelector('.wz-seg')).focus({preventScroll:true});
     }
-    function renumber(){[...extra.children].forEach((r,k)=>r.querySelector('.o-row-head span').textContent='Bil '+(k+2));}
-    $('o-add').addEventListener('click',addRow);
+    function renumber(){[...extra.children].forEach((r,k)=>{ const a=r.dataset.auto, n=r.querySelector('.r-count').value; r.querySelector('.o-row-head span').textContent=a?SIZE[a].replace(' (kun førerkabinen)','')+(n>1?' × '+n:''):'Ekstra bil'; });}
+    $('o-add').addEventListener('click',()=>addRow());
     function rows(){
       const list=[{p:pkg,s:size,c:count},...[...extra.children].map(r=>({p:r.querySelector('.r-pkg'),s:r.querySelector('.r-size'),c:r.querySelector('.r-count')}))];
       return list.map(({p,s,c})=>{
@@ -195,7 +199,7 @@
       if(first.checked) lines.push('Det er vores første vask hos dig.');
       if($('o-dog').checked) lines.push('Der er hundehår i bilen, så der kommer et tillæg på 100-150 kr.');
       if(hoseX) lines.push('Vi har ingen vandslange, så '+(cars>1?'bilerne':'bilen')+' skal vaskes hjemme hos dig.');
-      lines.push('','Adresse: '+($('o-addr').value.trim()),'Det passer mig bedst: '+($('o-when').value.trim()),'','Venlig hilsen');
+      lines.push('','Adresse: '+($('o-addr').value.trim()),'Det passer mig bedst: '+($('o-when').value.trim()),'','Venlig hilsen'); const nm=$('o-name')&&$('o-name').value.trim(); if(nm) lines.push(nm);
       const body=lines.join('\n');
       $('o-preview').textContent=body;
       $('sms').href=smsHref(body);
@@ -238,7 +242,7 @@
           }
         });
         const ml=$('wz-main-lbl');
-        if(ml){ ml.hidden=!extra.children.length; ml.textContent='Bil 1 · '+SIZE[size.value].replace(' (kun førerkabinen)','')+(count.value>1?' × '+count.value:''); }
+        if(ml){ ml.hidden=!extra.children.length; ml.textContent=SIZE[size.value].replace(' (kun førerkabinen)','')+(count.value>1?' × '+count.value:''); }
         // opsummering på sidste trin
         if(sum){
           const R=rows(), row=(k,v)=>'<div><dt>'+k+'</dt><dd>'+esc(v)+'</dd></div>';
@@ -246,11 +250,51 @@
           if($('o-dirty').checked) ex.push('Ekstra beskidt'); if($('o-dog').checked) ex.push('Hundehår');
           sum.innerHTML=R.map(r=>row(r.n+' × '+SIZE[r.size].replace(' (kun førerkabinen)',''),PKG[r.pkg])).join('')
             +(ex.length?row('Tilvalg',ex.join(', ')):'')
-            +row('Hvornår',$('o-when').value.trim()||'Ikke valgt')+row('Adresse',$('o-addr').value.trim()||'Mangler');
+            +row('Hvornår',$('o-when').value.trim()||'Ikke valgt')+row('Adresse',$('o-addr').value.trim()||'Mangler')+row('Navn',($('o-name')&&$('o-name').value.trim())||'Ikke skrevet');
         }
         chips.forEach(ch=>ch.setAttribute('aria-pressed',$('o-when').value===ch.dataset.when));
       }
       const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+      // Trin 1: vælg alle de biltyper, der skal vaskes – hver med sit eget antal
+      const types={}; types[size.value]=Math.max(1,parseInt(count.value,10)||1);
+      const typeEls=[...f.querySelectorAll('.wz-type')];
+      function renderTypes(){
+        typeEls.forEach(t=>{ const k=t.dataset.size, n=types[k]||0;
+          t.querySelector('.wz-tgl').setAttribute('aria-pressed',n>0);
+          t.classList.toggle('on',n>0);
+          t.querySelector('.wz-tcount').hidden=!n; t.querySelector('.wz-tnum').textContent=n||1; });
+      }
+      function applyTypes(){
+        const sel=['car','big','van'].filter(k=>types[k]);
+        const main=sel[0], autos=[...extra.children].filter(r=>r.dataset.auto);
+        if(size.value!==main){
+          const r=autos.find(r=>r.dataset.auto===main); if(r) pkg.value=r.querySelector('.r-pkg').value;
+          size.value=main;
+        }
+        count.value=types[main];
+        autos.forEach(r=>{ if(!sel.slice(1).includes(r.dataset.auto)) r.remove(); });
+        sel.slice(1).forEach(k=>{
+          let r=[...extra.children].find(r=>r.dataset.auto===k);
+          if(!r) r=addRow({size:k,count:types[k],auto:true,quiet:true,pkg:pkg.value});
+          r.querySelector('.r-count').value=types[k];
+        });
+        renumber(); render(); renderTypes(); sync();
+      }
+      typeEls.forEach(t=>{
+        const k=t.dataset.size;
+        t.querySelector('.wz-tgl').addEventListener('click',()=>{
+          if(types[k]){ if(Object.values(types).filter(Boolean).length<2){ const h=$('wz-type-hint'); h.hidden=false; bump(h); return; } types[k]=0; }
+          else types[k]=1;
+          $('wz-type-hint').hidden=true; applyTypes();
+        });
+        t.querySelectorAll('[data-tstep]').forEach(b=>b.addEventListener('click',()=>{
+          types[k]=Math.min(10,Math.max(1,(types[k]||1)+(+b.dataset.tstep))); applyTypes();
+        }));
+      });
+      function dropType(k){ types[k]=0; if(!Object.values(types).some(Boolean)) types[size.value]=1; renderTypes(); }
+      function resetTypes(){ Object.keys(types).forEach(k=>types[k]=0); types[size.value]=Math.max(1,parseInt(count.value,10)||1); [...extra.children].filter(r=>r.dataset.auto).forEach(r=>r.remove()); renumber(); render(); renderTypes(); }
+      renderTypes();
 
       // Hurtigvalg af tid
       const chips=[...f.querySelectorAll('.wz-chip')];
@@ -294,7 +338,7 @@
       f.addEventListener('keydown',e=>{ if(e.key==='Enter' && e.target.matches('input:not([type=checkbox])')){ e.preventDefault(); go(cur+1); } });
       f.addEventListener('input',()=>sync()); f.addEventListener('change',()=>sync());
       go(0,true);
-      return {go,sync};
+      return {go,sync,dropType,reset:resetTypes};
     })();
     // Fra pakkekortene på Priser-siden: udfyld formularen og hop ned til den
     const KEY={'Udvendig Vask':'udv','Indvendig Vask':'ind','Fuld Vask':'fuld','Fuld Vask + Voks':'voks'};
@@ -304,7 +348,7 @@
       if(pressed) size.value=pressed.dataset.size;
       pkg.value=KEY[a.dataset.pkg];
       const fb=document.getElementById('first'); if(fb) first.checked=fb.checked;
-      render(); if(wz) wz.go(2,true);
+      render(); if(wz){ wz.reset(); wz.go(2,true); }
       document.getElementById('bestil').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
       // Ét sted at kigge: bestillingskortet lyser kort op, når man lander der
       const card=document.getElementById('bestil');
