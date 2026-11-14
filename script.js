@@ -1,6 +1,15 @@
 (function(){
   const PHONE='+4561302294';
   const smsHref=body=>'sms:'+PHONE+'?&body='+encodeURIComponent(body);
+  // Små bevægelser, der viser at noget skete. Slås fra, hvis man har bedt om mindre bevægelse.
+  const REDUCE=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const EASE='cubic-bezier(0.23,1,0.32,1)';
+  // Prisen "hopper" kort, når den ændrer sig, så øjet opdager det
+  function bump(el){ if(REDUCE||!el||!el.animate) return;
+    el.animate([{transform:'none'},{transform:'translateY(-3px) scale(1.12)',offset:.35},{transform:'none'}],{duration:280,easing:EASE}); }
+  // Nyt billede i stor visning glider ind fra den side, man bladrer mod
+  function slideIn(el,dir){ if(REDUCE||!dir||!el||!el.animate) return;
+    el.animate([{transform:'translateX('+(dir*32)+'px)',opacity:.35},{transform:'none',opacity:1}],{duration:220,easing:EASE}); }
 
   // Priser, rabat og SMS-links (kun på Priser og booking)
   if(document.getElementById('first')){
@@ -30,7 +39,9 @@
       let old=wrap.querySelector('s'); if(!old){old=document.createElement('s');wrap.prepend(old)}
       let tag=wrap.querySelector('.disc'); if(!tag){tag=document.createElement('span');tag.className='disc';tag.textContent='første vask';wrap.append(tag)}
       old.textContent=kr(price); old.hidden=!first;
-      el.textContent=first?Math.round(price*.8):price;
+      const nv=String(first?Math.round(price*.8):price);
+      if(el.textContent!==nv){ el.textContent=nv; if(el.dataset.ready) bump(el); }
+      el.dataset.ready='1';
       wrap.classList.toggle('is-first',first);
     });
     const durNote={car:'Meget beskidte biler tager lidt længere.',big:'Store og meget beskidte biler tager lidt længere.',van:'Meget beskidte varevogne tager lidt længere.'}[size];
@@ -159,7 +170,9 @@
       const dirtyX=$('o-dirty')&&$('o-dirty').checked?150*cars:0; // ekstra beskidt +150 kr. pr. bil
       const full=wash+hoseX+dirtyX;
       const price=(first.checked?Math.round(wash*.8):wash)+hoseX+dirtyX;  // rabatten gælder selve vasken
-      $('o-price').textContent=krf(price);
+      const op=$('o-price'), opv=krf(price);
+      if(op.textContent!==opv){ const had=op.dataset.ready; op.textContent=opv; if(had) bump(op); }
+      op.dataset.ready='1';
       $('o-old').textContent=krf(full); $('o-old').hidden=!first.checked;
       const order=R.length===1?['Pakke: '+PKG[R[0].pkg],'Biltype: '+SIZE[R[0].size],'Antal biler: '+R[0].n]
         :R.map((r,k)=>(k+1)+'. '+PKG[r.pkg]+', '+SIZE[r.size]+', '+r.n+' '+(r.n>1?'biler':'bil')+' ('+krf(r.price)+')');
@@ -188,6 +201,9 @@
       render();
       document.getElementById('bestil').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'start'});
       setTimeout(()=>$('o-addr').focus({preventScroll:true}),450);
+      // Ét sted at kigge: bestillingskortet lyser kort op, når man lander der
+      const card=document.getElementById('bestil');
+      if(!REDUCE && card){ card.classList.remove('staged'); setTimeout(()=>{ void card.offsetWidth; card.classList.add('staged'); setTimeout(()=>card.classList.remove('staged'),1300); },420); }
     }));
     render();
   })();
@@ -223,8 +239,9 @@
         anim=requestAnimationFrame(step);
       }
       set(50);
-      if(!auto) return;
-      // Alle billeder glider én gang, når siden åbnes. Ligger et billede uden for skærmen, glider det igen, når man scroller ned til det.
+      if(!auto||SEEN) return;
+      // Første besøg: alle billeder glider én gang, når siden åbnes. Ligger et billede uden for skærmen, glider det, når man scroller ned til det.
+      // Ved senere besøg står de stille – man ved jo allerede, hvordan skyderen virker.
       setTimeout(play,400);
       const r=box.getBoundingClientRect();
       if(r.top>innerHeight && 'IntersectionObserver' in window){
@@ -232,8 +249,10 @@
         io.observe(box);
       }
     }
+    const SEEN=(()=>{ try{ return localStorage.getItem('vb-ba-seen')==='1'; }catch(e){ return false; } })();
     document.querySelectorAll('.ba-list .ba').forEach(b=>initBA(b,true));
-  
+    try{ localStorage.setItem('vb-ba-seen','1'); }catch(e){}
+
     // Stor visning
     const lb=document.getElementById('lb'), slot=document.getElementById('lb-slot');
     let last=null;
@@ -241,12 +260,13 @@
     const nav=document.getElementById('lb-nav'), count=document.getElementById('lb-count');
     let idx=-1;
     function showCard(i){
+      const dir=idx<0?0:(i>idx?1:-1);
       idx=(i+cards.length)%cards.length;
       const card=cards[idx];
       const clone=card.querySelector('.ba').cloneNode(true);
       clone.classList.remove('dragging');
       clone.querySelectorAll('img').forEach(im=>im.loading='eager');
-      slot.replaceChildren(clone); initBA(clone,false);
+      slot.replaceChildren(clone); initBA(clone,false); slideIn(clone,dir);
       document.getElementById('lb-title').textContent=card.querySelector('.ba-cap b').textContent;
       document.getElementById('lb-sub').textContent=card.querySelector('.ba-cap span').textContent;
       if(nav){ nav.hidden=cards.length<2; count.textContent=(idx+1)+' / '+cards.length; }
@@ -318,11 +338,11 @@
     if(!figs.length||!lb) return;
     const slot=document.getElementById('lb-slot'), nav=document.getElementById('lb-nav'), count=document.getElementById('lb-count');
     let i=0, last=null;
-    function show(k){
+    function show(k,dir){
       i=(k+figs.length)%figs.length;
       const f=figs[i], img=f.querySelector('img').cloneNode(true);
       img.className='lb-img'; img.loading='eager'; img.removeAttribute('width'); img.removeAttribute('height');
-      slot.replaceChildren(img);
+      slot.replaceChildren(img); slideIn(img,dir);
       document.getElementById('lb-title').textContent=f.querySelector('figcaption').textContent;
       document.getElementById('lb-sub').textContent='Eksempel på en ekstra beskidt bil';
       nav.hidden=figs.length<2; count.textContent=(i+1)+' / '+figs.length;
@@ -339,20 +359,20 @@
       if(last) last.focus({preventScroll:true});
     }
     figs.forEach((f,k)=>{const b=f.querySelector('.dirty-open'); if(b) b.addEventListener('click',()=>open(k,b));});
-    document.getElementById('lb-prev').addEventListener('click',()=>show(i-1));
-    document.getElementById('lb-next').addEventListener('click',()=>show(i+1));
+    document.getElementById('lb-prev').addEventListener('click',()=>show(i-1,-1));
+    document.getElementById('lb-next').addEventListener('click',()=>show(i+1,1));
     document.getElementById('lb-close').addEventListener('click',close);
     lb.addEventListener('click',e=>{ if(e.target===lb) close(); });
     document.addEventListener('keydown',e=>{
       if(lb.hidden) return;
       if(e.key==='Escape') close();
-      else if(e.key==='ArrowRight'||e.key==='ArrowLeft'){ e.preventDefault(); show(i+(e.key==='ArrowRight'?1:-1)); }
+      else if(e.key==='ArrowRight'||e.key==='ArrowLeft'){ e.preventDefault(); show(i+(e.key==='ArrowRight'?1:-1),e.key==='ArrowRight'?1:-1); }
     });
     // stryg til siden for at bladre
     let tx=null, ty=0;
     lb.addEventListener('touchstart',e=>{tx=e.touches[0].clientX; ty=e.touches[0].clientY;},{passive:true});
     lb.addEventListener('touchend',e=>{ if(tx===null) return; const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty; tx=null;
-      if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)*1.5) show(i+(dx<0?1:-1)); },{passive:true});
+      if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)*1.5) show(i+(dx<0?1:-1),dx<0?1:-1); },{passive:true});
   })();
 
   // Menu (burger)
@@ -376,7 +396,11 @@
   // Kopiér nummer
   const copy=document.getElementById('copy');
   if(copy) copy.addEventListener('click',()=>{
-    const done=()=>{copy.textContent='Kopieret';setTimeout(()=>copy.textContent='Kopiér nummer',1600)};
+    const done=()=>{
+      copy.innerHTML='<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>Kopieret!';
+      copy.classList.add('ok'); bump(copy);
+      clearTimeout(copy._t); copy._t=setTimeout(()=>{copy.textContent='Kopiér nummer'; copy.classList.remove('ok');},1800);
+    };
     const sel=()=>{const r=document.createRange();r.selectNodeContents(document.getElementById('phone'));const s=getSelection();s.removeAllRanges();s.addRange(r)};
     try{navigator.clipboard.writeText('+4561302294').then(done,sel)}catch(e){sel()}
   });
