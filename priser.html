@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100,400;100,500;100,600;112,700;112,800&family=JetBrains+Mono:wght@500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=7f382b66">
+<link rel="stylesheet" href="style.css?v=01503918">
 </head>
 <body>
 <header class="top">
@@ -57,6 +57,11 @@
         <h1 id="priser-h">Vælg din vask</h1>
         <p>Faste priser. Vælg din biltype og tryk på en pakke. Så bliver din bestilling udfyldt nedenfor, og du sender den som SMS til Viktor.</p>
       </div>
+      <a class="fee-notice reveal" href="#beskidt">
+        <span class="fee-new mono">Nyt</span>
+        <span class="fee-txt"><b>Gebyr for ekstra beskidte biler: +150 kr. pr. bil</b><span>Gælder biler med meget mudder og jord. Se eksempler på, hvor beskidt det skal være.</span></span>
+        <svg class="fee-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg>
+      </a>
       <div class="promo reveal">
         <div class="promo-badge mono">−20 %</div>
         <div class="promo-txt">
@@ -75,7 +80,7 @@
         <button type="button" id="size-van" data-size="van" aria-pressed="false">Varevogn</button>
       </div>
       <p class="size-desc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg><span id="size-desc" aria-live="polite"><strong>Personbil:</strong> 3- og 5-dørs biler og almindelige familiebiler, fx stationcars.</span></p>
-      <div class="size-rules"><span>Mere end 20 km fra Blistrup: <b>+50 kr.</b> pr. påbegyndt 20 km</span><span id="hose-pill">Kræver vandslange og strøm hos dig. Ellers kan bilen vaskes hjemme hos Viktor for <b>+50 kr.</b></span><span>Ekstra beskidt bil: <b>+150 kr.</b> pr. bil (<a href="#beskidt">se eksempel</a>)</span><span>Betal kontant eller med MobilePay</span></div>
+      <div class="size-rules"><span>Mere end 20 km fra Blistrup: <b>+50 kr.</b> pr. påbegyndt 20 km</span><span id="hose-pill">Kræver vandslange og strøm hos dig. Ellers kan bilen vaskes hjemme hos Viktor for <b>+50 kr.</b></span><span class="fee-pill">Ekstra beskidt bil: <b>+150 kr.</b> pr. bil (<a href="#beskidt">se eksempel</a>)</span><span>Betal kontant eller med MobilePay</span></div>
       <div class="programs">
         <article class="prog reveal">
           <div class="prog-top"></div>
@@ -138,7 +143,7 @@
       </div>
       <div class="dirty reveal" id="beskidt" aria-labelledby="dirty-h">
         <div class="dirty-txt">
-          <div class="dirty-price mono">+150 kr.</div>
+          <div class="dirty-tags"><span class="fee-new mono">Nyt</span><span class="dirty-price mono">+150 kr. pr. bil</span></div>
           <h2 id="dirty-h">Ekstra beskidt bil</h2>
           <p>Er bilen lige så beskidt som Kia'en på billederne, koster det 150 kr. ekstra pr. bil. Så meget mudder og jord tager væsentligt længere tid at få af, både ude og inde.</p>
           <p class="dirty-small">Almindeligt snavs fra hverdagen er med i prisen. Er du i tvivl, så send et billede af bilen med din SMS.</p>
@@ -228,7 +233,7 @@
   </div>
 </footer>
 
-<script src="script.js?v=7f382b66"></script>
+<script src="script.js?v=01503918"></script>
 <!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e4ab3f9571054a7d9ce45d4cc796ad48"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>

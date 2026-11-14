@@ -462,3 +462,20 @@ footer b{color:var(--hall-ink)}
 .tile .go svg{transition:transform 200ms var(--ease-out)}
 @media (hover:hover){.tile:hover .go svg{transform:translateX(3px)}}
 .lb .lb-img{max-height:calc(100vh - 200px)}
+
+/* Tydeligt gebyr for ekstra beskidt bil */
+:root{--fee:#8A5A2B; --fee-ink:#FFF6EC; --fee-soft:#F6E9DC}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--fee-soft:#2E2117}}
+:root[data-theme="dark"]{--fee-soft:#2E2117}
+.fee-notice{display:flex; align-items:center; gap:.9rem; margin:0 0 1rem; padding:1rem 1.15rem; border-radius:var(--r);
+  background:var(--fee-soft); border:2px solid var(--fee); color:var(--ink); text-decoration:none; min-width:0}
+.fee-txt{display:grid; gap:.2rem; min-width:0; flex:1}
+.fee-txt b{font:700 1.05rem/1.25 var(--font-display); font-stretch:112%}
+.fee-txt span{color:var(--muted); font-size:.92rem}
+.fee-arrow{flex-shrink:0; color:var(--fee)}
+@media (hover:hover){.fee-notice:hover{box-shadow:0 2px 10px #8A5A2B33}}
+.fee-notice:focus-visible{outline:3px solid var(--signal); outline-offset:3px}
+.fee-new{flex-shrink:0; padding:.3rem .6rem; border-radius:999px; background:var(--fee); color:var(--fee-ink); font-weight:700; font-size:.72rem; letter-spacing:.1em; text-transform:uppercase}
+.size-rules span.fee-pill{background:var(--fee); color:var(--fee-ink)}
+.dirty-tags{display:flex; gap:.5rem; align-items:center; flex-wrap:wrap}
+.dirty{border:2px solid var(--fee)}
