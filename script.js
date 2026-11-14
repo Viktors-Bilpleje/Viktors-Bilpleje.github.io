@@ -314,8 +314,12 @@
       // Dag og tid: de næste weekender som knapper + formiddag/eftermiddag, eller skriv selv
       const days=$('wz-days'), parts=$('wz-parts'), when=$('o-when');
       const WD=['søndag','mandag','tirsdag','onsdag','torsdag','fredag','lørdag'], MO=['januar','februar','marts','april','maj','juni','juli','august','september','oktober','november','december'];
-      const opts=[]; const t0=new Date(); t0.setHours(12,0,0,0);
-      for(let k=1;k<=21&&opts.length<6;k++){ const d=new Date(t0); d.setDate(d.getDate()+k); if(d.getDay()===6||d.getDay()===0) opts.push(d); }
+      // FØRSTE LEDIGE DAG: ret datoen her, når der er fuldt booket (år-måned-dag)
+      const FIRST_FREE='2026-12-01';
+      const opts=[]; const t0=new Date(); t0.setHours(12,0,0,0); t0.setDate(t0.getDate()+1);
+      const ff=new Date(FIRST_FREE+'T12:00'); const start=ff>t0?ff:t0;
+      for(let k=0;k<=28&&opts.length<6;k++){ const d=new Date(start); d.setDate(d.getDate()+k); if(d.getDay()===6||d.getDay()===0) opts.push(d); }
+      const full=$('wz-full'); if(full && ff>t0){ full.hidden=false; full.querySelector('b').textContent='Fuldt booket indtil '+ff.getDate()+'. '+MO[ff.getMonth()]+'.'; }
       const longTxt=d=>WD[d.getDay()][0].toUpperCase()+WD[d.getDay()].slice(1)+' d. '+d.getDate()+'. '+MO[d.getMonth()];
       const shortTxt=d=>WD[d.getDay()].slice(0,3)+' '+d.getDate()+'. '+MO[d.getMonth()].slice(0,3);
       days.innerHTML=opts.map(d=>'<button type="button" class="wz-chip" data-day="'+longTxt(d)+'" aria-pressed="false">'+shortTxt(d).replace(/^./,c=>c.toUpperCase())+'</button>').join('')+'<button type="button" class="wz-chip" data-day="Hurtigst muligt" aria-pressed="false">Hurtigst muligt</button>';
