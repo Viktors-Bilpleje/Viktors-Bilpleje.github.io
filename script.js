@@ -688,7 +688,7 @@ document.querySelectorAll('a[data-pkg][href^="book.html"]').forEach(a=>a.addEven
   a.href=u.pathname.split('/').pop()+u.search;
 }));
 
-// Bevægelse fra videoerne: Lenis (blød scroll på computer) + GSAP (ord-for-ord overskrift, tal der tæller op, magnetiske knapper).
+// Bevægelse fra videoerne: Lenis (blød scroll på computer) + GSAP (ord-for-ord overskrift, priser der hopper op, magnetiske knapper).
 // Hentes efter siden er vist, så intet venter på det. Slås fra ved "reducer bevægelse".
 (function(){
   if(matchMedia('(prefers-reduced-motion: reduce)').matches) return;
@@ -708,13 +708,10 @@ document.querySelectorAll('a[data-pkg][href^="book.html"]').forEach(a=>a.addEven
     const g=window.gsap; g.registerPlugin(window.ScrollTrigger);
     // 1) Overskriften kommer op ord for ord
     if(h1) g.fromTo(h1.querySelectorAll('.gw-i'),{yPercent:110,opacity:0},{yPercent:0,opacity:1,duration:.9,ease:'expo.out',stagger:.07,delay:.15,onComplete:()=>h1.classList.remove('gs-split')});
-    // 2) Priser og procent tæller op, når de kommer frem
+    // 2) Priser og procent hopper op, når de kommer frem (tallet står fast, ingen optælling)
     document.querySelectorAll('.pk-price .mono, .facts span:nth-child(-n+2) b, .price .mono').forEach(el=>{
-      const txt=el.textContent.trim(), m=txt.match(/^(\d[\d.]*)(.*)$/); if(!m) return;
-      const end=parseInt(m[1].replace(/\./g,''),10), rest=m[2]; if(!end) return;
-      const o={v:0}; el.textContent='0'+rest;
-      g.to(o,{v:end,duration:1.1,ease:'power2.out',scrollTrigger:{trigger:el,start:'top 90%',once:true},
-        onUpdate:()=>{ el.textContent=Math.round(o.v).toLocaleString('da-DK')+rest; }, onComplete:()=>{ el.textContent=txt; }});
+      if(getComputedStyle(el).display==='inline') el.style.display='inline-block';
+      g.from(el,{y:14,scale:.85,opacity:0,duration:.6,ease:'back.out(2.2)',scrollTrigger:{trigger:el,start:'top 90%',once:true}});
     });
     // 3) Magnetiske knapper på computer (React Bits "Magnet")
     if(fine) document.querySelectorAll('.btn-signal, .bk-next').forEach(b=>{
