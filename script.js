@@ -311,6 +311,50 @@
     });
   })();
 
+  // Eksempelbilleder på Priser-siden (ekstra beskidt bil): tryk for stor visning
+  (function(){
+    const figs=[...document.querySelectorAll('.dirty-pics figure')];
+    const lb=document.getElementById('lb');
+    if(!figs.length||!lb) return;
+    const slot=document.getElementById('lb-slot'), nav=document.getElementById('lb-nav'), count=document.getElementById('lb-count');
+    let i=0, last=null;
+    function show(k){
+      i=(k+figs.length)%figs.length;
+      const f=figs[i], img=f.querySelector('img').cloneNode(true);
+      img.className='lb-img'; img.loading='eager'; img.removeAttribute('width'); img.removeAttribute('height');
+      slot.replaceChildren(img);
+      document.getElementById('lb-title').textContent=f.querySelector('figcaption').textContent;
+      document.getElementById('lb-sub').textContent='Eksempel på en ekstra beskidt bil';
+      nav.hidden=figs.length<2; count.textContent=(i+1)+' / '+figs.length;
+    }
+    function open(k,btn){
+      last=btn; show(k);
+      lb.hidden=false; document.body.classList.add('lb-lock');
+      requestAnimationFrame(()=>lb.classList.add('open'));
+      document.getElementById('lb-close').focus({preventScroll:true});
+    }
+    function close(){
+      lb.classList.remove('open'); document.body.classList.remove('lb-lock');
+      setTimeout(()=>{lb.hidden=true; slot.replaceChildren();},220);
+      if(last) last.focus({preventScroll:true});
+    }
+    figs.forEach((f,k)=>{const b=f.querySelector('.dirty-open'); if(b) b.addEventListener('click',()=>open(k,b));});
+    document.getElementById('lb-prev').addEventListener('click',()=>show(i-1));
+    document.getElementById('lb-next').addEventListener('click',()=>show(i+1));
+    document.getElementById('lb-close').addEventListener('click',close);
+    lb.addEventListener('click',e=>{ if(e.target===lb) close(); });
+    document.addEventListener('keydown',e=>{
+      if(lb.hidden) return;
+      if(e.key==='Escape') close();
+      else if(e.key==='ArrowRight'||e.key==='ArrowLeft'){ e.preventDefault(); show(i+(e.key==='ArrowRight'?1:-1)); }
+    });
+    // stryg til siden for at bladre
+    let tx=null, ty=0;
+    lb.addEventListener('touchstart',e=>{tx=e.touches[0].clientX; ty=e.touches[0].clientY;},{passive:true});
+    lb.addEventListener('touchend',e=>{ if(tx===null) return; const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty; tx=null;
+      if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)*1.5) show(i+(dx<0?1:-1)); },{passive:true});
+  })();
+
   // Menu (burger)
   (function(){
     const btn=document.getElementById('burger'), drawer=document.getElementById('drawer'), scrim=document.getElementById('scrim'), close=document.getElementById('drawer-close');
