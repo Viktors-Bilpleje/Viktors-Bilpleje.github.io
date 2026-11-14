@@ -578,6 +578,37 @@
     new IntersectionObserver(es=>es.forEach(e=>bar.classList.toggle('away',e.isIntersecting)),{threshold:0}).observe(card);
   })();
 
+  // Kort over Viktors område: rigtigt kort (OpenStreetMap) med en zone på 40 km rundt om Blistrup.
+  // Hentes først, når kortet kommer frem på skærmen.
+  (function(){
+    const el=document.getElementById('area-map'); if(!el) return;
+    const HOME=[56.0894,12.2078], RADIUS_KM=40;
+    let started=false;
+    function start(){
+      if(started) return; started=true;
+      let n=0; const ready=()=>{ if(++n===2) init(); };
+      const css=document.createElement('link'); css.rel='stylesheet'; css.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'; css.onload=ready; css.onerror=ready; document.head.appendChild(css);
+      const js=document.createElement('script'); js.src='https://unpkg.com/leaflet@1.9.4/dist/leaflet.js'; js.onload=ready;
+      js.onerror=()=>{ el.querySelector('.mp-loading').textContent='Kortet kunne ikke indlæses. Viktor kører inden for 40 km fra Blistrup.'; };
+      document.head.appendChild(js);
+    }
+    function init(){
+      el.innerHTML=''; el.classList.add('live');
+      const map=L.map(el,{scrollWheelZoom:false, dragging:!L.Browser.mobile, tap:false, zoomSnap:.25, attributionControl:true});
+      const area=L.latLng(HOME).toBounds(RADIUS_KM*2000);
+      map.fitBounds(area,{padding:[6,6]});
+      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{minZoom:8, maxZoom:15,
+        attribution:'© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>'}).addTo(map);
+      L.circle(HOME,{radius:RADIUS_KM*1000, color:'#E0A400', weight:2.5, dashArray:'8 7', fillColor:'#FFC531', fillOpacity:.2, interactive:false}).addTo(map);
+      L.marker(HOME,{interactive:false, keyboard:false, icon:L.divIcon({className:'mp-pin', html:'<span class="mp-ring"></span><span class="mp-dot"></span><span class="mp-lbl">Blistrup</span>', iconSize:[18,18], iconAnchor:[9,9]})}).addTo(map);
+      addEventListener('resize',()=>map.fitBounds(area,{padding:[6,6]}));
+    }
+    if('IntersectionObserver' in window){
+      const io=new IntersectionObserver(es=>{ if(es.some(e=>e.isIntersecting)){ io.disconnect(); start(); } },{rootMargin:'300px'});
+      io.observe(el);
+    } else start();
+  })();
+
   // Menu (burger)
   (function(){
     const btn=document.getElementById('burger'), drawer=document.getElementById('drawer'), scrim=document.getElementById('scrim'), close=document.getElementById('drawer-close');
