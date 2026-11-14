@@ -10,7 +10,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100,400;100,500;100,600;112,700;112,800&family=JetBrains+Mono:wght@500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=74c364f6">
+<link rel="stylesheet" href="style.css?v=d6d765d9">
 </head>
 <body>
 <header class="top">
@@ -75,7 +75,7 @@
         <button type="button" id="size-van" data-size="van" aria-pressed="false">Varevogn</button>
       </div>
       <p class="size-desc"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 7.5v.5"/></svg><span id="size-desc" aria-live="polite"><strong>Personbil:</strong> 3- og 5-dørs biler og almindelige familiebiler, fx stationcars.</span></p>
-      <div class="size-rules"><span>Mere end 20 km fra Blistrup: <b>+50 kr.</b> pr. påbegyndt 20 km</span><span id="hose-pill">Kræver vandslange og strøm hos dig. Ellers kan bilen vaskes hjemme hos Viktor for <b>+50 kr.</b></span><span>Betal kontant eller med MobilePay</span></div>
+      <div class="size-rules"><span>Mere end 20 km fra Blistrup: <b>+50 kr.</b> pr. påbegyndt 20 km</span><span id="hose-pill">Kræver vandslange og strøm hos dig. Ellers kan bilen vaskes hjemme hos Viktor for <b>+50 kr.</b></span><span>Ekstra beskidt bil: <b>+150 kr.</b> pr. bil (<a href="#beskidt">se eksempel</a>)</span><span>Betal kontant eller med MobilePay</span></div>
       <div class="programs">
         <article class="prog reveal">
           <div class="prog-top"></div>
@@ -136,6 +136,21 @@
           <a class="btn" href="#kontakt" data-pkg="Fuld Vask + Voks">Vælg pakke<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M6 13l6 6 6-6"/></svg></a>
         </article>
       </div>
+      <div class="dirty reveal" id="beskidt" aria-labelledby="dirty-h">
+        <div class="dirty-txt">
+          <div class="dirty-price mono">+150 kr.</div>
+          <h2 id="dirty-h">Ekstra beskidt bil</h2>
+          <p>Er bilen lige så beskidt som Kia'en på billederne, koster det 150 kr. ekstra pr. bil. Så meget mudder og jord tager væsentligt længere tid at få af, både ude og inde.</p>
+          <p class="dirty-small">Almindeligt snavs fra hverdagen er med i prisen. Er du i tvivl, så send et billede af bilen med din SMS.</p>
+          <a class="dirty-link" href="galleri.html">Se samme bil efter vask i galleriet<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+        </div>
+        <div class="dirty-pics">
+          <figure><img src="galleri/kia-side-foer.jpg" alt="Eksempel: bilens side dækket af mudder" loading="lazy" width="1200" height="900"><figcaption>Siden</figcaption></figure>
+          <figure><img src="galleri/kia-forhjul-foer.jpg" alt="Eksempel: forhjul og skærm fulde af mudder" loading="lazy" width="1200" height="900"><figcaption>Hjul og skærm</figcaption></figure>
+          <figure><img src="galleri/kia-foererplads-foer.jpg" alt="Eksempel: førerpladsens måtte fuld af jord og blade" loading="lazy" width="1200" height="900"><figcaption>Førerplads</figcaption></figure>
+          <figure><img src="galleri/kia-bagagerum-foer.jpg" alt="Eksempel: bagagerum med mudder og skidt" loading="lazy" width="1200" height="900"><figcaption>Bagagerum</figcaption></figure>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -176,6 +191,7 @@
           </div>
           <label class="o-check" for="o-first"><input type="checkbox" id="o-first"><span>Det er vores første vask (20 % rabat)</span></label>
           <label class="o-check" for="o-hose" id="o-hose-wrap"><input type="checkbox" id="o-hose"><span>Vi har ingen vandslange (vask hjemme hos Viktor, +50 kr. pr. bil)</span></label>
+          <label class="o-check" for="o-dirty"><input type="checkbox" id="o-dirty"><span>Bilen er ekstra beskidt, som <a href="#beskidt">eksemplet</a> (+150 kr. pr. bil)</span></label>
           <label class="o-check" for="o-dog" id="o-dog-wrap"><input type="checkbox" id="o-dog"><span>Der er hundehår i bilen (tillæg 100-150 kr.)</span></label>
           <p class="o-hint" id="o-addon-hint" hidden></p>
           <p class="o-van" id="o-van" hidden>Til varevogne er det kun indvendig vask af førerkabinen.</p>
@@ -200,7 +216,7 @@
   </div>
 </footer>
 
-<script src="script.js?v=74c364f6"></script>
+<script src="script.js?v=d6d765d9"></script>
 <!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e4ab3f9571054a7d9ce45d4cc796ad48"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>

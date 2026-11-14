@@ -156,8 +156,9 @@
       $('o-van').hidden=!R.some(r=>r.size==='van'); $('o-hose-wrap').hidden=allVan; if(allVan) hose.checked=false;
       const wash=R.reduce((a,r)=>a+r.price,0);
       const hoseX=hose.checked?50*nonVan:0;                  // vask hos Viktor +50 kr. pr. bil
-      const full=wash+hoseX;
-      const price=(first.checked?Math.round(wash*.8):wash)+hoseX;  // rabatten gælder selve vasken
+      const dirtyX=$('o-dirty')&&$('o-dirty').checked?150*cars:0; // ekstra beskidt +150 kr. pr. bil
+      const full=wash+hoseX+dirtyX;
+      const price=(first.checked?Math.round(wash*.8):wash)+hoseX+dirtyX;  // rabatten gælder selve vasken
       $('o-price').textContent=krf(price);
       $('o-old').textContent=krf(full); $('o-old').hidden=!first.checked;
       const order=R.length===1?['Pakke: '+PKG[R[0].pkg],'Biltype: '+SIZE[R[0].size],'Antal biler: '+R[0].n]
@@ -165,6 +166,7 @@
       const lines=['Hej Viktor!','','Jeg vil gerne bestille:',...order,
         'Pris i alt: '+krf(price)+(first.checked?' (20 % rabat på første vask, normalt '+krf(full)+')':'')];
       if(hoseX) lines.push('Heraf '+krf(hoseX)+' for vask hjemme hos dig.');
+      if(dirtyX) lines.push('Heraf '+krf(dirtyX)+' i gebyr, fordi '+(cars>1?'bilerne er':'bilen er')+' ekstra beskidt'+(cars>1?'e':'')+'.');
       if(first.checked) lines.push('Det er vores første vask hos dig.');
       if($('o-dog').checked) lines.push('Der er hundehår i bilen, så der kommer et tillæg på 100-150 kr.');
       if(hoseX) lines.push('Vi har ingen vandslange, så '+(cars>1?'bilerne':'bilen')+' skal vaskes hjemme hos dig.');

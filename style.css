@@ -406,6 +406,22 @@ section{padding-block:clamp(3.5rem,8vw,6rem); scroll-margin-top:52px}
 .g-ph span{color:var(--muted); font-size:.88rem}
 .lb-img{display:block; margin:0 auto; max-width:100%; max-height:calc(100vh - 140px); border-radius:var(--r)}
 body.lb-lock{overflow:hidden}
+/* Ekstra beskidt bil (priser) */
+.size-rules a{color:inherit; text-decoration-thickness:1px; text-underline-offset:2px}
+.dirty{margin-top:clamp(2rem,5vw,3rem); display:grid; grid-template-columns:minmax(0,5fr) minmax(0,7fr); gap:clamp(1.25rem,3vw,2rem); align-items:center;
+  background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:clamp(1.25rem,3vw,2rem); scroll-margin-top:90px}
+@media (max-width:820px){.dirty{grid-template-columns:minmax(0,1fr)}}
+.dirty-txt{display:grid; gap:.75rem; min-width:0}
+.dirty-txt h2{margin:0; font:800 clamp(1.5rem,3.2vw,2rem)/1.1 var(--font-display); font-stretch:112%; text-wrap:balance}
+.dirty-txt p{margin:0; max-width:52ch}
+.dirty-small{color:var(--muted); font-size:.92rem}
+.dirty-price{justify-self:start; font-weight:700; font-size:1rem; padding:.35rem .7rem; border-radius:999px; background:#8A5A2B; color:#FFF6EC; letter-spacing:.02em}
+.dirty-link{justify-self:start; display:inline-flex; align-items:center; gap:.4rem; font-weight:600; color:var(--ink); text-underline-offset:3px}
+.dirty-pics{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.6rem; min-width:0}
+.dirty-pics figure{margin:0; position:relative; border-radius:10px; overflow:hidden; aspect-ratio:4/3; background:var(--hall)}
+.dirty-pics img{width:100%; height:100%; object-fit:cover; display:block}
+.dirty-pics figcaption{position:absolute; left:8px; bottom:8px; padding:.25rem .55rem; border-radius:999px; background:#08161FCC; color:#fff; font:700 .68rem/1 var(--font-mono); letter-spacing:.08em; text-transform:uppercase}
+.o-check a{color:inherit}
 /* Bladring i stor visning */
 .lb .ba{max-height:calc(100vh - 200px); width:min(100%, calc((100vh - 200px) * 4 / 3))}
 .lb-nav{display:flex; justify-content:center; align-items:center; gap:1rem; color:#fff}
