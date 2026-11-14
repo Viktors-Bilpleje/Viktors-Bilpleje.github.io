@@ -1,3 +1,13 @@
+// Ny side starter altid i toppen (men tilbage-knappen husker, hvor man var)
+(function(){
+  try{
+    const nav=performance.getEntriesByType&&performance.getEntriesByType('navigation')[0];
+    if(location.hash || (nav&&nav.type==='back_forward')) return;
+    const top=()=>window.scrollTo({top:0,left:0,behavior:'instant'});
+    top(); addEventListener('DOMContentLoaded',top); addEventListener('load',top);
+    addEventListener('pageshow',e=>{ if(!e.persisted) top(); });
+  }catch(e){}
+})();
 (function(){
   const PHONE='+4561302294';
   const smsHref=body=>'sms:'+PHONE+'?&body='+encodeURIComponent(body);
