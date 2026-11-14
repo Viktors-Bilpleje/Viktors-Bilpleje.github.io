@@ -3,8 +3,8 @@
   --bg:#F3F7F9; --surface:#FFFFFF; --ink:#0B1A24; --muted:#4E626F; --line:#D5E1E7;
   --hall:#08161F; --hall-ink:#E8F3F7; --hall-muted:#93AEBB;
   --water:#0C7FA6; --water-soft:#DCEFF6; --signal:#FFC531; --on-signal:#161100;
-  --font-display:"Archivo","Arial Narrow",system-ui,sans-serif;
-  --font-body:"Archivo",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-display:"Plus Jakarta Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-body:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
   --font-mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
   --ease-out:cubic-bezier(0.23,1,0.32,1);
   --r:14px; --max:1120px;
