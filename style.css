@@ -788,3 +788,30 @@ button,.btn,a,label{touch-action:manipulation}
 .wz-card:active,.wz-chip:active,.wz-pchip:active,.wz-seg:active,.wz-tgl:active,.wz-back:active,.wz-stepper button:active,.o-check:active{transform:scale(.97)}
 @media (prefers-reduced-transparency:reduce){ .top{background:#08161F; backdrop-filter:none} .hero .pill,.hero-rating{background:#08161F; backdrop-filter:none; -webkit-backdrop-filter:none} }
 @media (prefers-contrast:more){ .top{background:#08161F; border-bottom:1px solid #fff6} }
+
+/* Pakkekort i VIP-stil: ikon, pris, hvad der er med og en Vælg-knap */
+.order.wz-on .wz-pkgs{grid-template-columns:repeat(2,minmax(0,1fr)); gap:.75rem; align-items:stretch; padding-top:.7rem}
+@media (max-width:560px){.order.wz-on .wz-pkgs{grid-template-columns:minmax(0,1fr)}}
+.wz-pk{display:flex; flex-direction:column; gap:.35rem; padding:1.1rem 1.1rem 1rem; border-radius:16px; background:linear-gradient(180deg,#FFFFFF10,#FFFFFF05); box-shadow:0 1px 0 #FFFFFF14 inset;
+  transition:border-color 160ms ease, background-color 160ms ease, box-shadow 200ms ease, transform 200ms var(--ease-out)}
+.wz-pk-head{display:flex; align-items:center; gap:.6rem; padding-right:1.8rem}
+.wz-pk-head b{padding:0; font:700 1.05rem/1.2 var(--font-display)}
+.wz-pk-ic{flex:none; display:grid; place-items:center; width:34px; height:34px; border-radius:10px; background:#FFFFFF14; color:var(--hall-ink)}
+.wz-pk .wz-tick{top:1.15rem}
+.wz-pk small{font-size:.86rem}
+.wz-pk .wz-price{margin-top:.3rem; font-size:1.6rem; letter-spacing:-.02em; line-height:1.1}
+.wz-pk-dur{font-size:.8rem; color:var(--hall-muted)}
+.wz-pk-list{list-style:none; margin:.5rem 0 .2rem; padding:.6rem 0 0; border-top:1px solid #FFFFFF14; display:grid; gap:.4rem}
+.wz-pk-list li{display:flex; gap:.5rem; align-items:flex-start; font-size:.86rem; line-height:1.35; color:var(--hall-ink)}
+.wz-pk-list svg{flex:none; margin-top:.15rem; color:var(--signal)}
+.wz-pk-btn{margin-top:auto; display:grid; place-items:center; min-height:42px; border-radius:10px; background:#FFFFFF14; font-weight:700; font-size:.92rem; transition:background-color 160ms ease, color 160ms ease}
+.wz-pk-on{display:none}
+.wz-pk[aria-pressed="true"]{border-color:var(--signal); background:linear-gradient(180deg,#FFC53124,#FFC5310A); box-shadow:0 10px 30px -12px #FFC53166, 0 1px 0 #FFFFFF1F inset; transform:translateY(-2px)}
+.wz-pk[aria-pressed="true"] .wz-pk-ic{background:var(--signal); color:var(--on-signal)}
+.wz-pk[aria-pressed="true"] .wz-pk-btn{background:var(--signal); color:var(--on-signal)}
+.wz-pk[aria-pressed="true"] .wz-pk-sel{display:none}
+.wz-pk[aria-pressed="true"] .wz-pk-on{display:inline}
+.wz-pk[aria-pressed="true"]:active{transform:translateY(-2px) scale(.98)}
+.wz-pk-hot .wz-tag{position:absolute; top:0; left:50%; transform:translate(-50%,-50%); white-space:nowrap; box-shadow:0 4px 12px #0006}
+@media (prefers-reduced-motion:reduce){.wz-pk[aria-pressed="true"]{transform:none}}
+@media (max-width:560px){.order.wz-on .wz-pkgs .wz-pk-hot{order:-1}}
