@@ -220,7 +220,6 @@
         const c=e.target.closest('[data-for]');
         if(c && f.contains(c) && !c.disabled){
           const sel=$(c.dataset.for); sel.value=c.dataset.value; sel.dispatchEvent(new Event('change',{bubbles:true}));
-          if(c.dataset.for==='o-pkg' && !extra.children.length) setTimeout(()=>go(cur+1),180);
           return;
         }
         const st=e.target.closest('[data-target]');
