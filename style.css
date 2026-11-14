@@ -815,3 +815,26 @@ button,.btn,a,label{touch-action:manipulation}
 .wz-pk-hot .wz-tag{position:absolute; top:0; left:50%; transform:translate(-50%,-50%); white-space:nowrap; box-shadow:0 4px 12px #0006}
 @media (prefers-reduced-motion:reduce){.wz-pk[aria-pressed="true"]{transform:none}}
 @media (max-width:560px){.order.wz-on .wz-pkgs .wz-pk-hot{order:-1}}
+.dirty-time{display:flex; gap:.55rem; align-items:center; margin:.9rem 0 .2rem; padding:.7rem .9rem; border-radius:12px; background:#FFC5311A; border:1px solid #FFC53155; font-weight:500}
+.dirty-time svg{flex:none; color:var(--signal)}
+.dirty-time b{font-weight:800}
+/* Vektorkort (MapLibre) i mørk stil */
+.mp-map.gl{background:#0C0C0C}
+.mp-map.gl .maplibregl-ctrl-group{background:#11222CE6; border:1px solid #22394A; box-shadow:none}
+.mp-map.gl .maplibregl-ctrl-group button{width:36px; height:36px}
+.mp-map.gl .maplibregl-ctrl-group button+button{border-top-color:#22394A}
+.mp-map.gl .maplibregl-ctrl-icon{filter:invert(1) brightness(1.4)}
+.mp-map.gl .maplibregl-ctrl-attrib{background:#0B1A24CC; color:#93AEBB; font-size:10px}
+.mp-map.gl .maplibregl-ctrl-attrib a{color:#C9D7DE}
+.mp-map.gl .maplibregl-ctrl-attrib-button{filter:invert(1)}
+.mp-map.gl .maplibregl-ctrl-attrib.maplibregl-compact{background:#0B1A24CC}
+/* GSAP: ord-for-ord overskrift */
+.gw{display:inline-block; overflow:hidden; vertical-align:top; padding-bottom:.08em; margin-bottom:-.08em}
+.gw-i{display:inline-block; will-change:transform}
+.gs-split .gw-i{opacity:0; transform:translateY(110%)}
+.hero h1.gs-split,.hero h1:has(.gw){animation:none}
+/* Lenis: ingen dobbelt-glidning */
+html.lenis,html.lenis body{height:auto}
+html.lenis{scroll-behavior:auto!important}
+.lenis.lenis-stopped{overflow:hidden}
+.btn-signal,.bk-next{will-change:transform}
