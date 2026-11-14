@@ -191,3 +191,7 @@
 .bk-teaser .bk-steps-mini{display:flex; flex-wrap:wrap; gap:.4rem; margin:0; padding:0; list-style:none}
 .bk-teaser .bk-steps-mini li{padding:.35rem .65rem; border-radius:999px; background:#FFFFFF12; color:var(--hall-ink); font-size:.8rem; font-weight:600}
 .bk-teaser .btn{justify-self:start}
+.bk-models{margin-top:1.4rem}
+.bk-models-h{margin:0 0 -.3rem; font-weight:700; font-size:.95rem}
+.bk-models-h i{font-style:normal; color:var(--bk-muted); font-weight:500}
+.bk-models .bk-field span{color:var(--bk-muted); font-weight:600; font-size:.82rem}

@@ -45,7 +45,7 @@
   const startPkg=PK[q.get('pakke')]?q.get('pakke'):'voks';
   const startType=TYPES[q.get('bil')]?q.get('bil'):'car';
   const S={
-    types:{car:0,big:0,van:0}, pkg:{car:startPkg,big:startPkg,van:'ind'}, model:'', tab:startType,
+    types:{car:0,big:0,van:0}, pkg:{car:startPkg,big:startPkg,van:'ind'}, models:{car:[],big:[],van:[]}, tab:startType,
     first:false, nohose:false, dirty:false, dog:false,
     date:null, time:'', wish:'', street:'', zip:'', city:'', name:'', note:'', pay:'Kontant',
     step:0, reached:0, done:false
@@ -107,7 +107,17 @@
       return '<div class="bk-type'+(n?' on':'')+'"><button type="button" class="bk-tile" data-type="'+k+'" aria-pressed="'+(n>0)+'"><span class="bk-tick">'+svg(CHECK,14,3)+'</span><span class="bk-tic">'+svg(t.ic,26,1.8)+'</span><b>'+t.name+'</b><small>'+t.desc+'</small></button>'+
         (n?'<div class="bk-count"><span>Antal</span><div class="bk-step"><button type="button" data-cnt="'+k+'" data-d="-1" aria-label="Én færre">−</button><b>'+n+'</b><button type="button" data-cnt="'+k+'" data-d="1" aria-label="Én mere">+</button></div></div>':'')+'</div>'; }).join('')+'</div>'+
     '<p class="bk-err" id="bk-err" hidden>Vælg mindst én bil.</p>'+
-    '<label class="bk-field bk-narrow"><span>Mærke og model <i>(valgfri)</i></span><input id="f-model" type="text" autocomplete="off" placeholder="Fx Kia EV9" value="'+esc(S.model)+'"></label>';
+    modelFields();
+  // Ét felt til mærke og model pr. bil
+  const EX=['Kia EV9','VW Golf','Toyota Yaris','Tesla Model Y','Ford Transit'];
+  function modelFields(){
+    const list=[]; sel().forEach(k=>{ for(let i=0;i<S.types[k];i++) list.push([k,i]); });
+    if(!list.length) return '';
+    const one=list.length===1;
+    return '<div class="bk-models bk-narrow"><p class="bk-models-h">Mærke og model <i>(valgfri)</i></p>'+list.map(([k,i],n)=>
+      '<label class="bk-field"><span>'+(one?TYPES[k].name:'Bil '+(n+1)+' · '+TYPES[k].short)+'</span><input data-model="'+k+'-'+i+'" type="text" autocomplete="off" placeholder="Fx '+(k==='van'?'Ford Transit':EX[n%4])+'" value="'+esc(S.models[k][i]||'')+'"></label>').join('')+'</div>';
+  }
+  const modelsOf=k=>S.models[k].slice(0,S.types[k]).map(x=>(x||'').trim()).filter(Boolean);
   V.pakke=()=>{
     const ts=sel(); if(!ts.includes(S.tab)) S.tab=ts[0];
     const k=S.tab, keys=k==='van'?['ind']:['udv','ind','fuld','voks'];
@@ -158,7 +168,7 @@
     const box=(h,rows)=>'<section class="bk-box"><h2>'+h+'</h2>'+rows+'</section>';
     const row=(a,b,sub)=>'<div class="bk-li"><span>'+svg(CHECK,14,3)+'<b>'+a+'</b>'+(sub?'<small>'+sub+'</small>':'')+'</span><span class="mono">'+b+'</span></div>';
     return '<div class="bk-sum">'+
-      box('Vask',T.L.map(l=>row(l.pkg,kr(l.price),l.label+(S.model&&sel().length===1?' · '+esc(S.model):'')+' · '+l.dur)).join(''))+
+      box('Vask',T.L.map(l=>row(l.pkg,kr(l.price),l.label+(modelsOf(l.k).length?' · '+esc(modelsOf(l.k).join(', ')):'')+' · '+l.dur)).join(''))+
       (ex.length?box('Tilvalg',ex.map(e=>row(e[0],e[1])).join('')):'')+
       box('Tidspunkt','<p class="bk-big">'+(S.date?dayTxt(S.date):'Ikke valgt')+(S.time?', '+S.time.toLowerCase():'')+'</p>'+(S.wish?'<p class="bk-sm">'+esc(S.wish)+'</p>':'')+'<p class="bk-sm">'+esc([S.street,[S.zip,S.city].filter(Boolean).join(' ')].filter(Boolean).join(', '))+'</p>')+
       '<section class="bk-box bk-tot"><div class="bk-li"><span>'+svg('<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',16)+'<b>Forventet tid</b></span><span class="mono">'+durTxt()+'</span></div>'+
@@ -183,7 +193,8 @@
     const order=T.L.length===1?['Pakke: '+T.L[0].pkg,'Bil: '+TYPES[T.L[0].k].name+(T.L[0].n>1?' ('+T.L[0].n+' stk.)':'')]
       :T.L.map((l,i)=>(i+1)+'. '+l.pkg+', '+TYPES[l.k].name+(l.n>1?' ('+l.n+' stk.)':'')+' ('+kr(l.price)+')');
     const L=['Hej Viktor!','','Jeg vil gerne bestille:',...order];
-    if(S.model) L.push('Mærke og model: '+S.model);
+    const ms=sel().filter(k=>modelsOf(k).length).map(k=>modelsOf(k).join(', ')+(sel().length>1?' ('+TYPES[k].short.toLowerCase()+')':''));
+    if(ms.length) L.push((cars()>1?'Bilerne: ':'Bilen: ')+ms.join('; '));
     L.push('Pris i alt: '+kr(T.total)+(S.first?' (20 % rabat på første vask)':''));
     if(S.nohose) L.push('Vi har ingen vandslange, så bilen skal vaskes hjemme hos dig (+'+kr(T.hose)+').');
     if(S.dirty) L.push('Bilen er ekstra beskidt (+'+kr(T.dirty)+').');
@@ -235,7 +246,9 @@
 
   // ---------- input ----------
   stage.addEventListener('input',e=>{
-    const t=e.target, map={'f-model':'model','f-wish':'wish','f-street':'street','f-zip':'zip','f-city':'city','f-name':'name','f-note':'note'};
+    const t=e.target;
+    if(t.dataset.model){ const [k,i]=t.dataset.model.split('-'); S.models[k][+i]=t.value; update(); return; }
+    const map={'f-wish':'wish','f-street':'street','f-zip':'zip','f-city':'city','f-name':'name','f-note':'note'};
     if(map[t.id]){ S[map[t.id]]=t.value; update(); const er=$('bk-err'); if(er&&!er.hidden) valid(S.step); }
   });
   stage.addEventListener('keydown',e=>{ if(e.key==='Enter'&&e.target.tagName==='INPUT'){ e.preventDefault(); next.click(); } });
