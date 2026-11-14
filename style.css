@@ -406,6 +406,14 @@ section{padding-block:clamp(3.5rem,8vw,6rem); scroll-margin-top:52px}
 .g-ph span{color:var(--muted); font-size:.88rem}
 .lb-img{display:block; margin:0 auto; max-width:100%; max-height:calc(100vh - 140px); border-radius:var(--r)}
 body.lb-lock{overflow:hidden}
+/* Bladring i stor visning */
+.lb .ba{max-height:calc(100vh - 200px); width:min(100%, calc((100vh - 200px) * 4 / 3))}
+.lb-nav{display:flex; justify-content:center; align-items:center; gap:1rem; color:#fff}
+.lb-arrow{width:52px; height:52px; border:0; border-radius:50%; background:#FFFFFF1F; color:#fff; display:grid; place-items:center; cursor:pointer; transition:transform 160ms var(--ease-out), background 160ms}
+.lb-arrow:active{transform:scale(0.92)}
+@media (hover:hover){.lb-arrow:hover{background:#FFFFFF33}}
+.lb-arrow:focus-visible{outline:3px solid var(--signal); outline-offset:2px}
+.lb-count{min-width:5.5ch; text-align:center; font-size:.95rem; color:#C9D7DE; font-variant-numeric:tabular-nums}
 footer{background:var(--hall); color:var(--hall-muted); font-size:.9rem}
 footer .wrap{padding-block:2.5rem; display:flex; flex-wrap:wrap; justify-content:space-between; gap:1rem}
 footer b{color:var(--hall-ink)}

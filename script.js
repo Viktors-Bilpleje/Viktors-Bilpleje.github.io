@@ -235,16 +235,37 @@
     // Stor visning
     const lb=document.getElementById('lb'), slot=document.getElementById('lb-slot');
     let last=null;
-    function openLB(card,btn){
-      last=btn;
+    const cards=[...document.querySelectorAll('.ba-list .ba-card')];
+    const nav=document.getElementById('lb-nav'), count=document.getElementById('lb-count');
+    let idx=-1;
+    function showCard(i){
+      idx=(i+cards.length)%cards.length;
+      const card=cards[idx];
       const clone=card.querySelector('.ba').cloneNode(true);
       clone.classList.remove('dragging');
+      clone.querySelectorAll('img').forEach(im=>im.loading='eager');
       slot.replaceChildren(clone); initBA(clone,false);
       document.getElementById('lb-title').textContent=card.querySelector('.ba-cap b').textContent;
       document.getElementById('lb-sub').textContent=card.querySelector('.ba-cap span').textContent;
+      if(nav){ nav.hidden=cards.length<2; count.textContent=(idx+1)+' / '+cards.length; }
+      // hent naboerne i forvejen, så bladring føles øjeblikkelig
+      [idx+1,idx-1].forEach(j=>{const c=cards[(j+cards.length)%cards.length]; c.querySelectorAll('.ba img').forEach(im=>{const p=new Image(); p.src=im.src;});});
+    }
+    function openLB(card,btn){
+      last=btn;
+      showCard(cards.indexOf(card));
       lb.hidden=false; document.body.classList.add('lb-lock');
       requestAnimationFrame(()=>lb.classList.add('open'));
       document.getElementById('lb-close').focus({preventScroll:true});
+    }
+    if(nav){
+      document.getElementById('lb-prev').addEventListener('click',()=>showCard(idx-1));
+      document.getElementById('lb-next').addEventListener('click',()=>showCard(idx+1));
+      // stryg til siden uden for billedet (f.eks. på pilene eller teksten) for at bladre
+      let tx=null, ty=0;
+      lb.addEventListener('touchstart',e=>{ if(e.target.closest('.ba')) {tx=null; return;} tx=e.touches[0].clientX; ty=e.touches[0].clientY; },{passive:true});
+      lb.addEventListener('touchend',e=>{ if(tx===null||nav.hidden) return; const dx=e.changedTouches[0].clientX-tx, dy=e.changedTouches[0].clientY-ty; tx=null;
+        if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)*1.5) showCard(idx+(dx<0?1:-1)); },{passive:true});
     }
     function closeLB(){
       lb.classList.remove('open'); document.body.classList.remove('lb-lock');
@@ -268,6 +289,7 @@
         const media=fig.querySelector('img,video').cloneNode(true); media.className='lb-img';
         if(media.tagName==='IMG') media.loading='eager'; else { media.controls=true; media.muted=true; }
         slot.replaceChildren(media); if(media.tagName==='VIDEO') media.play().catch(()=>{});
+        if(nav) nav.hidden=true;
         document.getElementById('lb-title').textContent=fig.querySelector('figcaption b').textContent;
         document.getElementById('lb-sub').textContent=fig.querySelector('figcaption span').textContent;
         lb.hidden=false; document.body.classList.add('lb-lock');
@@ -277,7 +299,14 @@
     });
     document.getElementById('lb-close').addEventListener('click',closeLB);
     lb.addEventListener('click',e=>{ if(e.target===lb) closeLB(); });
-    document.addEventListener('keydown',e=>{ if(e.key==='Escape'&&!lb.hidden) closeLB(); });
+    document.addEventListener('keydown',e=>{
+      if(lb.hidden) return;
+      if(e.key==='Escape') closeLB();
+      // piletaster bladrer – undtagen når skyderen har fokus (så flytter de stregen)
+      else if(nav && !nav.hidden && (e.key==='ArrowRight'||e.key==='ArrowLeft') && !(e.target.matches&&e.target.matches('input[type=range]'))){
+        e.preventDefault(); showCard(idx+(e.key==='ArrowRight'?1:-1));
+      }
+    });
   })();
 
   // Menu (burger)
