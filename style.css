@@ -749,9 +749,7 @@ footer .wrap.foot-bottom{padding-block:1.2rem 2rem; border-top:1px solid #FFFFFF
 .mp-map{position:relative; aspect-ratio:1/1; max-width:100%; border-radius:var(--r); overflow:hidden; border:1px solid var(--line); background:var(--water-soft); z-index:0}
 @media (min-width:821px){.mp-map{aspect-ratio:4/3.4}}
 .mp-loading{position:absolute; inset:0; display:grid; place-items:center; margin:0; color:var(--muted); font-size:.9rem; text-align:center; padding:1rem}
-.mp-map.live .leaflet-tile-pane{filter:grayscale(.4) saturate(.85) contrast(.95) brightness(1.04)}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .mp-map.live .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) grayscale(.3) brightness(.9) contrast(.9)}}
-:root[data-theme="dark"] .mp-map.live .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) grayscale(.3) brightness(.9) contrast(.9)}
+.mp-map.live .leaflet-tile-pane{filter:invert(1) hue-rotate(185deg) brightness(.82) contrast(.92) saturate(.55)}
 .mp-map .leaflet-control-attribution{font-size:10px}
 .mp-map .leaflet-control-zoom a{width:36px; height:36px; line-height:36px}
 .mp-pin{position:relative}
@@ -759,3 +757,13 @@ footer .wrap.foot-bottom{padding-block:1.2rem 2rem; border-top:1px solid #FFFFFF
 .mp-pin .mp-ring{position:absolute; inset:-10px; border-radius:50%; background:#FFC531; opacity:.35}
 @media (prefers-reduced-motion:no-preference){ .mp-pin .mp-ring{animation:mp-pulse 2.4s var(--ease-out) infinite} }
 .mp-pin .mp-lbl{position:absolute; left:26px; top:50%; transform:translateY(-50%); white-space:nowrap; padding:.25rem .55rem; border-radius:8px; background:#0B1A24; color:#fff; font:700 13px/1 var(--font-display); box-shadow:0 2px 8px #0005}
+.mp-map{background:#0E1A22; border-color:#0E1A22}
+.mp-map .leaflet-container{background:#0E1A22}
+.mp-map .leaflet-control-attribution{background:#0B1A24CC; color:#93AEBB}
+.mp-map .leaflet-control-attribution a{color:#C9D7DE}
+.mp-map .leaflet-bar a{background:#11222C; color:#E6F0F4; border-color:#22394A}
+.mp-map .leaflet-bar a:hover{background:#1A3140}
+.mp-pin .mp-dot{border-color:#fff}
+.mp-pin .mp-lbl{background:#FFC531; color:#161100}
+@media (min-width:821px){.mp-map{aspect-ratio:4/3}}
+.mp-map{aspect-ratio:5/4}
