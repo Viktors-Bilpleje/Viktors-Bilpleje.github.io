@@ -559,14 +559,14 @@ footer b{color:var(--hall-ink)}
 @media (max-width:520px){.wz-prog li:not(.now) .wz-lbl{display:none} .wz-num{display:inline}.wz-prog .now .wz-num{display:none}}
 /* bund med pris og knapper */
 .wz-foot{display:grid; gap:.8rem}
-.order.wz-on .wz-foot{grid-template-columns:auto minmax(0,1fr) auto; align-items:center; position:sticky; bottom:env(safe-area-inset-bottom,0px); z-index:2;
+.order.wz-on .wz-foot{grid-template-columns:auto 1fr auto; align-items:center; position:sticky; bottom:env(safe-area-inset-bottom,0px); z-index:2;
   margin:0 calc(-1 * clamp(1.5rem,3.5vw,2.25rem)); padding:.8rem clamp(1.5rem,3.5vw,2.25rem); background:var(--hall); border-top:1px solid #FFFFFF1F}
 .order.wz-on .wz-foot .o-total{border:0; padding:0; justify-content:flex-end; gap:.6rem}
 .order.wz-on .wz-foot .o-total b{font-size:1.25rem}
 .wz-back{min-height:44px; padding:0 .9rem; border-radius:999px; border:1.5px solid #FFFFFF33; background:transparent; color:var(--hall-ink); font:inherit; font-weight:600; cursor:pointer}
 .wz-back[hidden]{display:block!important; visibility:hidden}
 .wz-next{white-space:nowrap}
-@media (max-width:420px){.order.wz-on .wz-foot .o-total > span:first-child{display:none}}
+@media (max-width:520px){.order.wz-on .wz-foot .o-total > span:first-child{display:none}}
 /* opsummering */
 .wz-sum{margin:0; display:grid; gap:0; border:1px solid #FFFFFF1F; border-radius:12px; overflow:hidden}
 .wz-sum div{display:flex; justify-content:space-between; gap:1rem; padding:.65rem .9rem; border-top:1px solid #FFFFFF14}
@@ -582,7 +582,7 @@ footer b{color:var(--hall-ink)}
   .wz-back{padding:0 .75rem}
 }
 .wz-back{display:inline-flex; align-items:center; gap:.3rem}
-@media (max-width:420px){ .wz-back span{display:none} .wz-back{width:44px; padding:0; justify-content:center} }
+@media (max-width:520px){ .wz-back span{display:none} .wz-back{width:44px; padding:0; justify-content:center} }
 @media (max-width:360px){ .order.wz-on .wz-foot .o-total s{display:none} .order.wz-on .wz-foot .o-total b{font-size:1rem} .wz-next{padding-inline:1rem} }
 /* Flere biler: samme store knapper som første bil */
 .order.wz-on .o-row .wz-native{display:none}
@@ -767,3 +767,6 @@ footer .wrap.foot-bottom{padding-block:1.2rem 2rem; border-top:1px solid #FFFFFF
 .mp-pin .mp-lbl{background:#FFC531; color:#161100}
 @media (min-width:821px){.mp-map{aspect-ratio:4/3}}
 .mp-map{aspect-ratio:5/4}
+
+/* prisen må aldrig ligge oven på knapperne */
+.order.wz-on .wz-foot .o-total{min-width:max-content}
