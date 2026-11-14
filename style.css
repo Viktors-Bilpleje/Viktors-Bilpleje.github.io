@@ -621,3 +621,27 @@ footer b{color:var(--hall-ink)}
 .wz-tnum{text-align:center; font-weight:700; font-size:1.05rem; color:var(--hall-ink)}
 .order.wz-on .o-row.wz-auto .wz-segs,.order.wz-on .o-row.wz-auto .wz-count{display:none}
 .wz-sub{margin:-.2rem 0 0; font:800 1rem/1.2 var(--font-display); color:var(--signal)}
+/* Anmeldelser på forsiden */
+.home-rev{padding-top:0}
+.hr-head{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:1rem; margin-bottom:1.5rem}
+.hr-score{display:flex; align-items:center; gap:.6rem}
+.hr-avg{font-size:1.6rem; font-weight:700}
+.hr-n{color:var(--muted); font-size:.9rem}
+.hr-list{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1rem}
+.hr-list .r-card p{display:-webkit-box; -webkit-line-clamp:5; -webkit-box-orient:vertical; overflow:hidden}
+@media (max-width:820px){
+  .hr-list{grid-template-columns:none; grid-auto-flow:column; grid-auto-columns:minmax(0,85%); overflow-x:auto; scroll-snap-type:x mandatory; scrollbar-width:none;
+    margin-inline:calc(-1 * max(16px, env(safe-area-inset-left, 0px))); padding-inline:max(16px, env(safe-area-inset-left, 0px)); scroll-padding-inline:max(16px, env(safe-area-inset-left, 0px))}
+  .hr-list::-webkit-scrollbar{display:none}
+  .hr-list .r-card{scroll-snap-align:start}
+}
+.hr-cta{display:flex; flex-wrap:wrap; gap:.4rem 1.6rem; margin-top:1rem}
+.o-flabel{font-size:.85rem; font-weight:600; color:var(--hall-muted)}
+.order.wz-on #wz-parts{margin-top:-.15rem}
+.wz-chip:disabled{opacity:.4; cursor:default}
+.wz-pay .wz-chips{display:flex!important}
+.wz-sum dd small{display:block; font-weight:400; font-size:.8rem; color:var(--hall-muted); margin-top:.1rem}
+.wz-tip{display:flex; gap:.6rem; align-items:flex-start; margin:0; padding:.8rem .9rem; border-radius:12px; background:#FFC5311A; border:1px solid #FFC53155; font-size:.88rem; line-height:1.45; color:var(--hall-ink)}
+.wz-tip svg{flex-shrink:0; color:var(--signal); margin-top:.05rem}
+.hr-list .r-card{align-content:start; grid-template-rows:auto 1fr auto}
+@media (max-width:820px){ .hr-list{grid-auto-columns:85%} }

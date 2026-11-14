@@ -78,6 +78,16 @@
   const starSvg=(n,size)=>Array.from({length:5},(_,i)=>'<svg width="'+size+'" height="'+size+'" viewBox="0 0 24 24" fill="currentColor" class="'+(i<n?'':'off')+'" aria-hidden="true"><path d="M12 2.8l2.8 5.9 6.4.8-4.7 4.4 1.2 6.4L12 17.2l-5.7 3.1 1.2-6.4-4.7-4.4 6.4-.8z"/></svg>').join('');
   const maskName=n=>{const [who,...rest]=String(n).split(',');const m=who.trim().split(/\s+/).map((p,i)=>i===0?p.slice(0,3)+'*'.repeat(Math.max(0,p.length-3)):p[0]+'*'.repeat(Math.max(0,p.length-1))).join(' ');return rest.length?m+','+rest.join(','):m};
   const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  // De nyeste anmeldelser på forsiden
+  (function(){
+    const box=document.getElementById('home-reviews'); if(!box||!REVIEWS.length) return;
+    const avg=REVIEWS.reduce((a,r)=>a+r.stars,0)/REVIEWS.length;
+    const sc=document.getElementById('hr-score');
+    if(sc){ sc.innerHTML='<span class="hr-avg mono">'+avg.toLocaleString('da-DK',{minimumFractionDigits:1,maximumFractionDigits:1})+'</span><span class="stars-row" aria-hidden="true">'+starSvg(Math.round(avg),18)+'</span><span class="hr-n">'+REVIEWS.length+' anmeldelser</span>';
+      sc.setAttribute('aria-label',avg.toFixed(1)+' ud af 5 stjerner fra '+REVIEWS.length+' anmeldelser'); sc.hidden=false; }
+    box.innerHTML=REVIEWS.slice(0,3).map(r=>'<article class="r-card"><span class="stars-row" role="img" aria-label="'+r.stars+' af 5 stjerner">'+starSvg(r.stars,18)+'</span><p>'+esc(r.text)+'</p><div class="r-meta"><b>'+esc(maskName(r.name))+'</b><span>'+(r.date?new Date(r.date+'T12:00').toLocaleDateString('da-DK',{day:'numeric',month:'long'}):'')+'</span></div></article>').join('');
+  })();
+
   // Samlet rating øverst på forsiden
   (function(){
     const el=document.getElementById('hero-rating');
@@ -199,6 +209,7 @@
       if(first.checked) lines.push('Det er vores første vask hos dig.');
       if($('o-dog').checked) lines.push('Der er hundehår i bilen, så der kommer et tillæg på 100-150 kr.');
       if(hoseX) lines.push('Vi har ingen vandslange, så '+(cars>1?'bilerne':'bilen')+' skal vaskes hjemme hos dig.');
+      if($('o-pay')&&$('o-pay').value) lines.push('Betaling: '+$('o-pay').value+'.');
       lines.push('','Adresse: '+($('o-addr').value.trim()),'Det passer mig bedst: '+($('o-when').value.trim()),'','Venlig hilsen'); const nm=$('o-name')&&$('o-name').value.trim(); if(nm) lines.push(nm);
       const body=lines.join('\n');
       $('o-preview').textContent=body;
@@ -248,11 +259,14 @@
           const R=rows(), row=(k,v)=>'<div><dt>'+k+'</dt><dd>'+esc(v)+'</dd></div>';
           const ex=[]; if(first.checked) ex.push('Første vask (−20 %)'); if(hose.checked) ex.push('Vask hos Viktor');
           if($('o-dirty').checked) ex.push('Ekstra beskidt'); if($('o-dog').checked) ex.push('Hundehår');
-          sum.innerHTML=R.map(r=>row(r.n+' × '+SIZE[r.size].replace(' (kun førerkabinen)',''),PKG[r.pkg])).join('')
+          const DUR={udv:'ca. 30 min – 1 time',ind:'ca. 1–2 timer',fuld:'ca. 2–3 timer',voks:'ca. 2–3 timer + voks'};
+          const dur=r=>(r.size==='van'&&r.pkg==='ind'?'ca. 1–1½ time':DUR[r.pkg])+(r.n>1?' pr. bil':'');
+          const row2=(k,v,sub)=>'<div><dt>'+k+'</dt><dd>'+esc(v)+'<small>'+esc(sub)+'</small></dd></div>';
+          sum.innerHTML=R.map(r=>row2(r.n+' × '+SIZE[r.size].replace(' (kun førerkabinen)',''),PKG[r.pkg],'Forventet tid: '+dur(r))).join('')
             +(ex.length?row('Tilvalg',ex.join(', ')):'')
-            +row('Hvornår',$('o-when').value.trim()||'Ikke valgt')+row('Adresse',$('o-addr').value.trim()||'Mangler')+row('Navn',($('o-name')&&$('o-name').value.trim())||'Ikke skrevet');
+            +row('Hvornår',$('o-when').value.trim()||'Ikke valgt')+row('Adresse',$('o-addr').value.trim()||'Mangler')+row('Navn',($('o-name')&&$('o-name').value.trim())||'Ikke skrevet')+row('Betaling',($('o-pay')&&$('o-pay').value)||'Ikke valgt');
         }
-        chips.forEach(ch=>ch.setAttribute('aria-pressed',$('o-when').value===ch.dataset.when));
+        syncWhen(); syncPay();
       }
       const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
@@ -297,8 +311,28 @@
       renderTypes();
 
       // Hurtigvalg af tid
-      const chips=[...f.querySelectorAll('.wz-chip')];
-      chips.forEach(ch=>ch.addEventListener('click',()=>{ const w=$('o-when'); w.value=w.value===ch.dataset.when?'':ch.dataset.when; w.dispatchEvent(new Event('input',{bubbles:true})); }));
+      // Dag og tid: de næste weekender som knapper + formiddag/eftermiddag, eller skriv selv
+      const days=$('wz-days'), parts=$('wz-parts'), when=$('o-when');
+      const WD=['søndag','mandag','tirsdag','onsdag','torsdag','fredag','lørdag'], MO=['januar','februar','marts','april','maj','juni','juli','august','september','oktober','november','december'];
+      const opts=[]; const t0=new Date(); t0.setHours(12,0,0,0);
+      for(let k=1;k<=21&&opts.length<6;k++){ const d=new Date(t0); d.setDate(d.getDate()+k); if(d.getDay()===6||d.getDay()===0) opts.push(d); }
+      const longTxt=d=>WD[d.getDay()][0].toUpperCase()+WD[d.getDay()].slice(1)+' d. '+d.getDate()+'. '+MO[d.getMonth()];
+      const shortTxt=d=>WD[d.getDay()].slice(0,3)+' '+d.getDate()+'. '+MO[d.getMonth()].slice(0,3);
+      days.innerHTML=opts.map(d=>'<button type="button" class="wz-chip" data-day="'+longTxt(d)+'" aria-pressed="false">'+shortTxt(d).replace(/^./,c=>c.toUpperCase())+'</button>').join('')+'<button type="button" class="wz-chip" data-day="Hurtigst muligt" aria-pressed="false">Hurtigst muligt</button>';
+      parts.innerHTML=['Formiddag','Eftermiddag'].map(p=>'<button type="button" class="wz-chip" data-part="'+p.toLowerCase()+'" aria-pressed="false">'+p+'</button>').join('');
+      let selDay='', selPart='';
+      const composeWhen=()=>{ when.value=selDay==='Hurtigst muligt'?selDay:(selDay?selDay+(selPart?', '+selPart:''):(selPart?selPart[0].toUpperCase()+selPart.slice(1):'')); when.dispatchEvent(new Event('input',{bubbles:true})); };
+      days.addEventListener('click',e=>{ const b=e.target.closest('[data-day]'); if(!b) return; selDay=selDay===b.dataset.day?'':b.dataset.day; if(selDay==='Hurtigst muligt') selPart=''; composeWhen(); });
+      parts.addEventListener('click',e=>{ const b=e.target.closest('[data-part]'); if(!b) return; selPart=selPart===b.dataset.part?'':b.dataset.part; if(selDay==='Hurtigst muligt') selDay=''; composeWhen(); });
+      when.addEventListener('input',e=>{ if(e.isTrusted){ selDay=''; selPart=''; } });
+      function syncWhen(){
+        days.querySelectorAll('[data-day]').forEach(b=>b.setAttribute('aria-pressed',b.dataset.day===selDay));
+        parts.querySelectorAll('[data-part]').forEach(b=>{ b.setAttribute('aria-pressed',b.dataset.part===selPart); b.disabled=selDay==='Hurtigst muligt'; });
+      }
+      // Betaling: kontant eller MobilePay
+      const pay=$('o-pay'), payBtns=[...f.querySelectorAll('[data-pay]')];
+      payBtns.forEach(b=>b.addEventListener('click',()=>{ pay.value=pay.value===b.dataset.pay?'':b.dataset.pay; f.dispatchEvent(new Event('change')); }));
+      function syncPay(){ payBtns.forEach(b=>{ const on=pay.value===b.dataset.pay; b.setAttribute('aria-checked',on); b.setAttribute('aria-pressed',on); }); }
 
       function valid(i){
         if(steps[i].dataset.title==='Tid og sted'){
