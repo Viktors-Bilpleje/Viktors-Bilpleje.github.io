@@ -584,3 +584,28 @@ footer b{color:var(--hall-ink)}
 .wz-back{display:inline-flex; align-items:center; gap:.3rem}
 @media (max-width:420px){ .wz-back span{display:none} .wz-back{width:44px; padding:0; justify-content:center} }
 @media (max-width:360px){ .order.wz-on .wz-foot .o-total s{display:none} .order.wz-on .wz-foot .o-total b{font-size:1rem} .wz-next{padding-inline:1rem} }
+/* Flere biler: samme store knapper som første bil */
+.order.wz-on .o-row .wz-native{display:none}
+.wz-segs,.wz-pchips{display:none}
+.order.wz-on .wz-segs{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.3rem; padding:.25rem; border-radius:12px; background:#FFFFFF0F}
+.wz-seg{min-height:44px; border:0; border-radius:9px; background:transparent; color:var(--hall-muted); font:inherit; font-weight:600; font-size:.9rem; cursor:pointer; transition:background-color 160ms ease, color 160ms ease}
+.wz-seg[aria-pressed="true"]{background:var(--hall-ink); color:var(--hall)}
+.order.wz-on .wz-pchips{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.45rem}
+.wz-pchip{position:relative; display:grid; gap:.15rem; text-align:left; min-height:64px; padding:.65rem .8rem; border-radius:10px; border:1.5px solid #FFFFFF26; background:#FFFFFF0A; color:var(--hall-ink); font:inherit; cursor:pointer; transition:border-color 160ms ease, background-color 160ms ease}
+.wz-pchip b{font-size:.9rem; padding-right:1.5rem}
+.wz-pchip .wz-price{font-size:.88rem; color:var(--hall-muted)}
+.wz-pchip .wz-tick{top:.6rem; right:.6rem; width:20px; height:20px}
+.wz-pchip[aria-pressed="true"]{border-color:var(--signal); background:#FFC5311A}
+.wz-pchip[aria-pressed="true"] .wz-tick{background:var(--signal); border-color:var(--signal); color:var(--on-signal)}
+.wz-pchip[aria-pressed="true"] .wz-price{color:var(--hall-ink)}
+.wz-seg:focus-visible,.wz-pchip:focus-visible{outline:3px solid var(--signal); outline-offset:2px}
+.order.wz-on .o-row{border:1.5px solid #FFFFFF26; border-style:solid; background:#FFFFFF05; padding:.9rem; gap:.8rem}
+.order.wz-on .o-row-head span{font:800 1rem/1 var(--font-display); font-stretch:112%}
+.wz-sub{margin:-.3rem 0 0; font-size:.85rem; font-weight:700; color:var(--signal)}
+.order.wz-on .o-add{justify-self:stretch; justify-content:center; min-height:60px; border-style:dashed; border-radius:12px; text-align:left}
+.o-add span{display:grid; gap:.1rem}
+.o-add small{font-weight:400; font-size:.8rem; color:var(--hall-muted)}
+.wz-skip{display:none}
+.order.wz-on .wz-skip{display:flex; align-items:center; justify-content:center; min-height:48px; border-radius:12px; border:1.5px solid #FFFFFF33; background:transparent; color:var(--hall-ink); font:inherit; font-weight:600; cursor:pointer}
+.wz-skip:focus-visible{outline:3px solid var(--signal); outline-offset:2px}
+@media (hover:hover){.wz-skip:hover{border-color:#FFFFFF66}}

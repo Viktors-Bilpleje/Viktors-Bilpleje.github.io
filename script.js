@@ -133,20 +133,31 @@
     const $=id=>document.getElementById(id);
     const pkg=$('o-pkg'), size=$('o-size'), count=$('o-count'), first=$('o-first'), hose=$('o-hose');
     const krf=n=>n.toLocaleString('da-DK')+' kr.';
-    const extra=$('o-extra'); let rowId=0;
+    const extra=$('o-extra'); let rowId=0; let wz=null;
     const PKGOPT='<option value="udv">Udvendig Vask</option><option value="ind">Indvendig Vask</option><option value="fuld">Fuld Vask</option><option value="voks">Fuld Vask + Voks</option>';
     const SIZEOPT='<option value="car">Personbil</option><option value="big">Store biler</option><option value="van">Varevogn</option>';
+    const TICK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>';
+    const PKGPRICE={udv:'{"car":250,"big":350}',ind:'{"car":300,"big":400,"van":250}',fuld:'{"car":500,"big":600}',voks:'{"car":600,"big":700}'};
     function addRow(){
       const i=++rowId, d=document.createElement('div'); d.className='o-row';
-      d.innerHTML='<div class="o-row-head"><span>Ydelse '+(extra.children.length+2)+'</span><button type="button" class="o-del">Fjern</button></div>'+
-        '<div class="o-row-grid"><div class="o-field"><label for="r-pkg-'+i+'">Pakke</label><select id="r-pkg-'+i+'" class="r-pkg">'+PKGOPT+'</select></div>'+
-        '<div class="o-field"><label for="r-size-'+i+'">Biltype</label><select id="r-size-'+i+'" class="r-size">'+SIZEOPT+'</select></div>'+
-        '<div class="o-field"><label for="r-count-'+i+'">Antal</label><input id="r-count-'+i+'" class="r-count" type="number" inputmode="numeric" min="1" max="10" value="1"></div></div>';
+      const sz='r-size-'+i, pk='r-pkg-'+i, ct='r-count-'+i;
+      const seg=Object.entries({car:'Personbil',big:'Stor bil',van:'Varevogn'}).map(([v,t])=>'<button type="button" class="wz-seg" data-for="'+sz+'" data-value="'+v+'" aria-pressed="false">'+t+'</button>').join('');
+      const chips=Object.keys(PKG).map(v=>'<button type="button" class="wz-pchip" data-for="'+pk+'" data-value="'+v+'" data-price=\''+PKGPRICE[v]+'\' data-size-from="'+sz+'" aria-pressed="false"><span class="wz-tick">'+TICK+'</span><b>'+PKG[v]+'</b><span class="wz-price mono"></span></button>').join('');
+      d.innerHTML='<div class="o-row-head"><span>Bil '+(extra.children.length+2)+'</span><button type="button" class="o-del">Fjern</button></div>'+
+        '<div class="wz-segs" role="group" aria-label="Biltype">'+seg+'</div>'+
+        '<div class="wz-pchips" role="group" aria-label="Pakke">'+chips+'</div>'+
+        '<div class="o-field wz-count"><label for="'+ct+'">Antal</label><div class="wz-stepper"><button type="button" data-target="'+ct+'" data-step="-1" aria-label="Én bil færre">−</button><input id="'+ct+'" class="r-count" type="number" inputmode="numeric" min="1" max="10" value="1"><button type="button" data-target="'+ct+'" data-step="1" aria-label="Én bil mere">+</button></div></div>'+
+        '<div class="o-row-grid wz-native"><div class="o-field"><label for="'+pk+'">Pakke</label><select id="'+pk+'" class="r-pkg">'+PKGOPT+'</select></div>'+
+        '<div class="o-field"><label for="'+sz+'">Biltype</label><select id="'+sz+'" class="r-size">'+SIZEOPT+'</select></div></div>';
+      d.querySelector('.r-size').value=size.value;
       d.querySelector('.r-pkg').value=pkg.value==='ind'?'fuld':'ind';
-      d.querySelector('.o-del').addEventListener('click',()=>{d.remove(); renumber(); render(); $('o-add').focus();});
-      extra.appendChild(d); render(); if(typeof wz!=='undefined'&&wz) wz.sync(); d.querySelector('.r-pkg').focus();
+      d.querySelector('.o-del').addEventListener('click',()=>{d.remove(); renumber(); render(); if(wz) wz.sync(); $('o-add').focus();});
+      extra.appendChild(d); render(); if(wz) wz.sync();
+      if(!REDUCE && d.animate) d.animate([{opacity:0,transform:'translateY(8px)'},{opacity:1,transform:'none'}],{duration:220,easing:EASE});
+      d.scrollIntoView({behavior:REDUCE?'auto':'smooth',block:'nearest'});
+      (d.querySelector('.wz-seg[aria-pressed="true"]')||d.querySelector('.wz-seg')).focus({preventScroll:true});
     }
-    function renumber(){[...extra.children].forEach((r,k)=>r.querySelector('.o-row-head span').textContent='Ydelse '+(k+2));}
+    function renumber(){[...extra.children].forEach((r,k)=>r.querySelector('.o-row-head span').textContent='Bil '+(k+2));}
     $('o-add').addEventListener('click',addRow);
     function rows(){
       const list=[{p:pkg,s:size,c:count},...[...extra.children].map(r=>({p:r.querySelector('.r-pkg'),s:r.querySelector('.r-size'),c:r.querySelector('.r-count')}))];
@@ -194,7 +205,7 @@
 
     // Bestilling i trin: bil → pakke → tilvalg → tid og sted → send.
     // Uden JavaScript vises alle felter på én gang som før.
-    const wz=(function(){
+    wz=(function(){
       const steps=[...f.querySelectorAll('.wz-step')];
       if(steps.length<2) return null;
       const prog=$('wz-prog'), back=$('wz-back'), next=$('wz-next'), sum=$('wz-sum');
@@ -204,23 +215,31 @@
       const progBtns=[...prog.querySelectorAll('button')];
       progBtns.forEach(b=>b.addEventListener('click',()=>{ const i=+b.dataset.i; if(i<=reached) go(i); }));
 
-      // Kort i stedet for rullemenuer: et tryk vælger og hopper videre
-      const cards=[...f.querySelectorAll('.wz-card')];
-      cards.forEach(c=>c.addEventListener('click',()=>{
-        if(c.disabled) return;
-        const sel=$(c.dataset.for); sel.value=c.dataset.value; sel.dispatchEvent(new Event('change',{bubbles:true}));
-        if(c.dataset.for==='o-pkg' && !extra.children.length) setTimeout(()=>go(cur+1),180);
-      }));
+      // Kort og knapper i stedet for rullemenuer (gælder også ekstra biler)
+      f.addEventListener('click',e=>{
+        const c=e.target.closest('[data-for]');
+        if(c && f.contains(c) && !c.disabled){
+          const sel=$(c.dataset.for); sel.value=c.dataset.value; sel.dispatchEvent(new Event('change',{bubbles:true}));
+          if(c.dataset.for==='o-pkg' && !extra.children.length) setTimeout(()=>go(cur+1),180);
+          return;
+        }
+        const st=e.target.closest('[data-target]');
+        if(st && f.contains(st)){ const inp=$(st.dataset.target); inp.value=Math.min(10,Math.max(1,(parseInt(inp.value,10)||1)+(+st.dataset.step))); inp.dispatchEvent(new Event('input',{bubbles:true})); }
+      });
       function sync(){
-        const s=size.value;
-        cards.forEach(c=>{
-          const on=$(c.dataset.for).value===c.dataset.value; c.setAttribute('aria-pressed',on);
-          if(c.dataset.for==='o-pkg'){
-            const p=JSON.parse(c.dataset.price)[s];
+        f.querySelectorAll('[data-for]').forEach(c=>{
+          const sel=$(c.dataset.for); if(!sel) return;
+          c.setAttribute('aria-pressed',sel.value===c.dataset.value);
+          if(c.dataset.price){
+            const sid=c.dataset.sizeFrom||'o-size', row=c.closest('.o-row');
+            const n=+(row?row.querySelector('.r-count').value:count.value)||1;
+            const p=JSON.parse(c.dataset.price)[$(sid).value];
             c.disabled=p===undefined; c.hidden=p===undefined;
-            c.querySelector('.wz-price').textContent=p===undefined?'':(count.value>1?(+count.value)+' × ':'')+krf(p);
+            c.querySelector('.wz-price').textContent=p===undefined?'':(n>1?n+' × ':'')+krf(p);
           }
         });
+        const ml=$('wz-main-lbl');
+        if(ml){ ml.hidden=!extra.children.length; ml.textContent='Bil 1 · '+SIZE[size.value].replace(' (kun førerkabinen)','')+(count.value>1?' × '+count.value:''); }
         // opsummering på sidste trin
         if(sum){
           const R=rows(), row=(k,v)=>'<div><dt>'+k+'</dt><dd>'+esc(v)+'</dd></div>';
@@ -233,11 +252,6 @@
         chips.forEach(ch=>ch.setAttribute('aria-pressed',$('o-when').value===ch.dataset.when));
       }
       const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-
-      // Antal biler med + og −
-      const setCount=d=>{ count.value=Math.min(10,Math.max(1,(parseInt(count.value,10)||1)+d)); count.dispatchEvent(new Event('input',{bubbles:true})); };
-      f.querySelector('.wz-minus').addEventListener('click',()=>setCount(-1));
-      f.querySelector('.wz-plus').addEventListener('click',()=>setCount(1));
 
       // Hurtigvalg af tid
       const chips=[...f.querySelectorAll('.wz-chip')];
@@ -269,6 +283,12 @@
         }
       }
       next.addEventListener('click',()=>go(cur+1));
+      // Ingen tilvalg: fjern alle afkrydsninger og gå videre
+      const skip=$('wz-skip');
+      if(skip) skip.addEventListener('click',()=>{
+        ['o-first','o-hose','o-dirty','o-dog'].forEach(id=>{ const c=$(id); if(c) c.checked=false; });
+        f.dispatchEvent(new Event('change')); go(cur+1);
+      });
       back.addEventListener('click',()=>go(cur-1));
       $('o-addr').addEventListener('input',()=>{ if($('o-addr').value.trim()){ $('wz-addr-err').hidden=true; $('o-addr').removeAttribute('aria-invalid'); } });
       // Enter i et tekstfelt går videre i stedet for at gøre ingenting
