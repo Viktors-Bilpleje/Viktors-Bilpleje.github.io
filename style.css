@@ -647,3 +647,4 @@ footer b{color:var(--hall-ink)}
 @media (max-width:820px){ .hr-list{grid-auto-columns:85%} }
 .wz-full{margin:0; padding:.6rem .8rem; border-radius:10px; background:#FFC5311A; border:1px solid #FFC53155; font-size:.86rem; color:var(--hall-ink)}
 .wz-full b{color:var(--signal)}
+.wz-small-note{font-size:.8rem; color:var(--hall-muted)}
