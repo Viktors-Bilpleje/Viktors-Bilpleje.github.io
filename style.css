@@ -417,10 +417,11 @@ body.lb-lock{overflow:hidden}
 .dirty-small{color:var(--muted); font-size:.92rem}
 .dirty-price{justify-self:start; font-weight:700; font-size:1rem; padding:.35rem .7rem; border-radius:999px; background:#8A5A2B; color:#FFF6EC; letter-spacing:.02em}
 .dirty-link{justify-self:start; display:inline-flex; align-items:center; gap:.4rem; font-weight:600; color:var(--ink); text-underline-offset:3px}
-.dirty-pics{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:.6rem; min-width:0}
+.dirty-pics{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.6rem; min-width:0}
 .dirty-pics figure{margin:0; position:relative; border-radius:10px; overflow:hidden; aspect-ratio:4/3; background:var(--hall)}
 .dirty-pics img{width:100%; height:100%; object-fit:cover; display:block}
 .dirty-pics figure.big{grid-column:1 / -1; aspect-ratio:16/9}
+@media (max-width:520px){.dirty-pics figure:not(.big) figcaption{display:none}}
 .dirty-pics figcaption{position:absolute; left:8px; bottom:8px; padding:.25rem .55rem; border-radius:999px; background:#08161FCC; color:#fff; font:700 .68rem/1 var(--font-mono); letter-spacing:.08em; text-transform:uppercase}
 .o-check a{color:inherit}
 /* Bladring i stor visning */
