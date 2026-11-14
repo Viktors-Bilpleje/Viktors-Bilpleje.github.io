@@ -648,3 +648,81 @@ footer b{color:var(--hall-ink)}
 .wz-full{margin:0; padding:.6rem .8rem; border-radius:10px; background:#FFC5311A; border:1px solid #FFC53155; font-size:.86rem; color:var(--hall-ink)}
 .wz-full b{color:var(--signal)}
 .wz-small-note{font-size:.8rem; color:var(--hall-muted)}
+/* Pakker på forsiden */
+.pk-grid{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem}
+@media (max-width:1000px){.pk-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.pk-grid{grid-template-columns:minmax(0,1fr)}}
+.pk{display:flex; flex-direction:column; background:var(--surface); border:1px solid var(--line); border-radius:var(--r); overflow:hidden; min-width:0}
+.pk-best{border-color:var(--signal); box-shadow:0 0 0 1px var(--signal)}
+.pk-img{position:relative; aspect-ratio:16/10; background:var(--hall)}
+.pk-img img{width:100%; height:100%; object-fit:cover; display:block}
+.pk-tag{position:absolute; left:10px; top:10px; padding:.3rem .6rem; border-radius:999px; background:var(--signal); color:var(--on-signal); font:700 .68rem/1 var(--font-mono); letter-spacing:.1em; text-transform:uppercase}
+.pk-body{display:flex; flex-direction:column; gap:.55rem; padding:1.1rem 1.2rem 1.3rem; flex:1}
+.pk-body h3{font-size:1.15rem}
+.pk-price{margin:0; display:flex; align-items:baseline; gap:.3rem}
+.pk-price .mono{font-size:1.8rem; font-weight:700; letter-spacing:-.02em}
+.pk-price small{color:var(--muted)}
+.pk-dur{margin:0; color:var(--muted); font-size:.85rem}
+.pk ul{list-style:none; margin:.2rem 0 .6rem; padding:0; display:grid; gap:.4rem; font-size:.9rem}
+.pk li{display:flex; gap:.45rem; align-items:flex-start}
+.pk li svg{flex-shrink:0; margin-top:.2rem; color:var(--water)}
+.pk .btn{margin-top:auto; justify-content:center}
+.pk-more{margin-top:1.2rem}
+/* Sådan foregår det */
+.proc{padding-top:0}
+.pr-list{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); gap:1rem; counter-reset:pr}
+@media (max-width:900px){.pr-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.pr-list{grid-template-columns:minmax(0,1fr)}}
+.pr-list li{counter-increment:pr; display:grid; gap:.35rem; align-content:start; padding:1.2rem; border-radius:var(--r); background:var(--surface); border:1px solid var(--line); position:relative; min-width:0}
+.pr-list li::after{content:counter(pr); position:absolute; top:1rem; right:1.1rem; font:700 .8rem/1 var(--font-mono); color:var(--muted)}
+.pr-list b{font:700 1.05rem/1.25 var(--font-display)}
+.pr-list span:last-child{color:var(--muted); font-size:.92rem}
+.pr-ico{width:42px; height:42px; border-radius:12px; display:grid; place-items:center; background:var(--water-soft); color:var(--water); margin-bottom:.3rem}
+/* Ofte stillede spørgsmål */
+.faq-wrap{display:grid; grid-template-columns:minmax(0,4fr) minmax(0,7fr); gap:clamp(1.5rem,4vw,3rem); align-items:start}
+@media (max-width:820px){.faq-wrap{grid-template-columns:minmax(0,1fr)}}
+.fq-list{display:grid; gap:.6rem}
+.fq{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); overflow:hidden}
+.fq summary{list-style:none; display:flex; justify-content:space-between; align-items:center; gap:1rem; min-height:56px; padding:.9rem 1.1rem; cursor:pointer; font-weight:600}
+.fq summary::-webkit-details-marker{display:none}
+.fq summary svg{flex-shrink:0; color:var(--muted); transition:transform 200ms var(--ease-out)}
+.fq[open] summary svg{transform:rotate(180deg)}
+.fq summary:focus-visible{outline:3px solid var(--signal); outline-offset:-3px}
+.fq p{margin:0; padding:0 1.1rem 1.1rem; color:var(--muted); max-width:62ch}
+/* Byer */
+.towns{display:grid; gap:.6rem}
+.towns-h{font-size:.85rem; font-weight:700; color:var(--ink)}
+.towns ul{list-style:none; margin:0; padding:0; display:flex; flex-wrap:wrap; gap:.4rem}
+.towns li{padding:.4rem .75rem; border-radius:999px; background:var(--surface); border:1px solid var(--line); font-size:.88rem}
+.towns small{color:var(--muted); font-size:.82rem}
+/* Ny bund */
+footer .wrap.foot{display:grid; grid-template-columns:minmax(0,1.4fr) repeat(3,minmax(0,1fr)); gap:2rem; padding-block:3rem 2rem; justify-content:initial}
+@media (max-width:860px){footer .wrap.foot{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){footer .wrap.foot{grid-template-columns:minmax(0,1fr)}}
+.foot-brand{display:grid; gap:.8rem; justify-items:start}
+.foot-brand p,.foot-col p{margin:0; max-width:34ch}
+.foot-col h3{font:700 .78rem/1 var(--font-mono); letter-spacing:.12em; text-transform:uppercase; color:var(--hall-ink); margin:0 0 .9rem}
+.foot-col ul{list-style:none; margin:0; padding:0; display:grid; gap:.55rem}
+.foot-col a{color:var(--hall-muted); text-decoration:none}
+@media (hover:hover){.foot-col a:hover{color:var(--hall-ink)}}
+.foot-col a:focus-visible{outline:2px solid var(--signal); outline-offset:2px}
+.foot-phone{color:var(--signal); font-weight:700; font-size:1rem}
+footer .wrap.foot-bottom{padding-block:1.2rem 2rem; border-top:1px solid #FFFFFF14; font-size:.82rem}
+.foot-logo{flex-basis:auto}
+/* Fast knapbjælke på telefonen */
+.mbar{display:none}
+@media (max-width:760px){
+  .mbar{display:grid; grid-template-columns:1fr 1fr 1.4fr; gap:.4rem; position:fixed; left:0; right:0; bottom:0; z-index:40;
+    padding:.5rem max(12px,env(safe-area-inset-right,0px)) calc(.5rem + env(safe-area-inset-bottom,0px)) max(12px,env(safe-area-inset-left,0px));
+    background:color-mix(in srgb, var(--hall) 94%, transparent); backdrop-filter:blur(10px); border-top:1px solid #FFFFFF1A;
+    transition:transform 220ms var(--ease-out)}
+  .mbar a{display:flex; align-items:center; justify-content:center; gap:.4rem; min-height:48px; border-radius:12px; color:var(--hall-ink); text-decoration:none; font-weight:600; font-size:.95rem; background:#FFFFFF12}
+  .mbar a:active{transform:scale(.97)}
+  .mbar .mbar-book{background:var(--signal); color:var(--on-signal); font-weight:700}
+  .mbar.away{transform:translateY(110%)}
+  body{padding-bottom:calc(68px + env(safe-area-inset-bottom,0px))}
+  body.lb-lock .mbar,body.menu-open .mbar{transform:translateY(110%)}
+}
+@supports not (color: color-mix(in srgb, red 50%, transparent)){ @media (max-width:760px){ .mbar{background:var(--hall)} } }
+.pk .btn:not(.btn-signal){background:var(--hall); color:var(--hall-ink); border-color:var(--hall)}
+#pakker .head a{color:var(--ink); text-underline-offset:3px}

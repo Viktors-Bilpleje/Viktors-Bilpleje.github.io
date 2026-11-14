@@ -571,6 +571,13 @@
       if(Math.abs(dx)>50 && Math.abs(dx)>Math.abs(dy)*1.5) show(i+(dx<0?1:-1),dx<0?1:-1); },{passive:true});
   })();
 
+  // Fast knapbjælke på telefonen: gemmes væk, når bestillingen er på skærmen (den har sin egen bund med pris og knapper)
+  (function(){
+    const bar=document.getElementById('mbar'), card=document.getElementById('bestil');
+    if(!bar||!card||!('IntersectionObserver' in window)) return;
+    new IntersectionObserver(es=>es.forEach(e=>bar.classList.toggle('away',e.isIntersecting)),{threshold:0}).observe(card);
+  })();
+
   // Menu (burger)
   (function(){
     const btn=document.getElementById('burger'), drawer=document.getElementById('drawer'), scrim=document.getElementById('scrim'), close=document.getElementById('drawer-close');
