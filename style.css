@@ -39,7 +39,7 @@ p{margin:0}
 @media (hover:hover){.btn-ghost:hover{box-shadow:inset 0 0 0 1.5px var(--hall-ink)}}
 
 body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:10; background:var(--hall)}
-.top{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:color-mix(in srgb, var(--hall) 90%, transparent); backdrop-filter:blur(10px); color:var(--hall-ink)}
+.top{position:sticky; top:env(safe-area-inset-top,0px); z-index:5; background:#08161FE6; backdrop-filter:blur(10px); color:var(--hall-ink)}
 .top .wrap{display:flex; align-items:center; justify-content:space-between; gap:1rem; padding-block:.8rem}
 .logo{display:flex; align-items:center; gap:.6rem; text-decoration:none; color:inherit; font:800 1.15rem/1 var(--font-display); font-stretch:112%; letter-spacing:-.01em}
 .logo svg,.logo-img{flex-shrink:0}
@@ -53,7 +53,7 @@ body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-in
 .logo,.top .btn{white-space:nowrap}
 @media (max-width:420px){.logo{font-size:1.02rem; gap:.45rem}.logo-img{height:28px}.top .btn{padding:.6rem .85rem}}
 @media (max-width:360px){.logo-name{display:none}}
-.scrim{position:fixed; inset:0; z-index:20; background:color-mix(in srgb, var(--hall) 60%, transparent); opacity:0; transition:opacity 300ms var(--ease-out)}
+.scrim{position:fixed; inset:0; z-index:20; background:#08161F99; opacity:0; transition:opacity 300ms var(--ease-out)}
 .scrim.open{opacity:1}
 .drawer{position:fixed; top:0; bottom:0; left:0; z-index:21; width:min(340px,86vw); background:var(--hall); color:var(--hall-ink);
   padding:calc(env(safe-area-inset-top,0px) + 1rem) 1.25rem calc(env(safe-area-inset-bottom,0px) + 1.5rem) max(1.25rem, env(safe-area-inset-left,0px));
@@ -95,17 +95,17 @@ body.menu-open{overflow:hidden}
 .hero{position:relative; background:var(--hall); color:var(--hall-ink); overflow:hidden; isolation:isolate}
 .hero-img{position:absolute; inset:0; width:100%; height:100%; max-width:100%; object-fit:cover; object-position:62% 55%; z-index:-2}
 .hero::before{content:""; position:absolute; inset:0; z-index:-1;
-  background:linear-gradient(90deg,color-mix(in srgb, var(--hall) 95%, transparent) 0%,color-mix(in srgb, var(--hall) 80%, transparent) 30%,color-mix(in srgb, var(--hall) 33%, transparent) 58%,color-mix(in srgb, var(--hall) 0%, transparent) 78%)}
+  background:linear-gradient(90deg,#08161FF2 0%,#08161FCC 30%,#08161F55 58%,#08161F00 78%)}
 .hero::after{content:""; position:absolute; inset:auto 0 0; height:35%; z-index:-1;
-  background:linear-gradient(to top,color-mix(in srgb, var(--hall) 90%, transparent) 0%,color-mix(in srgb, var(--hall) 0%, transparent) 100%)}
+  background:linear-gradient(to top,#08161FE6 0%,#08161F00 100%)}
 @media (max-width:760px){.hero::before,.hero::after{display:none}
   .hero{display:flex; flex-direction:column}
   .hero-img{position:relative; order:-1; display:block; width:100%; height:auto; aspect-ratio:4/3.6; object-fit:cover; object-position:58% 62%;
     -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 52%,transparent 100%); mask-image:linear-gradient(to bottom,#000 0%,#000 52%,transparent 100%)}
   section.hero .wrap{position:relative; z-index:1; margin-top:-7.5rem; padding-block:0 2.25rem}
-  .hero h1{text-shadow:0 2px 24px var(--hall)}
+  .hero h1{text-shadow:0 2px 24px #08161F}
   section.hero{padding-block:0}
-  .hero .pill,.hero-rating{background:color-mix(in srgb, var(--hall) 72%, transparent); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px)}}
+  .hero .pill,.hero-rating{background:#08161FB8; -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px)}}
 @media (max-width:760px) and (prefers-reduced-motion:no-preference){
   .hero-img{animation:hero-in 1400ms cubic-bezier(0.23,1,0.32,1) both}
   section.hero .wrap > *{animation:hero-up 700ms cubic-bezier(0.23,1,0.32,1) both}
@@ -360,7 +360,7 @@ section{padding-block:clamp(3.5rem,8vw,6rem); scroll-margin-top:52px}
   display:grid; place-items:center; box-shadow:0 4px 18px #0006; pointer-events:none; transition:transform 160ms var(--ease-out)}
 .ba.dragging .ba-knob{transform:scale(1.1)}
 .ba-tag{position:absolute; top:12px; padding:.3rem .65rem; border-radius:999px; font:700 .72rem/1 var(--font-mono); letter-spacing:.1em; text-transform:uppercase;
-  background:color-mix(in srgb, var(--hall) 72%, transparent); color:#fff; -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); pointer-events:none; transition:opacity 200ms ease}
+  background:#08161FB8; color:#fff; -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); pointer-events:none; transition:opacity 200ms ease}
 .ba-tag.l{left:12px} .ba-tag.r{right:12px; background:var(--signal); color:var(--on-signal)}
 .ba input[type=range]{position:absolute; inset:0; width:100%; height:100%; margin:0; opacity:0; cursor:ew-resize; -webkit-appearance:none; appearance:none}
 .ba input[type=range]:focus-visible ~ .ba-knob{outline:3px solid var(--signal); outline-offset:3px}
@@ -369,9 +369,9 @@ section{padding-block:clamp(3.5rem,8vw,6rem); scroll-margin-top:52px}
 .ba-cap span{color:var(--muted); font-size:.9rem}
 .ba-hint{display:flex; align-items:center; gap:.5rem; color:var(--muted); font-size:.92rem; margin:-1rem 0 1.4rem}
 .ba-open{position:absolute; right:10px; bottom:10px; z-index:3; width:40px; height:40px; border:0; border-radius:10px; display:grid; place-items:center; cursor:pointer;
-  background:color-mix(in srgb, var(--hall) 72%, transparent); color:#fff; -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); transition:transform 160ms var(--ease-out), background-color 200ms ease}
+  background:#08161FB8; color:#fff; -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); transition:transform 160ms var(--ease-out), background-color 200ms ease}
 .ba-open:active{transform:scale(0.94)}
-@media (hover:hover){.ba-open:hover{background:color-mix(in srgb, var(--hall) 90%, transparent)}}
+@media (hover:hover){.ba-open:hover{background:#08161FE6}}
 .ba-open:focus-visible{outline:3px solid var(--signal); outline-offset:2px}
 .lb{position:fixed; inset:0; z-index:50; display:grid; place-items:center; padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));
   background:#05101599; -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px); opacity:0; transition:opacity 220ms var(--ease-out)}
@@ -398,7 +398,7 @@ section{padding-block:clamp(3.5rem,8vw,6rem); scroll-margin-top:52px}
 .g-one .g-ph button{aspect-ratio:4/5}
 .g-ph img,.g-ph video{width:100%; height:100%; object-fit:cover; display:block; transition:transform 400ms var(--ease-out)}
 .g-ph button{position:relative}
-.g-play{position:absolute; left:10px; bottom:10px; padding:.3rem .6rem; border-radius:999px; background:color-mix(in srgb, var(--hall) 80%, transparent); color:#fff; font:700 .7rem/1 var(--font-mono); letter-spacing:.1em; text-transform:uppercase}
+.g-play{position:absolute; left:10px; bottom:10px; padding:.3rem .6rem; border-radius:999px; background:#08161FCC; color:#fff; font:700 .7rem/1 var(--font-mono); letter-spacing:.1em; text-transform:uppercase}
 @media (hover:hover){.g-ph button:hover img,.g-ph button:hover video{transform:scale(1.03)}}
 .g-ph button:focus-visible{outline:3px solid var(--signal); outline-offset:3px}
 .g-ph figcaption{display:grid; gap:.1rem}
@@ -426,7 +426,7 @@ body.lb-lock{overflow:hidden}
 .dirty-pics figcaption{pointer-events:none}
 .dirty-pics figure.big{grid-column:1 / -1; aspect-ratio:16/9}
 @media (max-width:520px){.dirty-pics figure:not(.big) figcaption{display:none}}
-.dirty-pics figcaption{position:absolute; left:8px; bottom:8px; padding:.25rem .55rem; border-radius:999px; background:color-mix(in srgb, var(--hall) 80%, transparent); color:#fff; font:700 .68rem/1 var(--font-mono); letter-spacing:.08em; text-transform:uppercase}
+.dirty-pics figcaption{position:absolute; left:8px; bottom:8px; padding:.25rem .55rem; border-radius:999px; background:#08161FCC; color:#fff; font:700 .68rem/1 var(--font-mono); letter-spacing:.08em; text-transform:uppercase}
 .o-check a{color:inherit}
 /* Bladring i stor visning */
 .lb .ba{max-height:calc(100vh - 200px); width:min(100%, calc((100vh - 200px) * 4 / 3))}
