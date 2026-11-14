@@ -45,7 +45,7 @@
   const startPkg=PK[q.get('pakke')]?q.get('pakke'):'voks';
   const startType=TYPES[q.get('bil')]?q.get('bil'):'car';
   const S={
-    types:{car:0,big:0,van:0}, pkg:{car:startPkg,big:startPkg,van:'ind'}, models:{car:[],big:[],van:[]}, tab:startType,
+    types:{car:0,big:0,van:0}, pkg:{car:startPkg,big:startPkg,van:'ind'}, models:{car:[],big:[],van:[]}, newField:{car:-1,big:-1,van:-1}, tab:startType,
     first:false, nohose:false, dirty:false, dog:false,
     date:null, time:'', wish:'', street:'', zip:'', city:'', name:'', note:'', pay:'Kontant',
     step:0, reached:0, done:false
@@ -105,17 +105,15 @@
   const V={};
   V.bil=()=>'<div class="bk-types">'+Object.entries(TYPES).map(([k,t])=>{ const n=S.types[k];
       return '<div class="bk-type'+(n?' on':'')+'"><button type="button" class="bk-tile" data-type="'+k+'" aria-pressed="'+(n>0)+'"><span class="bk-tick">'+svg(CHECK,14,3)+'</span><span class="bk-tic">'+svg(t.ic,26,1.8)+'</span><b>'+t.name+'</b><small>'+t.desc+'</small></button>'+
-        (n?'<div class="bk-count"><span>Antal</span><div class="bk-step"><button type="button" data-cnt="'+k+'" data-d="-1" aria-label="Én færre">−</button><b>'+n+'</b><button type="button" data-cnt="'+k+'" data-d="1" aria-label="Én mere">+</button></div></div>':'')+'</div>'; }).join('')+'</div>'+
-    '<p class="bk-err" id="bk-err" hidden>Vælg mindst én bil.</p>'+
-    modelFields();
+        (n?'<div class="bk-count"><span>Antal</span><div class="bk-step"><button type="button" data-cnt="'+k+'" data-d="-1" aria-label="Én færre">−</button><b>'+n+'</b><button type="button" data-cnt="'+k+'" data-d="1" aria-label="Én mere">+</button></div></div>'+modelFields(k):'')+'</div>'; }).join('')+'</div>'+
+    '<p class="bk-err" id="bk-err" hidden>Vælg mindst én bil.</p>';
   // Ét felt til mærke og model pr. bil
   const EX=['Kia EV9','VW Golf','Toyota Yaris','Tesla Model Y','Ford Transit'];
-  function modelFields(){
-    const list=[]; sel().forEach(k=>{ for(let i=0;i<S.types[k];i++) list.push([k,i]); });
-    if(!list.length) return '';
-    const one=list.length===1;
-    return '<div class="bk-models bk-narrow"><p class="bk-models-h">Mærke og model <i>(valgfri)</i></p>'+list.map(([k,i],n)=>
-      '<label class="bk-field"><span>'+(one?TYPES[k].name:'Bil '+(n+1)+' · '+TYPES[k].short)+'</span><input data-model="'+k+'-'+i+'" type="text" autocomplete="off" placeholder="Fx '+(k==='van'?'Ford Transit':EX[n%4])+'" value="'+esc(S.models[k][i]||'')+'"></label>').join('')+'</div>';
+  // Ét felt til mærke og model pr. bil – inde i bilkortet, så et nyt felt dukker op ved hvert +
+  function modelFields(k){
+    const n=S.types[k]; let h='<div class="bk-models"><p class="bk-models-h">Mærke og model <i>(valgfri)</i></p>';
+    for(let i=0;i<n;i++) h+='<label class="bk-mfield'+(i===S.newField[k]?' bk-new':'')+'"><span class="bk-mnum">'+(n>1?(i+1):'')+'</span><input data-model="'+k+'-'+i+'" type="text" autocomplete="off" aria-label="Mærke og model, '+TYPES[k].short.toLowerCase()+' '+(i+1)+'" placeholder="Fx '+(k==='van'?['Ford Transit','VW Transporter'][i%2]:EX[i%4])+'" value="'+esc(S.models[k][i]||'')+'"></label>';
+    return h+'</div>';
   }
   const modelsOf=k=>S.models[k].slice(0,S.types[k]).map(x=>(x||'').trim()).filter(Boolean);
   V.pakke=()=>{
@@ -257,7 +255,8 @@
     if(b.id==='bk-edit'){ S.done=false; go(STEPS.length-1); return; }
     const d=b.dataset;
     if(d.type){ const k=d.type; S.types[k]=S.types[k]?0:1; if(S.types[k]) S.tab=k; render(); }
-    else if(d.cnt){ const k=d.cnt; S.types[k]=Math.min(10,Math.max(1,S.types[k]+(+d.d))); render(); }
+    else if(d.cnt){ const k=d.cnt, before=S.types[k]; S.types[k]=Math.min(10,Math.max(1,S.types[k]+(+d.d))); S.newField[k]=S.types[k]>before?S.types[k]-1:-1; render(); S.newField[k]=-1;
+      if(S.types[k]>before){ const inp=stage.querySelector('[data-model="'+k+'-'+(S.types[k]-1)+'"]'); if(inp){ inp.scrollIntoView({block:'nearest',behavior:REDUCE?'auto':'smooth'}); } } }
     else if(d.tab){ S.tab=d.tab; render(); }
     else if(d.pkg){ S.pkg[S.tab]=d.pkg; render(); }
     else if(d.add){ S[d.add]=!S[d.add]; render(); }
