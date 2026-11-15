@@ -6,6 +6,8 @@
   const PHONE='+4561302294';
   // FØRSTE LEDIGE DAG: ret datoen her, når der er fuldt booket (år-måned-dag)
   const FIRST_FREE='2026-12-01';
+  // OPTAGEDE DAGE: dage der ikke kan vælges (år-måned-dag)
+  const BOOKED=['2026-12-05'];
   const REDUCE=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const TYPES={
@@ -67,7 +69,7 @@
   const firstFree=new Date(FIRST_FREE+'T12:00:00');
   const today=new Date(); today.setHours(12,0,0,0);
   const minDay=new Date(Math.max(firstFree, today.getTime()+864e5));
-  const isFree=d=>d>=minDay && (d.getDay()===0||d.getDay()===6);
+  const isFree=d=>d>=minDay && (d.getDay()===0||d.getDay()===6) && !BOOKED.includes(iso(d));
   let calMonth=new Date(minDay.getFullYear(),minDay.getMonth(),1,12);
 
   function lines(){
