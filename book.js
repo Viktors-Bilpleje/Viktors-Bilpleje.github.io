@@ -146,7 +146,7 @@
     return '<p class="bk-note warn"><b>Fuldt booket indtil '+firstFree.getDate()+'. '+MO[firstFree.getMonth()]+'.</b> Viktor vasker mest i weekenderne.</p>'+
       '<div class="bk-cal"><div class="bk-cal-h"><button type="button" data-mon="-1" aria-label="Forrige måned" '+(prevOk?'':'disabled')+'>'+svg('<path d="M15 5l-7 7 7 7"/>',18,2.4)+'</button><b>'+MO[m][0].toUpperCase()+MO[m].slice(1)+' '+y+'</b><button type="button" data-mon="1" aria-label="Næste måned">'+svg('<path d="M9 5l7 7-7 7"/>',18,2.4)+'</button></div>'+
       '<div class="bk-cal-w">'+['Ma','Ti','On','To','Fr','Lø','Sø'].map(w=>'<span>'+w+'</span>').join('')+'</div><div class="bk-cal-d">'+cells+'</div></div>'+
-      '<div class="bk-times" role="group" aria-label="Tidspunkt">'+['Formiddag','Eftermiddag'].map(t=>'<button type="button" data-time="'+t+'" aria-pressed="'+(S.time===t)+'"'+(S.time===t?' class="on"':'')+'><b>'+t+'</b><small>'+(t==='Formiddag'?'kl. 9–12':'kl. 12–16')+'</small></button>').join('')+'</div>'+
+      '<div class="bk-times" role="group" aria-label="Tidspunkt">'+['Formiddag','Eftermiddag'].map(t=>'<button type="button" data-time="'+t+'" aria-pressed="'+(S.time===t)+'"'+(S.time===t?' class="on"':'')+'><b>'+t+'</b><small>'+(t==='Formiddag'?'kl. 9–12':'kl. 12.30–16')+'</small></button>').join('')+'</div>'+
       '<label class="bk-field bk-narrow"><span>Ønske til tidspunkt <i>(valgfri)</i></span><input id="f-wish" type="text" placeholder="Fx helst kl. 10" value="'+esc(S.wish)+'"></label>'+
       '<p class="bk-err" id="bk-err" hidden>Vælg en dag og et tidspunkt.</p>';
   };
