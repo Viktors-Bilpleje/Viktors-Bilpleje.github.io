@@ -78,6 +78,7 @@
   // Anmeldelser: tilføj godkendte anmeldelser her, nyeste først.
   // Eksempel: {stars:5, name:'Mette fra Helsinge', date:'2026-11-01', text:'Bilen har aldrig været så ren.'}
   const REVIEWS=[
+    {stars:5, name:'Luna', date:'2026-11-15', text:'Fantastiske mennesker, min bil er så flot og lækker både inde og ude 🙂'},
     {stars:5, name:'Helene', date:'2026-11-14', text:'10 stjerner herfra🤩 helt igennem fantastisk rengøring af vores bil, den ser ud som ny både indvendig og udvendig. Vil helt klart benytte os af Viktor igen!!'},
     {stars:5, name:'Nan', date:'2026-11-09', text:'Altså ⭐️ Top professionel og super tillidsfuld anbefaling fra os. Vi overlod en snavset bil til Victors bilpleje og kom hjem til et velduftende og håndpoleret pragteksemplar. 1000 tak!'},
     {stars:5, name:'Laila', date:'2026-11-09', text:'Fik klargjort 2 biler og de blev virkelig flot, og super søde og venlige var de. Vil bestemt bruge dem igen'},
