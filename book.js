@@ -8,6 +8,8 @@
   const FIRST_FREE='2026-12-01';
   // DAGE MED KUN TID TIL UDVENDIG VASK: kan kun vælges, når hele bestillingen er Udvendig Vask (år-måned-dag)
   const ONLY_UDV=['2026-12-05'];
+  // FULDT BOOKEDE DAGE: kan ikke vælges til nogen vask (år-måned-dag)
+  const BOOKED=['2026-12-06','2026-12-12','2026-12-13'];
   const REDUCE=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const TYPES={
@@ -71,7 +73,7 @@
   const minDay=new Date(Math.max(firstFree, today.getTime()+864e5));
   const onlyUdv=()=>sel().length>0 && sel().every(k=>S.pkg[k]==='udv');
   const udvDay=d=>ONLY_UDV.includes(iso(d));
-  const isFree=d=>d>=minDay && (d.getDay()===0||d.getDay()===6) && (!udvDay(d)||onlyUdv());
+  const isFree=d=>d>=minDay && (d.getDay()===0||d.getDay()===6) && !BOOKED.includes(iso(d)) && (!udvDay(d)||onlyUdv());
   let calMonth=new Date(minDay.getFullYear(),minDay.getMonth(),1,12);
 
   function lines(){
@@ -144,8 +146,8 @@
     const prevOk=new Date(y,m,0,12)>=minDay;
     let cells=''; for(let i=0;i<start;i++) cells+='<span></span>';
     for(let d=1;d<=days;d++){ const dt=new Date(y,m,d,12), ok=isFree(dt), on=S.date&&iso(S.date)===iso(dt);
-      const u=udvDay(dt)&&dt>=minDay;
-      cells+='<button type="button" class="'+(on?'on':'')+(u?' udv':'')+'" data-day="'+iso(dt)+'" '+(ok?'':'disabled')+' aria-label="'+dayTxt(dt)+(ok?(u?' (kun udvendig vask)':''):(u?' (kun ledig til udvendig vask)':' (optaget)'))+'">'+d+'</button>'; }
+      const u=udvDay(dt)&&dt>=minDay, bk=BOOKED.includes(iso(dt));
+      cells+='<button type="button" class="'+(on?'on':'')+(u?' udv':'')+(bk?' booked':'')+'" data-day="'+iso(dt)+'" '+(ok?'':'disabled')+' aria-label="'+dayTxt(dt)+(ok?(u?' (kun udvendig vask)':''):(u?' (kun ledig til udvendig vask)':(bk?' (fuldt booket)':' (optaget)')))+'">'+d+'</button>'; }
     return '<p class="bk-note warn"><b>Fuldt booket indtil '+firstFree.getDate()+'. '+MO[firstFree.getMonth()]+'.</b> Viktor vasker mest i weekenderne.</p>'+
       '<div class="bk-cal"><div class="bk-cal-h"><button type="button" data-mon="-1" aria-label="Forrige måned" '+(prevOk?'':'disabled')+'>'+svg('<path d="M15 5l-7 7 7 7"/>',18,2.4)+'</button><b>'+MO[m][0].toUpperCase()+MO[m].slice(1)+' '+y+'</b><button type="button" data-mon="1" aria-label="Næste måned">'+svg('<path d="M9 5l7 7-7 7"/>',18,2.4)+'</button></div>'+
       '<div class="bk-cal-w">'+['Ma','Ti','On','To','Fr','Lø','Sø'].map(w=>'<span>'+w+'</span>').join('')+'</div><div class="bk-cal-d">'+cells+'</div></div>'+

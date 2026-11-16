@@ -212,3 +212,4 @@
 .bk-cal-d button.udv:disabled{color:#7A776F; text-decoration:line-through}
 .bk-udv-note{display:flex; gap:.5rem; align-items:center; justify-content:center; max-width:22rem; margin:.7rem auto 0; color:var(--bk-muted); font-size:.85rem; text-align:center}
 .bk-udv-dot{flex:none; width:7px; height:7px; border-radius:50%; background:var(--signal)}
+.bk-cal-d button.booked{color:#7A776F; text-decoration:line-through; background:transparent; border-color:transparent}
