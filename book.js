@@ -7,7 +7,7 @@
   // FØRSTE LEDIGE DAG: ret datoen her, når der er fuldt booket (år-måned-dag)
   const FIRST_FREE='2026-12-01';
   // OPTAGEDE DAGE: dage der ikke kan vælges (år-måned-dag)
-  const BOOKED=['2026-12-05'];
+  const BOOKED=['2026-12-05','2026-12-12','2026-12-13'];
   const REDUCE=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const TYPES={

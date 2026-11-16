@@ -333,7 +333,7 @@
       // FØRSTE LEDIGE DAG: ret datoen her, når der er fuldt booket (år-måned-dag)
       const FIRST_FREE='2026-12-01';
       // OPTAGEDE DAGE: dage der ikke kan vælges (år-måned-dag)
-      const BOOKED=['2026-12-05'];
+      const BOOKED=['2026-12-05','2026-12-12','2026-12-13'];
       const isoD=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
       const opts=[]; const t0=new Date(); t0.setHours(12,0,0,0); t0.setDate(t0.getDate()+1);
       const ff=new Date(FIRST_FREE+'T12:00'); const start=ff>t0?ff:t0;
