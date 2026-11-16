@@ -8,6 +8,8 @@
   const FIRST_FREE='2026-12-01';
   // DAGE MED KUN TID TIL UDVENDIG VASK: kan kun vælges, når hele bestillingen er Udvendig Vask (år-måned-dag)
   const ONLY_UDV=['2026-12-05'];
+  // DAGE UDEN FORMIDDAG: kun eftermiddag (fra kl. 12.30) kan vælges (år-måned-dag)
+  const NO_MORNING=['2026-12-05'];
   // FULDT BOOKEDE DAGE: kan ikke vælges til nogen vask (år-måned-dag)
   const BOOKED=['2026-12-06','2026-12-12','2026-12-13'];
   const REDUCE=matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -73,6 +75,7 @@
   const minDay=new Date(Math.max(firstFree, today.getTime()+864e5));
   const onlyUdv=()=>sel().length>0 && sel().every(k=>S.pkg[k]==='udv');
   const udvDay=d=>ONLY_UDV.includes(iso(d));
+  const noMorning=()=>!!(S.date&&NO_MORNING.includes(iso(S.date)));
   const isFree=d=>d>=minDay && (d.getDay()===0||d.getDay()===6) && !BOOKED.includes(iso(d)) && (!udvDay(d)||onlyUdv());
   let calMonth=new Date(minDay.getFullYear(),minDay.getMonth(),1,12);
 
@@ -152,8 +155,8 @@
     return '<p class="bk-note warn"><b>Fuldt booket indtil '+firstFree.getDate()+'. '+MO[firstFree.getMonth()]+'.</b> Viktor vasker mest i weekenderne.</p>'+
       '<div class="bk-cal"><div class="bk-cal-h"><button type="button" data-mon="-1" aria-label="Forrige måned" '+(prevOk?'':'disabled')+'>'+svg('<path d="M15 5l-7 7 7 7"/>',18,2.4)+'</button><b>'+MO[m][0].toUpperCase()+MO[m].slice(1)+' '+y+'</b><button type="button" data-mon="1" aria-label="Næste måned">'+svg('<path d="M9 5l7 7-7 7"/>',18,2.4)+'</button></div>'+
       '<div class="bk-cal-w">'+['Ma','Ti','On','To','Fr','Lø','Sø'].map(w=>'<span>'+w+'</span>').join('')+'</div><div class="bk-cal-d">'+cells+'</div></div>'+
-      (ONLY_UDV.some(x=>{const d=new Date(x+'T12:00:00'); return d>=minDay&&d.getMonth()===m&&d.getFullYear()===y;})?'<p class="bk-udv-note"><span class="bk-udv-dot"></span>'+ONLY_UDV.map(x=>{const d=new Date(x+'T12:00:00'); return d.getDate()+'. '+MO[d.getMonth()];}).join(', ')+': kun ledig til Udvendig Vask'+(onlyUdv()?'.':'. Vælg Udvendig Vask, hvis du vil have den dag.')+'</p>':'')+(S.udvMsg?'<p class="bk-err" style="display:block">'+S.udvMsg+'</p>':'')+
-      '<div class="bk-times" role="group" aria-label="Tidspunkt">'+['Formiddag','Eftermiddag'].map(t=>'<button type="button" data-time="'+t+'" aria-pressed="'+(S.time===t)+'"'+(S.time===t?' class="on"':'')+'><b>'+t+'</b><small>'+(t==='Formiddag'?'kl. 9–12':'kl. 12.30–16')+'</small></button>').join('')+'</div>'+
+      (ONLY_UDV.some(x=>{const d=new Date(x+'T12:00:00'); return d>=minDay&&d.getMonth()===m&&d.getFullYear()===y;})?'<p class="bk-udv-note"><span class="bk-udv-dot"></span>'+ONLY_UDV.map(x=>{const d=new Date(x+'T12:00:00'); return d.getDate()+'. '+MO[d.getMonth()];}).join(', ')+': kun ledig til Udvendig Vask'+(NO_MORNING.includes(ONLY_UDV[0])?' fra kl. 12.30':'')+(onlyUdv()?'.':'. Vælg Udvendig Vask, hvis du vil have den dag.')+'</p>':'')+(S.udvMsg?'<p class="bk-err" style="display:block">'+S.udvMsg+'</p>':'')+
+      '<div class="bk-times" role="group" aria-label="Tidspunkt">'+['Formiddag','Eftermiddag'].map(t=>{ const off=t==='Formiddag'&&noMorning(); return '<button type="button" data-time="'+t+'" aria-pressed="'+(S.time===t)+'"'+(S.time===t?' class="on"':'')+(off?' disabled':'')+'><b>'+t+'</b><small>'+(off?'optaget denne dag':(t==='Formiddag'?'kl. 9–12':'kl. 12.30–16'))+'</small></button>'; }).join('')+'</div>'+
       '<label class="bk-field bk-narrow"><span>Ønske til tidspunkt <i>(valgfri)</i></span><input id="f-wish" type="text" placeholder="Fx helst kl. 10" value="'+esc(S.wish)+'"></label>'+
       '<p class="bk-err" id="bk-err" hidden>Vælg en dag og et tidspunkt.</p>';
   };
@@ -271,7 +274,7 @@
     else if(d.pkg){ S.pkg[S.tab]=d.pkg; render(); }
     else if(d.add){ S[d.add]=!S[d.add]; render(); }
     else if(d.mon){ calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+(+d.mon),1,12); render(); }
-    else if(d.day){ S.date=new Date(d.day+'T12:00:00'); S.udvMsg=''; render(); }
+    else if(d.day){ S.date=new Date(d.day+'T12:00:00'); S.udvMsg=''; if(noMorning()&&S.time==='Formiddag') S.time=''; render(); }
     else if(d.time){ S.time=S.time===d.time?'':d.time; render(); }
     else if(d.pay){ S.pay=d.pay; render(); }
     else return;
