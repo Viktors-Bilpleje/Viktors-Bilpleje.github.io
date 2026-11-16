@@ -158,6 +158,7 @@
       (ONLY_UDV.some(x=>{const d=new Date(x+'T12:00:00'); return d>=minDay&&d.getMonth()===m&&d.getFullYear()===y;})?'<p class="bk-udv-note"><span class="bk-udv-dot"></span>'+ONLY_UDV.map(x=>{const d=new Date(x+'T12:00:00'); return d.getDate()+'. '+MO[d.getMonth()];}).join(', ')+': kun ledig til Udvendig Vask'+(NO_MORNING.includes(ONLY_UDV[0])?' fra kl. 12.30':'')+(onlyUdv()?'.':'. Vælg Udvendig Vask, hvis du vil have den dag.')+'</p>':'')+(S.udvMsg?'<p class="bk-err" style="display:block">'+S.udvMsg+'</p>':'')+
       '<div class="bk-times" role="group" aria-label="Tidspunkt">'+['Formiddag','Eftermiddag'].map(t=>{ const off=t==='Formiddag'&&noMorning(); return '<button type="button" data-time="'+t+'" aria-pressed="'+(S.time===t)+'"'+(S.time===t?' class="on"':'')+(off?' disabled':'')+'><b>'+t+'</b><small>'+(off?'optaget denne dag':(t==='Formiddag'?'kl. 9–12':'kl. 12.30–16'))+'</small></button>'; }).join('')+'</div>'+
       '<label class="bk-field bk-narrow"><span>Ønske til tidspunkt <i>(valgfri)</i></span><input id="f-wish" type="text" placeholder="Fx helst kl. 10" value="'+esc(S.wish)+'"></label>'+
+      '<p class="bk-note bk-narrow">'+svg('<path d="M7 16a4 4 0 0 1-.6-7.95A5.5 5.5 0 0 1 17 7.5a3.5 3.5 0 0 1 .5 7"/><path d="M9 19l-1 2M13 19l-1 2M17 19l-1 2"/>',18)+'<span><b>Dårligt vejr?</b> Vasken foregår udenfor. Ved sne, regn, frost eller kraftig blæst kan vi aflyse eller flytte tiden. Du får besked på SMS, og det koster ikke noget.</span></p>'+
       '<p class="bk-err" id="bk-err" hidden>Vælg en dag og et tidspunkt.</p>';
   };
   V.sted=()=>'<div class="bk-form">'+
@@ -180,7 +181,7 @@
     return '<div class="bk-sum">'+
       box('Vask',T.L.map(l=>row(l.pkg,kr(l.price),l.label+(modelsOf(l.k).length?' · '+esc(modelsOf(l.k).join(', ')):'')+' · '+l.dur)).join(''))+
       (ex.length?box('Tilvalg',ex.map(e=>row(e[0],e[1])).join('')):'')+
-      box('Tidspunkt','<p class="bk-big">'+(S.date?dayTxt(S.date):'Ikke valgt')+(S.time?', '+S.time.toLowerCase():'')+'</p>'+(S.wish?'<p class="bk-sm">'+esc(S.wish)+'</p>':'')+'<p class="bk-sm">'+esc([S.street,[S.zip,S.city].filter(Boolean).join(' ')].filter(Boolean).join(', '))+'</p>')+
+      box('Tidspunkt','<p class="bk-big">'+(S.date?dayTxt(S.date):'Ikke valgt')+(S.time?', '+S.time.toLowerCase():'')+'</p>'+(S.wish?'<p class="bk-sm">'+esc(S.wish)+'</p>':'')+'<p class="bk-sm">'+esc([S.street,[S.zip,S.city].filter(Boolean).join(' ')].filter(Boolean).join(', '))+'</p>'+'<p class="bk-sm">Ved sne, regn eller frost kan tiden blive aflyst eller flyttet. Du får besked på SMS.</p>')+
       '<section class="bk-box bk-tot"><div class="bk-li"><span>'+svg('<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',16)+'<b>Forventet tid</b></span><span class="mono">'+durTxt()+'</span></div>'+
         '<div class="bk-li bk-grand"><b>I alt</b><b class="mono">'+kr(T.total)+'</b></div><p class="bk-sm">+50 kr. i kørsel, hvis du bor over 20 km fra Blistrup.</p></section>'+
       '<section class="bk-box"><h2>Betaling</h2><div class="bk-pay">'+[['Kontant','Betal når bilen er vasket','<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>'],['MobilePay','Betal når bilen er vasket','<rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18h2"/>']].map(p=>'<button type="button" data-pay="'+p[0]+'" aria-pressed="'+(S.pay===p[0])+'" class="'+(S.pay===p[0]?'on':'')+'">'+svg(p[2],18)+'<span><b>'+p[0]+'</b><small>'+p[1]+'</small></span></button>').join('')+'</div><p class="bk-sm">Valget er ikke bindende.</p></section>'+
@@ -192,7 +193,7 @@
     return '<div class="bk-done"><span class="bk-done-ic">'+svg(CHECK,34,2.6)+'</span><h1>Næsten færdig'+(S.name?', '+esc(S.name.split(' ')[0]):'')+'!</h1>'+
       '<p>Din besked til Viktor er klar i SMS-appen. Tryk <b>send</b>, så bekræfter Viktor tiden:</p>'+
       '<p class="bk-big">'+(S.date?dayTxt(S.date):'')+(S.time?', '+S.time.toLowerCase():'')+'</p>'+
-      '<p class="bk-sm">Du betaler først, når bilen er vasket.</p>'+
+      '<p class="bk-sm">Du betaler først, når bilen er vasket. Er vejret dårligt med sne, regn eller frost, kan Viktor aflyse eller flytte tiden og skriver til dig.</p>'+
       '<div class="bk-done-btns"><a class="bk-ghost" href="index.html">Til forsiden</a><button type="button" class="bk-ghost" id="bk-edit">Ret bestillingen</button></div>'+
       '<p class="bk-sm">Kom SMS-appen ikke frem? Skriv eller ring til <span class="mono" style="user-select:all">61 30 22 94</span>.</p></div>';
   }
