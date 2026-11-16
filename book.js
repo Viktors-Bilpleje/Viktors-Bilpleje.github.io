@@ -6,6 +6,8 @@
   const PHONE='+4561302294';
   // FØRSTE LEDIGE DAG: ret datoen her, når der er fuldt booket (år-måned-dag)
   const FIRST_FREE='2026-12-01';
+  // DAGE MED KUN TID TIL UDVENDIG VASK: kan kun vælges, når hele bestillingen er Udvendig Vask (år-måned-dag)
+  const ONLY_UDV=['2026-12-05'];
   const REDUCE=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const TYPES={
@@ -67,7 +69,9 @@
   const firstFree=new Date(FIRST_FREE+'T12:00:00');
   const today=new Date(); today.setHours(12,0,0,0);
   const minDay=new Date(Math.max(firstFree, today.getTime()+864e5));
-  const isFree=d=>d>=minDay && (d.getDay()===0||d.getDay()===6);
+  const onlyUdv=()=>sel().length>0 && sel().every(k=>S.pkg[k]==='udv');
+  const udvDay=d=>ONLY_UDV.includes(iso(d));
+  const isFree=d=>d>=minDay && (d.getDay()===0||d.getDay()===6) && (!udvDay(d)||onlyUdv());
   let calMonth=new Date(minDay.getFullYear(),minDay.getMonth(),1,12);
 
   function lines(){
@@ -140,10 +144,12 @@
     const prevOk=new Date(y,m,0,12)>=minDay;
     let cells=''; for(let i=0;i<start;i++) cells+='<span></span>';
     for(let d=1;d<=days;d++){ const dt=new Date(y,m,d,12), ok=isFree(dt), on=S.date&&iso(S.date)===iso(dt);
-      cells+='<button type="button" class="'+(on?'on':'')+'" data-day="'+iso(dt)+'" '+(ok?'':'disabled')+' aria-label="'+dayTxt(dt)+(ok?'':' (optaget)')+'">'+d+'</button>'; }
+      const u=udvDay(dt)&&dt>=minDay;
+      cells+='<button type="button" class="'+(on?'on':'')+(u?' udv':'')+'" data-day="'+iso(dt)+'" '+(ok?'':'disabled')+' aria-label="'+dayTxt(dt)+(ok?(u?' (kun udvendig vask)':''):(u?' (kun ledig til udvendig vask)':' (optaget)'))+'">'+d+'</button>'; }
     return '<p class="bk-note warn"><b>Fuldt booket indtil '+firstFree.getDate()+'. '+MO[firstFree.getMonth()]+'.</b> Viktor vasker mest i weekenderne.</p>'+
       '<div class="bk-cal"><div class="bk-cal-h"><button type="button" data-mon="-1" aria-label="Forrige måned" '+(prevOk?'':'disabled')+'>'+svg('<path d="M15 5l-7 7 7 7"/>',18,2.4)+'</button><b>'+MO[m][0].toUpperCase()+MO[m].slice(1)+' '+y+'</b><button type="button" data-mon="1" aria-label="Næste måned">'+svg('<path d="M9 5l7 7-7 7"/>',18,2.4)+'</button></div>'+
       '<div class="bk-cal-w">'+['Ma','Ti','On','To','Fr','Lø','Sø'].map(w=>'<span>'+w+'</span>').join('')+'</div><div class="bk-cal-d">'+cells+'</div></div>'+
+      (ONLY_UDV.some(x=>{const d=new Date(x+'T12:00:00'); return d>=minDay&&d.getMonth()===m&&d.getFullYear()===y;})?'<p class="bk-udv-note"><span class="bk-udv-dot"></span>'+ONLY_UDV.map(x=>{const d=new Date(x+'T12:00:00'); return d.getDate()+'. '+MO[d.getMonth()];}).join(', ')+': kun ledig til Udvendig Vask'+(onlyUdv()?'.':'. Vælg Udvendig Vask, hvis du vil have den dag.')+'</p>':'')+(S.udvMsg?'<p class="bk-err" style="display:block">'+S.udvMsg+'</p>':'')+
       '<div class="bk-times" role="group" aria-label="Tidspunkt">'+['Formiddag','Eftermiddag'].map(t=>'<button type="button" data-time="'+t+'" aria-pressed="'+(S.time===t)+'"'+(S.time===t?' class="on"':'')+'><b>'+t+'</b><small>'+(t==='Formiddag'?'kl. 9–12':'kl. 12–16')+'</small></button>').join('')+'</div>'+
       '<label class="bk-field bk-narrow"><span>Ønske til tidspunkt <i>(valgfri)</i></span><input id="f-wish" type="text" placeholder="Fx helst kl. 10" value="'+esc(S.wish)+'"></label>'+
       '<p class="bk-err" id="bk-err" hidden>Vælg en dag og et tidspunkt.</p>';
@@ -214,6 +220,7 @@
     const pre=$('bk-pre'); if(pre) pre.textContent=body;
   }
   function render(focus){
+    if(S.date&&udvDay(S.date)&&!onlyUdv()){ S.udvMsg=dayTxt(S.date)+' kan kun bookes til Udvendig Vask, så datoen er fjernet. Vælg en anden dag.'; S.date=null; }
     const s=STEPS[S.step];
     app.classList.toggle('is-done',S.done);
     stage.innerHTML=S.done?doneView():'<div class="bk-view bk-'+s.key+'">'+head(s)+V[s.key]()+'</div>';
@@ -261,7 +268,7 @@
     else if(d.pkg){ S.pkg[S.tab]=d.pkg; render(); }
     else if(d.add){ S[d.add]=!S[d.add]; render(); }
     else if(d.mon){ calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+(+d.mon),1,12); render(); }
-    else if(d.day){ S.date=new Date(d.day+'T12:00:00'); render(); }
+    else if(d.day){ S.date=new Date(d.day+'T12:00:00'); S.udvMsg=''; render(); }
     else if(d.time){ S.time=S.time===d.time?'':d.time; render(); }
     else if(d.pay){ S.pay=d.pay; render(); }
     else return;
