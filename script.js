@@ -78,6 +78,8 @@
   // Anmeldelser: tilføj godkendte anmeldelser her, nyeste først.
   // Eksempel: {stars:5, name:'Mette fra Helsinge', date:'2026-11-01', text:'Bilen har aldrig været så ren.'}
   const REVIEWS=[
+    {stars:5, name:'Maja, Esbønderup', date:'2026-11-15', text:'Jeg vil stærkt anbefale Viktors bilpleje!! Jeg har både fåret vasket privatbil og firmabil hos Viktor, og han er bare super dygtigt. Han har vasket for mig 2 gange, og kommer helt sikkert til det igen🤩'},
+    {stars:5, name:'Luna', date:'2026-11-15', text:'Fantastiske mennesker, min bil er så flot og lækker både inde og ude 🙂'},
     {stars:5, name:'Helene', date:'2026-11-14', text:'10 stjerner herfra🤩 helt igennem fantastisk rengøring af vores bil, den ser ud som ny både indvendig og udvendig. Vil helt klart benytte os af Viktor igen!!'},
     {stars:5, name:'Nan', date:'2026-11-09', text:'Altså ⭐️ Top professionel og super tillidsfuld anbefaling fra os. Vi overlod en snavset bil til Victors bilpleje og kom hjem til et velduftende og håndpoleret pragteksemplar. 1000 tak!'},
     {stars:5, name:'Laila', date:'2026-11-09', text:'Fik klargjort 2 biler og de blev virkelig flot, og super søde og venlige var de. Vil bestemt bruge dem igen'},
@@ -330,9 +332,12 @@
       const WD=['søndag','mandag','tirsdag','onsdag','torsdag','fredag','lørdag'], MO=['januar','februar','marts','april','maj','juni','juli','august','september','oktober','november','december'];
       // FØRSTE LEDIGE DAG: ret datoen her, når der er fuldt booket (år-måned-dag)
       const FIRST_FREE='2026-12-01';
+      // OPTAGEDE DAGE: dage der ikke kan vælges (år-måned-dag)
+      const BOOKED=['2026-12-05','2026-12-12','2026-12-13'];
+      const isoD=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
       const opts=[]; const t0=new Date(); t0.setHours(12,0,0,0); t0.setDate(t0.getDate()+1);
       const ff=new Date(FIRST_FREE+'T12:00'); const start=ff>t0?ff:t0;
-      for(let k=0;k<=27&&opts.length<8;k++){ const d=new Date(start); d.setDate(d.getDate()+k); if(d.getDay()===6||d.getDay()===0) opts.push(d); }
+      for(let k=0;k<=27&&opts.length<8;k++){ const d=new Date(start); d.setDate(d.getDate()+k); if((d.getDay()===6||d.getDay()===0) && !BOOKED.includes(isoD(d))) opts.push(d); }
       const full=$('wz-full'); if(full && ff>t0){ full.hidden=false; full.querySelector('b').textContent='Fuldt booket indtil '+ff.getDate()+'. '+MO[ff.getMonth()]+'.'; }
       const longTxt=d=>WD[d.getDay()][0].toUpperCase()+WD[d.getDay()].slice(1)+' d. '+d.getDate()+'. '+MO[d.getMonth()];
       const shortTxt=d=>WD[d.getDay()].slice(0,3)+' '+d.getDate()+'. '+MO[d.getMonth()].slice(0,3);
