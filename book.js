@@ -114,11 +114,12 @@
         (n?'<div class="bk-count"><span>Antal</span><div class="bk-step"><button type="button" data-cnt="'+k+'" data-d="-1" aria-label="Én færre">−</button><b>'+n+'</b><button type="button" data-cnt="'+k+'" data-d="1" aria-label="Én mere">+</button></div></div>'+modelFields(k):'')+'</div>'; }).join('')+'</div>'+
     '<p class="bk-err" id="bk-err" hidden>Vælg mindst én bil.</p>';
   // Ét felt til mærke og model pr. bil
-  const EX=['Kia EV9','VW Golf','Toyota Yaris','Tesla Model Y','Ford Transit'];
+  // Eksempler i feltet pr. biltype (Kia EV9 er en stor bil, så personbiler får fx VW ID.4)
+  const EX={car:['VW ID.4','VW Golf','Toyota Yaris','Tesla Model 3'], big:['Kia EV9','Volvo XC90','Tesla Model X','Ford Ranger'], van:['Ford Transit','VW Transporter']};
   // Ét felt til mærke og model pr. bil – inde i bilkortet, så et nyt felt dukker op ved hvert +
   function modelFields(k){
     const n=S.types[k]; let h='<div class="bk-models"><p class="bk-models-h">Mærke og model <i>(valgfri)</i></p>';
-    for(let i=0;i<n;i++) h+='<label class="bk-mfield'+(i===S.newField[k]?' bk-new':'')+'"><span class="bk-mnum">'+(n>1?(i+1):'')+'</span><input data-model="'+k+'-'+i+'" type="text" autocomplete="off" aria-label="Mærke og model, '+TYPES[k].short.toLowerCase()+' '+(i+1)+'" placeholder="Fx '+(k==='van'?['Ford Transit','VW Transporter'][i%2]:EX[i%4])+'" value="'+esc(S.models[k][i]||'')+'"></label>';
+    for(let i=0;i<n;i++) h+='<label class="bk-mfield'+(i===S.newField[k]?' bk-new':'')+'"><span class="bk-mnum">'+(n>1?(i+1):'')+'</span><input data-model="'+k+'-'+i+'" type="text" autocomplete="off" aria-label="Mærke og model, '+TYPES[k].short.toLowerCase()+' '+(i+1)+'" placeholder="Fx '+EX[k][i%EX[k].length]+'" value="'+esc(S.models[k][i]||'')+'"></label>';
     return h+'</div>';
   }
   const modelsOf=k=>S.models[k].slice(0,S.types[k]).map(x=>(x||'').trim()).filter(Boolean);
