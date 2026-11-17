@@ -844,9 +844,18 @@ html.lenis{scroll-behavior:auto!important}
 .pn-mon{display:block; background:var(--water); color:#fff; font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; padding:.25rem 0}
 .pn-day{display:block; font:800 1.9rem/1.25 var(--font-display); color:#0B1A22; padding:.15rem 0 .25rem}
 .pn-eyebrow{color:var(--water); font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase}
-.pn-txt h2{font:700 1.2rem/1.25 var(--font-display); font-stretch:112%; margin:.25rem 0 .35rem; letter-spacing:-.01em}
+.pn-txt h2,.pn-txt h3{font:700 1.2rem/1.25 var(--font-display); font-stretch:112%; margin:.25rem 0 .35rem; letter-spacing:-.01em}
 .pn-txt p{color:var(--muted); font-size:.95rem; line-height:1.5; margin:0}
 .pn-txt p b{color:var(--ink)}
 .pn-btn{white-space:nowrap}
 .pn-btn:active{transform:scale(.97)}
 @media (max-width:720px){.price-notice{grid-template-columns:auto minmax(0,1fr); align-items:start}.pn-cal{width:56px; margin-top:.2rem}.pn-btn{grid-column:1/-1; justify-content:center}}
+.pn-offer{margin-top:.5rem!important; padding-top:.5rem; border-top:1px solid var(--water-soft)}
+.price-notice.pn-compact{grid-template-columns:auto minmax(0,1fr); margin:0 0 1.2rem; padding:1rem 1.1rem}
+.pn-compact .pn-txt h2{font-size:1.05rem}
+.pn-compact .pn-txt p{font-size:.9rem}
+.bk-page .price-notice{background:#FFFFFF0D; border:1px solid #FFFFFF1F; box-shadow:none}
+.bk-page .pn-txt h2{color:#FFFFFF}
+.bk-page .pn-txt p{color:#B8C2C9}
+.bk-page .pn-txt p b{color:#FFFFFF}
+.bk-page .pn-offer{border-top-color:#FFFFFF1F}
