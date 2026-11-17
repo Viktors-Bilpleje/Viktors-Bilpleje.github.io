@@ -140,7 +140,7 @@
         '<ul>'+P.list.map(x=>'<li>'+svg(CHECK,14,3)+x+'</li>').join('')+'</ul><span class="bk-pk-btn">'+(on?'Valgt':'Vælg')+'</span></button>'; }).join('')+'</div>';
   };
   const ADD=[
-    {k:'first', t:'Det er vores første vask', d:'20 % rabat på selve vasken. Én gang pr. husstand.', p:()=>'−20 %'},
+    {k:'first', t:'Det er vores første vask', d:'20 % rabat på selve vasken. Én gang pr. husstand. Gælder til og med 31. januar 2027.', p:()=>'−20 %'},
     {k:'nohose', t:'Vi har ingen vandslange', d:'Bilen vaskes hjemme hos Viktor i Blistrup. Viktor skriver til dig på SMS med adressen, når vi kommer lidt tættere på datoen.', p:()=>'+50 kr.'+(cars()>1?' pr. bil':''), hide:()=>!nonVan()},
     {k:'dirty', t:'Bilen er ekstra beskidt', d:'Meget mudder og jord. <a href="priser.html#beskidt">Se eksempel</a>', p:()=>'+150 kr.'+(cars()>1?' pr. bil':'')},
     {k:'dog', t:'Der er hundehår i bilen', d:'Kun ved indvendig vask. Tillægget afhænger af mængden.', p:()=>'+100–150 kr.', hide:()=>!hasInside()}
