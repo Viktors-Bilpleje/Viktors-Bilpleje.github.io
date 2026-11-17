@@ -838,3 +838,7 @@ html.lenis,html.lenis body{height:auto}
 html.lenis{scroll-behavior:auto!important}
 .lenis.lenis-stopped{overflow:hidden}
 .btn-signal,.bk-next{will-change:transform}
+.price-notice{background:var(--water-soft); border-color:var(--water)}
+.price-notice .fee-new{background:var(--water); color:#fff}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .price-notice{background:#0E2A36}}
+:root[data-theme="dark"] .price-notice{background:#0E2A36}
