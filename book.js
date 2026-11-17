@@ -7,7 +7,7 @@
   // FØRSTE LEDIGE DAG: ret datoen her, når der er fuldt booket (år-måned-dag)
   const FIRST_FREE='2026-12-01';
   // DAGE MED KUN TID TIL UDVENDIG VASK: kan kun vælges, når hele bestillingen er Udvendig Vask (år-måned-dag)
-  const ONLY_UDV=['2026-12-05'];
+  const ONLY_UDV=[];
   // DAGE UDEN FORMIDDAG: kun eftermiddag (fra kl. 12.30) kan vælges (år-måned-dag)
   const NO_MORNING=['2026-12-05','2026-12-19'];
   // FULDT BOOKEDE DAGE: kan ikke vælges til nogen vask (år-måned-dag)
