@@ -23,7 +23,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
-<link rel="stylesheet" href="style.css?v=b55bc8f0">
+<link rel="stylesheet" href="style.css?v=1e76c93f">
 </head>
 <body>
 <header class="top">
@@ -70,10 +70,15 @@
         <h1 id="priser-h">Vælg din vask</h1>
         <p>Faste priser. Vælg din biltype og tryk på en pakke. Så bliver din bestilling udfyldt nedenfor, og du sender den som SMS til Viktor.</p>
       </div>
-      <div class="fee-notice price-notice reveal" role="note">
-        <span class="fee-new mono">1. jan</span>
-        <span class="fee-txt"><b>Fra 1. januar 2027 stiger priserne med 50 kr. pr. pakke</b><span>Indtil da gælder priserne herunder.</span></span>
-      </div>
+      <aside class="price-notice reveal" aria-labelledby="pn-h">
+        <div class="pn-cal" aria-hidden="true"><span class="pn-mon mono">Jan</span><span class="pn-day">1</span></div>
+        <div class="pn-txt">
+          <span class="pn-eyebrow mono">Nye priser 2027</span>
+          <h2 id="pn-h">Book inden 1. januar og behold de nuværende priser</h2>
+          <p>Alle bookinger, du laver før 1. januar 2027, får priserne herunder. Det gælder også, selvom vasken først skal være senere i 2027. Bookinger fra 1. januar koster <b>50 kr. mere pr. pakke</b>.</p>
+        </div>
+        <a class="btn btn-signal pn-btn" href="book.html">Book nu</a>
+      </aside>
       <a class="fee-notice reveal" href="#beskidt">
         <span class="fee-new mono">Nyt</span>
         <span class="fee-txt"><b>Gebyr for ekstra beskidte biler: +150 kr. pr. bil</b><span>Gælder biler med meget mudder og jord. Se eksempler på, hvor beskidt det skal være.</span></span>
@@ -258,7 +263,7 @@
   <a class="mbar-book" href="book.html">Book vask</a>
 </nav>
 
-<script src="script.js?v=b55bc8f0"></script>
+<script src="script.js?v=1e76c93f"></script>
 <!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "e4ab3f9571054a7d9ce45d4cc796ad48"}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
