@@ -47,6 +47,7 @@
 .bk-note svg{flex:none; color:var(--bk-ivory); margin-top:.1rem}
 .bk-note.warn{display:block; max-width:26rem; margin:0 auto 1rem; text-align:center; border-color:#FFC53155; background:#FFC5310D}
 .bk-note.warn b{color:var(--signal)}
+.bk-note.warn a{color:var(--bk-ivory,#F4EBDD); font-weight:600; text-underline-offset:3px}
 .bk-err{max-width:32rem; margin:1rem auto 0; padding:.7rem 1rem; border-radius:10px; background:#FF6B5A1A; border:1px solid #FF6B5A66; color:#FFB4A9; font-size:.9rem; text-align:center}
 .bk-hint,.bk-sm{color:var(--bk-muted); font-size:.85rem; margin:.5rem 0 0}
 .bk-hint{text-align:center; margin-top:1.2rem}
