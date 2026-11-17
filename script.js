@@ -219,7 +219,7 @@
       if(hoseX) lines.push('Heraf '+krf(hoseX)+' for vask hjemme hos dig.');
       if(dirtyX) lines.push('Heraf '+krf(dirtyX)+' i gebyr, fordi '+(cars>1?'bilerne er':'bilen er')+' ekstra beskidt'+(cars>1?'e':'')+'.');
       if(first.checked) lines.push('Det er vores første vask hos dig.');
-      if($('o-dog').checked) lines.push('Der er hundehår i bilen, så der kommer et tillæg på 100–150 kr.');
+      if($('o-dog').checked) lines.push('Der er hundehår i bilen, så der kommer et tillæg på op til 150 kr.');
       if(hoseX) lines.push('Vi har ingen vandslange, så '+(cars>1?'bilerne':'bilen')+' skal vaskes hjemme hos dig.');
       if($('o-pay')&&$('o-pay').value) lines.push('Betaling: '+$('o-pay').value+'.');
       lines.push('','Adresse: '+($('o-addr').value.trim()),'Det passer mig bedst: '+($('o-when').value.trim()),'','Venlig hilsen'); const nm=$('o-name')&&$('o-name').value.trim(); if(nm) lines.push(nm);
@@ -601,7 +601,7 @@
   // Zonen: 30 min. køretidszone udvidet, så hele Frederiksværk, Ølsted, Skævinge, Hillerød, Fredensborg, Tikøb, Hornbæk, Dronningmølle, Gilleleje og Tisvildeleje er med (byernes placering fra OpenStreetMap), klippet til land. Hentes først, når kortet kommer frem.
   (function(){
     const el=document.getElementById('area-map'); if(!el) return;
-    const HOME=[56.0869,12.2110];
+    const HOME=[56.0855,12.2135]; // Blistrup by (ikke en privat adresse)
     const ZONE=[[[[55.9723,11.9644],[55.9665,11.9653],[55.9636,11.9667],[55.9663,11.974],[55.9669,11.9766],[55.967,11.9792],[55.9653,11.9855],[55.9651,11.9889],[55.9677,11.9972],[55.967,11.9994],[55.9643,11.9965],[55.9643,11.9971],[55.9652,12.0028],[55.9666,12.0033],[55.9677,12.0057],[55.9686,12.0107],[55.9683,12.0111],[55.9671,12.0118],[55.9651,12.0062],[55.963,12.0047],[55.9606,12.0042],[55.9598,12.0095],[55.9634,12.0116],[55.9639,12.0132],[55.9618,12.0165],[55.9612,12.0144],[55.9592,12.011],[55.9576,12.0132],[55.9598,12.0175],[55.9593,12.0186],[55.9558,12.021],[55.9467,12.0226],[55.9438,12.0251],[55.9416,12.0281],[55.9363,12.0324],[55.9342,12.0336],[55.9337,12.0354],[55.9312,12.0386],[55.9287,12.0404],[55.9245,12.0432],[55.9234,12.0434],[55.92,12.046],[55.9169,12.0464],[55.9145,12.0481],[55.9078,12.0471],[55.9066,12.0463],[55.9039,12.0456],[55.9017,12.0457],[55.8959,12.0492],[55.8798,12.1442],[55.8791,12.1545],[55.8797,12.1654],[55.8913,12.2874],[55.9014,12.3274],[55.9042,12.3364],[55.9077,12.3441],[55.9613,12.4328],[56.0047,12.4963],[56.0098,12.5011],[56.0154,12.504],[56.0205,12.5049],[56.0876,12.512],[56.0888,12.5066],[56.0914,12.4982],[56.0918,12.4873],[56.0932,12.4822],[56.0937,12.4761],[56.093,12.4652],[56.0936,12.4602],[56.0944,12.4588],[56.0934,12.4573],[56.0934,12.4567],[56.0943,12.4569],[56.0946,12.458],[56.0948,12.4565],[56.093,12.4446],[56.0932,12.4349],[56.0943,12.4243],[56.0966,12.417],[56.0979,12.4152],[56.0995,12.4094],[56.1,12.3975],[56.1013,12.3853],[56.1026,12.3827],[56.1036,12.3789],[56.105,12.3759],[56.1058,12.3753],[56.1073,12.371],[56.1101,12.3679],[56.118,12.3543],[56.1198,12.3492],[56.1205,12.3347],[56.1235,12.319],[56.1244,12.3172],[56.1249,12.3138],[56.1256,12.3137],[56.1255,12.31],[56.1264,12.3084],[56.1271,12.3103],[56.1277,12.3102],[56.128,12.3086],[56.1295,12.3095],[56.1279,12.3018],[56.1278,12.2975],[56.129,12.2913],[56.1292,12.2869],[56.1281,12.2758],[56.1265,12.2667],[56.1239,12.257],[56.1225,12.2491],[56.1221,12.2419],[56.1166,12.2199],[56.114,12.2077],[56.1132,12.196],[56.1081,12.1792],[56.0993,12.1613],[56.0985,12.158],[56.0939,12.1492],[56.0796,12.1138],[56.0753,12.1051],[56.0619,12.072],[56.0588,12.0634],[56.0593,12.0622],[56.05,12.0464],[56.0479,12.0408],[56.0402,12.0283],[56.036,12.0202],[56.0241,11.9906],[56.0084,11.9779],[55.9778,11.9654],[55.9723,11.9644]]]];
     const BOUNDS=[[55.8791,11.9644],[56.1295,12.512]];
     // Vektorkort (MapLibre + OpenFreeMap, mørk stil): skarpt på alle skærme, gratis og uden nøgle
@@ -689,7 +689,7 @@
 // Pakkeknapper → bookingsiden med pakke og biltype valgt
 document.querySelectorAll('a[data-pkg][href^="book.html"]').forEach(a=>a.addEventListener('click',()=>{
   const p=document.querySelector('.sizes button[aria-pressed="true"]');
-  const u=new URL(a.getAttribute('href'),location.href); if(p&&p.dataset.size) u.searchParams.set('bil',p.dataset.size);
+  const u=new URL(a.getAttribute('href'),location.href); if(p&&p.dataset.size) u.searchParams.set('bil',p.dataset.size); const f=document.getElementById('first'); if(f&&f.checked) u.searchParams.set('foerste','1'); else u.searchParams.delete('foerste');
   a.href=u.pathname.split('/').pop()+u.search;
 }));
 

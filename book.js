@@ -27,9 +27,9 @@
       list:['Støvsugning af gulv, sæder og bagagerum','Aftørring af instrumentbræt og døre','Ruder indvendigt'],
       ic:'<path d="M7 20v-3h10v3"/><path d="M8 17V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v11"/><path d="M5 12h3M16 12h3"/>'},
     fuld:{name:'Fuld Vask', desc:'Hele bilen ind og ud i ét besøg.', dur:'ca. 2–3 timer', min:150,
-      list:['Alt fra Udvendig Vask','Alt fra Indvendig Vask','50 kr. billigere end hver for sig'],
+      list:['Alt fra Udvendig Vask','Alt fra Indvendig Vask','Billigere end hver for sig'],
       ic:'<path d="M5 16h14l-1.5-5.5A2 2 0 0 0 15.6 9H8.4a2 2 0 0 0-1.9 1.5z"/><circle cx="8" cy="17" r="1.6"/><circle cx="16" cy="17" r="1.6"/><path d="M3 13h2M19 13h2"/>'},
-    voks:{name:'Fuld Vask + Voks', desc:'Fuld vask og voks, der beskytter lakken.', dur:'ca. 2–3 timer + voks', min:180, hot:'Mest valgt',
+    voks:{name:'Fuld Vask + Voks', desc:'Fuld vask og voks, der beskytter lakken.', dur:'ca. 2–3 timer + voks', min:180, hot:'Populær',
       list:['Alt fra Fuld Vask','Et lag voks på lakken','Vandet perler af','Dyb glans i lakken'],
       ic:'<path d="M12 3l1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>'}
   };
@@ -56,7 +56,7 @@
     date:null, time:'', wish:'', street:'', zip:'', city:'', name:'', note:'', pay:'Kontant',
     step:0, reached:0, done:false
   };
-  S.types[startType]=1; if(startType==='van') S.pkg.van='ind';
+  S.types[startType]=1; if(startType==='van') S.pkg.van='ind'; if(q.get('foerste')==='1') S.first=true;
 
   // ---------- hjælpere ----------
   const kr=n=>n.toLocaleString('da-DK')+' kr.';
@@ -143,7 +143,7 @@
     {k:'first', t:'Det er vores første vask', d:'20 % rabat på selve vasken. Én gang pr. husstand. Gælder til og med 31. januar 2027.', p:()=>'−20 %'},
     {k:'nohose', t:'Vi har ingen vandslange', d:'Bilen vaskes hjemme hos Viktor i Blistrup. Viktor skriver til dig på SMS med adressen, når vi kommer lidt tættere på datoen.', p:()=>'+50 kr.'+(cars()>1?' pr. bil':''), hide:()=>!nonVan()},
     {k:'dirty', t:'Bilen er ekstra beskidt', d:'Meget mudder og jord. <a href="priser.html#beskidt">Se eksempel</a>', p:()=>'+150 kr.'+(cars()>1?' pr. bil':'')},
-    {k:'dog', t:'Der er hundehår i bilen', d:'Kun ved indvendig vask. Tillægget afhænger af mængden.', p:()=>'+100–150 kr.', hide:()=>!hasInside()}
+    {k:'dog', t:'Der er hundehår i bilen', d:'Kun ved indvendig vask. Tillægget afhænger af mængden.', p:()=>'Op til +150 kr.', hide:()=>!hasInside()}
   ];
   V.tilvalg=()=>'<div class="bk-adds">'+ADD.filter(a=>!(a.hide&&a.hide())).map(a=>'<button type="button" class="bk-add'+(S[a.k]?' on':'')+'" data-add="'+a.k+'" aria-pressed="'+S[a.k]+'"><span class="bk-plus">'+svg(S[a.k]?CHECK:'<path d="M12 6v12M6 12h12"/>',16,2.6)+'</span><span class="bk-add-t"><b>'+a.t+'</b><small>'+a.d+'</small></span><span class="bk-add-p mono">'+a.p()+'</span></button>').join('')+'</div>'+
     '<p class="bk-hint">Ingen tilvalg? Tryk bare Fortsæt.</p>';
@@ -155,20 +155,20 @@
     for(let d=1;d<=days;d++){ const dt=new Date(y,m,d,12), ok=isFree(dt), on=S.date&&iso(S.date)===iso(dt);
       const u=udvDay(dt)&&dt>=minDay, bk=BOOKED.includes(iso(dt));
       cells+='<button type="button" class="'+(on?'on':'')+(u?' udv':'')+(bk?' booked':'')+'" data-day="'+iso(dt)+'" '+(ok?'':'disabled')+' aria-label="'+dayTxt(dt)+(ok?(u?' (kun udvendig vask)':''):(u?' (kun ledig til udvendig vask)':(bk?' (fuldt booket)':' (optaget)')))+'">'+d+'</button>'; }
-    return '<p class="bk-note warn"><b>Fuldt booket indtil '+firstFree.getDate()+'. '+MO[firstFree.getMonth()]+'.</b> Vil du have vasket bilen på en hverdag? Så <a href="sms:'+PHONE+'">skriv en SMS til Viktor</a> på 61 30 22 94, så prøver vi at finde en dag, der passer.</p>'+
+    return '<p class="bk-note warn">'+(firstFree>today?'<b>Fuldt booket indtil '+firstFree.getDate()+'. '+MO[firstFree.getMonth()]+'.</b> ':'')+'Vil du have vasket bilen på en hverdag? Så <a href="sms:'+PHONE+'">skriv en SMS til Viktor</a> på 61 30 22 94, så prøver vi at finde en dag, der passer.</p>'+
       '<div class="bk-cal"><div class="bk-cal-h"><button type="button" data-mon="-1" aria-label="Forrige måned" '+(prevOk?'':'disabled')+'>'+svg('<path d="M15 5l-7 7 7 7"/>',18,2.4)+'</button><b>'+MO[m][0].toUpperCase()+MO[m].slice(1)+' '+y+'</b><button type="button" data-mon="1" aria-label="Næste måned">'+svg('<path d="M9 5l7 7-7 7"/>',18,2.4)+'</button></div>'+
       '<div class="bk-cal-w">'+['Ma','Ti','On','To','Fr','Lø','Sø'].map(w=>'<span>'+w+'</span>').join('')+'</div><div class="bk-cal-d">'+cells+'</div></div>'+
       (ONLY_UDV.some(x=>{const d=new Date(x+'T12:00:00'); return d>=minDay&&d.getMonth()===m&&d.getFullYear()===y;})?'<p class="bk-udv-note"><span class="bk-udv-dot"></span>'+ONLY_UDV.map(x=>{const d=new Date(x+'T12:00:00'); return d.getDate()+'. '+MO[d.getMonth()];}).join(', ')+': kun ledig til Udvendig Vask'+(NO_MORNING.includes(ONLY_UDV[0])?' fra kl. 12.30':'')+(onlyUdv()?'.':'. Vælg Udvendig Vask, hvis du vil have den dag.')+'</p>':'')+(S.udvMsg?'<p class="bk-err" style="display:block">'+S.udvMsg+'</p>':'')+
       '<div class="bk-times" role="group" aria-label="Tidspunkt">'+['Formiddag','Eftermiddag'].map(t=>{ const off=t==='Formiddag'&&noMorning(); return '<button type="button" data-time="'+t+'" aria-pressed="'+(S.time===t)+'"'+(S.time===t?' class="on"':'')+(off?' disabled':'')+'><b>'+t+'</b><small>'+(off?'optaget denne dag':(t==='Formiddag'?'kl. 9–12':'kl. 12.30–16'))+'</small></button>'; }).join('')+'</div>'+
       '<label class="bk-field bk-narrow"><span>Ønske til tidspunkt <i>(valgfri)</i></span><input id="f-wish" type="text" placeholder="Fx helst kl. 10" value="'+esc(S.wish)+'"></label>'+
-      '<p class="bk-note bk-narrow">'+svg('<path d="M7 16a4 4 0 0 1-.6-7.95A5.5 5.5 0 0 1 17 7.5a3.5 3.5 0 0 1 .5 7"/><path d="M9 19l-1 2M13 19l-1 2M17 19l-1 2"/>',18)+'<span><b>Dårligt vejr?</b> Vasken foregår udenfor. Ved sne, regn, frost eller kraftig blæst kan vi aflyse eller flytte tiden. Du får besked på SMS, og det koster ikke noget.</span></p>'+
+      '<p class="bk-note bk-narrow">'+svg('<path d="M7 16a4 4 0 0 1-.6-7.95A5.5 5.5 0 0 1 17 7.5a3.5 3.5 0 0 1 .5 7"/><path d="M9 19l-1 2M13 19l-1 2M17 19l-1 2"/>',18)+'<span><b>Dårligt vejr?</b> Vasken foregår udenfor. Ved sne, regn, frost eller kraftig blæst kan Viktor aflyse eller flytte tiden. Du får besked på SMS, og det koster ikke noget.</span></p>'+
       '<p class="bk-err" id="bk-err" hidden>Vælg en dag og et tidspunkt.</p>';
   };
   V.sted=()=>'<div class="bk-form">'+
       '<label class="bk-field"><span>Adresse</span><input id="f-street" type="text" autocomplete="address-line1" placeholder="Fx Blistrup Hovedgade 1" value="'+esc(S.street)+'"></label>'+
       '<div class="bk-row"><label class="bk-field"><span>Postnr.</span><input id="f-zip" type="text" inputmode="numeric" autocomplete="postal-code" maxlength="4" placeholder="3230" value="'+esc(S.zip)+'"></label>'+
       '<label class="bk-field"><span>By</span><input id="f-city" type="text" autocomplete="address-level2" placeholder="Græsted" value="'+esc(S.city)+'"></label></div>'+
-      '<p class="bk-note">'+svg('<path d="M3 12h7a3 3 0 0 1 3 3v1"/><path d="M13 16h3l3-3"/>',18)+'<span>Viktor kommer med alt udstyret. Du skal bare have vandslange og strøm. Kørsel er gratis op til 20 km fra Blistrup, derefter +50 kr.</span></p>'+
+      '<p class="bk-note">'+svg('<path d="M3 12h7a3 3 0 0 1 3 3v1"/><path d="M13 16h3l3-3"/>',18)+'<span>Viktor kommer med alt udstyret. Du skal bare have vandslange og strøm. Kørsel er gratis op til 20 km fra Blistrup, derefter +50 kr. pr. påbegyndt 20 km.</span></p>'+
       '<p class="bk-err" id="bk-err" hidden>Skriv adressen, så Viktor ved, hvor han skal køre hen.</p></div>';
   V.info=()=>'<div class="bk-form">'+
       '<label class="bk-field"><span>Dit navn</span><input id="f-name" type="text" autocomplete="name" placeholder="Fx Mette Hansen" value="'+esc(S.name)+'"></label>'+
@@ -178,7 +178,7 @@
   V.sum=()=>{
     const T=lines(); const ex=[];
     if(S.first) ex.push(['Første vask (−20 %)','−'+kr(T.disc)]); if(S.nohose) ex.push(['Vask hjemme hos Viktor','+'+kr(T.hose)]);
-    if(S.dirty) ex.push(['Ekstra beskidt','+'+kr(T.dirty)]); if(S.dog&&hasInside()) ex.push(['Hundehår','100–150 kr.']);
+    if(S.dirty) ex.push(['Ekstra beskidt','+'+kr(T.dirty)]); if(S.dog&&hasInside()) ex.push(['Hundehår','op til +150 kr.']);
     const box=(h,rows)=>'<section class="bk-box"><h2>'+h+'</h2>'+rows+'</section>';
     const row=(a,b,sub)=>'<div class="bk-li"><span>'+svg(CHECK,14,3)+'<b>'+a+'</b>'+(sub?'<small>'+sub+'</small>':'')+'</span><span class="mono">'+b+'</span></div>';
     return '<div class="bk-sum">'+
@@ -186,7 +186,7 @@
       (ex.length?box('Tilvalg',ex.map(e=>row(e[0],e[1])).join('')):'')+
       box('Tidspunkt','<p class="bk-big">'+(S.date?dayTxt(S.date):'Ikke valgt')+(S.time?', '+S.time.toLowerCase():'')+'</p>'+(S.wish?'<p class="bk-sm">'+esc(S.wish)+'</p>':'')+(atViktor()?'<p class="bk-sm">Hjemme hos Viktor i Blistrup. Viktor skriver til dig på SMS med adressen, når vi kommer lidt tættere på datoen.</p>':'<p class="bk-sm">'+esc([S.street,[S.zip,S.city].filter(Boolean).join(' ')].filter(Boolean).join(', '))+'</p>')+'<p class="bk-sm">Ved sne, regn eller frost kan tiden blive aflyst eller flyttet. Du får besked på SMS.</p>')+
       '<section class="bk-box bk-tot"><div class="bk-li"><span>'+svg('<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',16)+'<b>Forventet tid</b></span><span class="mono">'+durTxt()+'</span></div>'+
-        '<div class="bk-li bk-grand"><b>I alt</b><b class="mono">'+kr(T.total)+'</b></div>'+(atViktor()?'':'<p class="bk-sm">+50 kr. i kørsel, hvis du bor over 20 km fra Blistrup.</p>')+'</section>'+
+        '<div class="bk-li bk-grand"><b>I alt</b><b class="mono">'+kr(T.total)+'</b></div>'+(atViktor()?'':'<p class="bk-sm">Kørsel: gratis op til 20 km fra Blistrup, derefter +50 kr. pr. påbegyndt 20 km.</p>')+'</section>'+
       '<section class="bk-box"><h2>Betaling</h2><div class="bk-pay">'+[['Kontant','Betal når bilen er vasket','<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>'],['MobilePay','Betal når bilen er vasket','<rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18h2"/>']].map(p=>'<button type="button" data-pay="'+p[0]+'" aria-pressed="'+(S.pay===p[0])+'" class="'+(S.pay===p[0]?'on':'')+'">'+svg(p[2],18)+'<span><b>'+p[0]+'</b><small>'+p[1]+'</small></span></button>').join('')+'</div><p class="bk-sm">Valget er ikke bindende.</p></section>'+
       '<details class="bk-msg"><summary>Se beskeden til Viktor</summary><pre id="bk-pre"></pre></details>'+
       '<p class="bk-tip">'+svg('<rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/>',18)+'<span>Vedhæft gerne et billede af bilen i SMS’en, især hvis den er ekstra beskidt eller har hundehår.</span></p>'+
@@ -212,7 +212,7 @@
     L.push('Pris i alt: '+kr(T.total)+(S.first?' (20 % rabat på første vask)':''));
     if(S.nohose) L.push('Vi har ingen vandslange, så '+(cars()>1?'bilerne':'bilen')+' skal vaskes hjemme hos dig (+'+kr(T.hose)+').'+(atViktor()?' Skriv gerne adressen til mig, når vi kommer tættere på datoen.':''));
     if(S.dirty) L.push('Bilen er ekstra beskidt (+'+kr(T.dirty)+').');
-    if(S.dog&&hasInside()) L.push('Der er hundehår i bilen, så der kommer et tillæg på 100–150 kr.');
+    if(S.dog&&hasInside()) L.push('Der er hundehår i bilen, så der kommer et tillæg på op til 150 kr.');
     if(S.first) L.push('Det er vores første vask hos dig.');
     L.push('','Dato: '+(S.date?dayTxt(S.date):'')+(S.time?', '+S.time.toLowerCase():''));
     if(S.wish) L.push('Ønske: '+S.wish);
