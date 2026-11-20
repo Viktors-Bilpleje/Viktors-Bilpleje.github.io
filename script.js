@@ -445,19 +445,18 @@
         anim=requestAnimationFrame(step);
       }
       set(50);
-      if(!auto||SEEN) return;
-      // Første besøg: alle billeder glider én gang, når siden åbnes. Ligger et billede uden for skærmen, glider det, når man scroller ned til det.
-      // Ved senere besøg står de stille – man ved jo allerede, hvordan skyderen virker.
-      setTimeout(play,400);
-      const r=box.getBoundingClientRect();
-      if(r.top>innerHeight && 'IntersectionObserver' in window){
-        const io=new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ io.disconnect(); touched=false; setTimeout(play,250);} }),{threshold:.5});
+      if(!auto) return;
+      // Hvert billede glider automatisk (før → efter → midten), når man scroller hen til det.
+      // Rører man selv skyderen, stopper det. Kommer man tilbage til billedet senere, glider det igen.
+      if('IntersectionObserver' in window){
+        const io=new IntersectionObserver(es=>es.forEach(e=>{
+          if(e.isIntersecting){ if(!anim && !box.classList.contains('dragging')){ touched=false; setTimeout(play,250);} }
+          else if(anim){ cancelAnimationFrame(anim); anim=null; set(50); }
+        }),{threshold:.6});
         io.observe(box);
-      }
+      } else setTimeout(play,400);
     }
-    const SEEN=(()=>{ try{ return localStorage.getItem('vb-ba-seen')==='1'; }catch(e){ return false; } })();
     document.querySelectorAll('.ba-list .ba').forEach(b=>initBA(b,true));
-    try{ localStorage.setItem('vb-ba-seen','1'); }catch(e){}
 
     // Stor visning
     const lb=document.getElementById('lb'), slot=document.getElementById('lb-slot');
@@ -472,7 +471,7 @@
       const clone=card.querySelector('.ba').cloneNode(true);
       clone.classList.remove('dragging');
       clone.querySelectorAll('img').forEach(im=>im.loading='eager');
-      slot.replaceChildren(clone); initBA(clone,false); slideIn(clone,dir);
+      slot.replaceChildren(clone); initBA(clone,true); slideIn(clone,dir);
       document.getElementById('lb-title').textContent=card.querySelector('.ba-cap b').textContent;
       document.getElementById('lb-sub').textContent=card.querySelector('.ba-cap span').textContent;
       if(nav){ nav.hidden=cards.length<2; count.textContent=(idx+1)+' / '+cards.length; }
