@@ -9,9 +9,9 @@
   // DAGE MED KUN TID TIL UDVENDIG VASK: kan kun vælges, når hele bestillingen er Udvendig Vask (år-måned-dag)
   const ONLY_UDV=[];
   // DAGE UDEN FORMIDDAG: kun eftermiddag (fra kl. 12.30) kan vælges (år-måned-dag)
-  const NO_MORNING=['2026-12-05','2026-12-19'];
+  const NO_MORNING=[];
   // FULDT BOOKEDE DAGE: kan ikke vælges til nogen vask (år-måned-dag)
-  const BOOKED=['2026-12-06','2026-12-12','2026-12-13'];
+  const BOOKED=['2026-12-05','2026-12-06','2026-12-12','2026-12-13','2026-12-19'];
   const REDUCE=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const TYPES={
