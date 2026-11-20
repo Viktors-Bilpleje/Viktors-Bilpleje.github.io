@@ -879,3 +879,48 @@ footer .wrap.foot-bottom{display:flex; flex-wrap:wrap; justify-content:space-bet
 .foot-legal{display:flex; flex-wrap:wrap; gap:1.2rem}
 .foot-legal a{color:var(--hall-muted); text-underline-offset:3px}
 .foot-legal a:hover{color:var(--hall-ink)}
+
+/* ===== Eksklusivt lag – samme stil som flyer og visitkort =====
+   Inter overalt, rolig grå baggrund, hvide kort uden kanter,
+   mørk natblå og én gul accent. */
+:root{
+  --bg:#F5F5F7; --surface:#FFFFFF; --ink:#1D1D1F; --muted:#6E6E73; --line:#E5E5EA;
+  --signal:#FFD23F; --r:24px;
+  --font-display:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --font-mono:"Inter",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --shadow:0 1px 2px rgba(8,22,31,.04),0 18px 40px -18px rgba(8,22,31,.16);
+}
+body{letter-spacing:-.006em; font-feature-settings:"tnum" 0,"cv11" 1}
+h1,h2,h3{font-stretch:normal; font-weight:700; letter-spacing:-.035em}
+.head h2{font-weight:700; letter-spacing:-.04em}
+.head h1{font-weight:700; letter-spacing:-.045em}
+.mono{font-variant-numeric:tabular-nums; letter-spacing:-.01em}
+.eyebrow{font-family:var(--font-body); font-weight:600; font-size:.8rem; letter-spacing:.04em; color:var(--muted)}
+.hero .eyebrow,footer .eyebrow{color:var(--signal)}
+
+/* Kort: hvide flader, ingen kanter, blød skygge */
+.prog,.pk,.r-card,.r-form,.fq,.good-item,.pr-list li,.gallery figure,.mp,.cmp-card.them,.legal-form{
+  border:0!important; border-radius:var(--r); box-shadow:var(--shadow)}
+.cmp-card.them{background:var(--surface)}
+.prog:hover,.pk:hover{box-shadow:0 1px 2px rgba(8,22,31,.05),0 26px 50px -20px rgba(8,22,31,.22)}
+.prog,.pk{transition:box-shadow .35s var(--ease-out),transform .35s var(--ease-out)}
+@media (hover:hover){.prog:hover,.pk:hover{transform:translateY(-3px)}}
+.towns li,.legal-toc a{border-color:transparent; box-shadow:0 1px 2px rgba(8,22,31,.06)}
+.fq summary{font-weight:600; letter-spacing:-.01em}
+
+/* Knapper */
+.btn{border-radius:999px; font-weight:600; letter-spacing:-.01em}
+@media (hover:hover){.btn-signal:hover{box-shadow:0 10px 30px -10px #FFD23FCC}}
+.tag{font-family:var(--font-body); letter-spacing:.04em; font-weight:700}
+
+/* Topbjælke som glas */
+.top{background:rgba(8,22,31,.78); backdrop-filter:saturate(160%) blur(18px); -webkit-backdrop-filter:saturate(160%) blur(18px); border-bottom:1px solid rgba(255,255,255,.06)}
+.logo-name{font-family:var(--font-body); font-weight:700; letter-spacing:-.02em}
+
+
+/* Mørke flader og footer */
+footer{background:#08161F}
+footer h3{font-family:var(--font-body); font-size:.8rem; font-weight:600; letter-spacing:.04em; color:var(--signal); text-transform:none}
+.foot-phone{font-size:1.4rem; font-weight:700; letter-spacing:-.03em; color:#fff}
+.pk-best{box-shadow:0 0 0 2px var(--signal),0 22px 46px -20px rgba(255,210,63,.55)!important}
+footer .foot-col h3{color:var(--signal)}
