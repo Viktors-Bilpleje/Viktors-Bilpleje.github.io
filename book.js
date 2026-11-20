@@ -188,7 +188,7 @@
       '<section class="bk-box bk-tot"><div class="bk-li"><span>'+svg('<circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/>',16)+'<b>Forventet tid</b></span><span class="mono">'+durTxt()+'</span></div>'+
         '<div class="bk-li bk-grand"><b>I alt</b><b class="mono">'+kr(T.total)+'</b></div>'+(atViktor()?'':'<p class="bk-sm">Kørsel: gratis op til 20 km fra Blistrup, derefter +50 kr. pr. påbegyndt 20 km.</p>')+'</section>'+
       '<section class="bk-box"><h2>Betaling</h2><div class="bk-pay">'+[['Kontant','Betal når bilen er vasket','<rect x="2.5" y="6" width="19" height="12" rx="2"/><circle cx="12" cy="12" r="2.5"/>'],['MobilePay','Betal når bilen er vasket','<rect x="6" y="2.5" width="12" height="19" rx="2.5"/><path d="M11 18h2"/>']].map(p=>'<button type="button" data-pay="'+p[0]+'" aria-pressed="'+(S.pay===p[0])+'" class="'+(S.pay===p[0]?'on':'')+'">'+svg(p[2],18)+'<span><b>'+p[0]+'</b><small>'+p[1]+'</small></span></button>').join('')+'</div><p class="bk-sm">Valget er ikke bindende.</p></section>'+
-      '<section class="bk-box"><h2>Afbud</h2><p class="bk-sm">Gratis afbud senest dagen før kl. 18. Afbud senere eller udeblivelse koster 200 kr. Når du sender SMS’en, accepterer du <a href="vilkaar.html" target="_blank" rel="noopener">vilkårene</a>, og at vasken laves på den valgte dato, selvom det er inden for de 14 dages fortrydelsesret. Se også <a href="privatliv.html" target="_blank" rel="noopener">privatlivspolitikken</a>.</p></section>'+
+      '<section class="bk-box"><h2>Afbud</h2><p class="bk-sm">Gratis afbud senest dagen før kl. 18. Senere afbud koster 200 kr. Læs <a href="vilkaar.html" target="_blank" rel="noopener">vilkårene</a> og <a href="privatliv.html" target="_blank" rel="noopener">privatlivspolitikken</a>.</p></section>'+
       '<details class="bk-msg"><summary>Se beskeden til Viktor</summary><pre id="bk-pre"></pre></details>'+
       '<p class="bk-tip">'+svg('<rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.5"/><path d="M8 6l1.5-2h5L16 6"/>',18)+'<span>Vedhæft gerne et billede af bilen i SMS’en, især hvis den er ekstra beskidt eller har hundehår.</span></p>'+
       '</div>';
@@ -221,7 +221,7 @@
     if(!atViktor()) L.push('Adresse: '+[S.street,[S.zip,S.city].filter(Boolean).join(' ')].filter(Boolean).join(', '));
     L.push('Betaling: '+S.pay+'.');
     if(S.note) L.push('','Besked: '+S.note);
-    L.push('','Jeg ønsker vasken udført på den valgte dato og ved, at min fortrydelsesret bortfalder, når vasken er færdig. Gratis afbud senest dagen før kl. 18, derefter 200 kr. (vilkår: viktors-bilpleje.github.io/vilkaar.html)');
+    L.push('','Jeg har læst vilkårene: gratis afbud senest dagen før kl. 18, derefter 200 kr.');
     L.push('','Venlig hilsen',S.name);
     return L.join('\n');
   }
