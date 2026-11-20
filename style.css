@@ -924,3 +924,43 @@ footer h3{font-family:var(--font-body); font-size:.8rem; font-weight:600; letter
 .foot-phone{font-size:1.4rem; font-weight:700; letter-spacing:-.03em; color:#fff}
 .pk-best{box-shadow:0 0 0 2px var(--signal),0 22px 46px -20px rgba(255,210,63,.55)!important}
 footer .foot-col h3{color:var(--signal)}
+
+/* ===== Luksus: mørk natblå hele vejen, elfenben tekst, gul accent ===== */
+:root,:root:not([data-theme="light"]),:root[data-theme]{
+  --bg:#060D12; --surface:#0D1820; --ink:#F2EEE6; --muted:#97A6AE; --line:#1C2B35;
+  --water:#E9C46A; --water-soft:#1A2630; --signal:#FFD23F; --on-signal:#141000;
+  --hall:#060D12; --hall-ink:#F2EEE6; --hall-muted:#97A6AE;
+  --fee-soft:#2A2312;
+  --shadow:0 1px 0 rgba(255,255,255,.04) inset,0 30px 60px -30px rgba(0,0,0,.7);
+  color-scheme:dark;
+}
+body{background:radial-gradient(1200px 600px at 80% -10%,#122531 0%,transparent 60%),var(--bg); background-attachment:fixed}
+::selection{background:#FFD23F; color:#141000}
+
+/* Små overskrifter: fine versaler i guld */
+.eyebrow,.hero .eyebrow{color:#E9C46A; font-size:.74rem; letter-spacing:.22em; text-transform:uppercase; font-weight:600}
+.eyebrow::before{content:""; display:inline-block; width:22px; height:1px; background:currentColor; vertical-align:middle; margin-right:.7rem; opacity:.7}
+
+/* Store overskrifter: lette og elegante */
+.head h2,.head h1,h1{font-weight:600; letter-spacing:-.045em; color:#FFFFFF}
+.head p{color:var(--muted)}
+
+/* Kort: mørke flader med fin hårstreg og guldkant ved hover */
+.prog,.pk,.r-card,.r-form,.fq,.good-item,.pr-list li,.gallery figure,.mp,.cmp-card.them,.legal-form{
+  background:linear-gradient(180deg,#101D26 0%,#0B151C 100%)!important; box-shadow:var(--shadow);
+  outline:1px solid rgba(255,255,255,.06); outline-offset:-1px}
+@media (hover:hover){.prog:hover,.pk:hover,.r-card:hover{outline-color:rgba(233,196,106,.45)}}
+.pk-best{outline:1px solid #FFD23F!important; box-shadow:0 0 0 1px #FFD23F,0 30px 70px -30px rgba(255,210,63,.35)!important}
+
+/* Knapper */
+.btn-signal{background:linear-gradient(180deg,#FFE07A 0%,#FFD23F 55%,#F2C12E 100%); color:#141000; box-shadow:0 1px 0 rgba(255,255,255,.5) inset}
+.pk .btn:not(.btn-signal),.prog .btn:not(.btn-signal){background:transparent; color:var(--ink); box-shadow:inset 0 0 0 1px rgba(242,238,230,.28)}
+@media (hover:hover){.pk .btn:not(.btn-signal):hover,.prog .btn:not(.btn-signal):hover{box-shadow:inset 0 0 0 1px #E9C46A; color:#FFE9A8}}
+
+/* Links og detaljer */
+main a:not(.btn){color:var(--ink); text-decoration-color:rgba(233,196,106,.6)}
+.pn-cal{background:#0D1820; box-shadow:0 0 0 1px rgba(255,255,255,.08)}
+.pn-mon{background:#E9C46A; color:#141000}
+footer{background:#03080B; border-top:1px solid rgba(233,196,106,.18)}
+.top{background:rgba(6,13,18,.72)}
+.pn-day{color:#F2EEE6}
