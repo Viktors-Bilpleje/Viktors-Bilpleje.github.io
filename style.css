@@ -964,3 +964,5 @@ main a:not(.btn){color:var(--ink); text-decoration-color:rgba(233,196,106,.6)}
 footer{background:#03080B; border-top:1px solid rgba(233,196,106,.18)}
 .top{background:rgba(6,13,18,.72)}
 .pn-day{color:#F2EEE6}
+
+.g-photos.g-wide{grid-template-columns:minmax(0,720px)}
