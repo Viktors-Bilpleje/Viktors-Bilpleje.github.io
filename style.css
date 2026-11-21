@@ -966,3 +966,5 @@ footer{background:#03080B; border-top:1px solid rgba(233,196,106,.18)}
 .pn-day{color:#F2EEE6}
 
 .g-photos.g-wide{grid-template-columns:minmax(0,720px)}
+.g-photos.g-four{grid-template-columns:repeat(2,minmax(0,1fr)); max-width:960px}
+@media (max-width:520px){.g-photos.g-four{grid-template-columns:minmax(0,1fr)}}
