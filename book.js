@@ -27,7 +27,7 @@
       list:['Alt fra Standard Udvendig','Et lag voks på lakken','Dækshine på dækkene','Glasforsegling af ruderne'],
       ic:'<path d="M12 3l1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/>'},
     ind:{name:'Standard Indvendig', desc:'En frisk og ren kabine.', dur:'ca. 1–2 timer', min:90,
-      list:['Oprydning af småt affald','Støvsugning af gulv, sæder, måtter og bagagerum','Aftørring af instrumentbræt, døre, paneler og loft','Dørkarme, dørtrin og pedaler','Rat, gearstang og håndtag desinficeret','Lette pletter i sæderne','Ruder indvendigt'],
+      list:['Oprydning af småt affald','Støvsugning af gulv, sæder, måtter og bagagerum','Aftørring af instrumentbræt, døre og paneler','Dørkarme, dørtrin og pedaler','Rat, gearstang og håndtag desinficeret','Lette pletter i sæderne','Ruder indvendigt'],
       ic:'<path d="M7 20v-3h10v3"/><path d="M8 17V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v11"/><path d="M5 12h3M16 12h3"/>'},
     fuld:{name:'Standard Indvendig + Udvendig', desc:'Hele bilen ind og ud i ét besøg.', dur:'ca. 2–3 timer', min:150,
       list:['Alt fra Standard Udvendig','Alt fra Standard Indvendig','Billigere end hver for sig'],
