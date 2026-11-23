@@ -6,7 +6,7 @@
   const PHONE='+4561302294';
   // FØRSTE LEDIGE DAG: ret datoen her, når der er fuldt booket (år-måned-dag)
   const FIRST_FREE='2026-12-01';
-  // DAGE MED KUN TID TIL UDVENDIG VASK: kan kun vælges, når hele bestillingen er Udvendig Vask (år-måned-dag)
+  // DAGE MED KUN TID TIL UDVENDIG VASK: kan kun vælges, når hele bestillingen er Standard Udvendig (år-måned-dag)
   const ONLY_UDV=[];
   // DAGE UDEN FORMIDDAG: kun eftermiddag (fra kl. 12.30) kan vælges (år-måned-dag)
   const NO_MORNING=['2026-12-20','2027-01-30'];
@@ -20,20 +20,20 @@
     van:{name:'Varevogn', short:'Varevogn', desc:'Kun indvendig vask af førerkabinen', ic:'<path d="M2 16V7h12v9M14 10h4l3 3v3h-7"/><circle cx="6.5" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/>'}
   };
   const PK={
-    udv:{name:'Udvendig Vask', desc:'Ren lak, fælge og ruder udenpå.', dur:'ca. 30 min – 1 time', min:45,
-      list:['Håndvask med skånsom shampoo','Fælgrens','Ruder udvendigt','Tørret af i hånden'],
+    udv:{name:'Standard Udvendig', desc:'Ren lak, fælge og ruder udenpå.', dur:'ca. 30 min – 1 time', min:45,
+      list:['Forvask i to trin med aktivt skum','Insektfjerner','Fælgrens og vask af dæksider','Skånsom håndvask med mikrofiberhandske','Ingen børster, der kan give ridser','Dørkarme og tankdæksel','Ruder pudset udvendigt','Håndtørring uden kalkpletter'],
       ic:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>'},
-    uvoks:{name:'Udvendig Vask + Voks', desc:'Udvendig vask og voks, der beskytter lakken.', dur:'ca. 30 min – 1 time + voks', min:75,
-      list:['Alt fra Udvendig Vask','Et lag voks på lakken','Vandet perler af'],
+    uvoks:{name:'Premium Udvendig', desc:'Udvendig vask med voks, dækshine og glasforsegling.', dur:'ca. 30 min – 1 time + voks', min:75,
+      list:['Alt fra Standard Udvendig','Et lag voks på lakken','Dækshine på dækkene','Glasforsegling af ruderne'],
       ic:'<path d="M12 3l1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/>'},
-    ind:{name:'Indvendig Vask', desc:'En frisk og ren kabine.', dur:'ca. 1–2 timer', min:90,
-      list:['Støvsugning af gulv, sæder og bagagerum','Aftørring af instrumentbræt og døre','Ruder indvendigt'],
+    ind:{name:'Standard Indvendig', desc:'En frisk og ren kabine.', dur:'ca. 1–2 timer', min:90,
+      list:['Oprydning af småt affald','Støvsugning af gulv, sæder, måtter og bagagerum','Aftørring af instrumentbræt, døre, paneler og loft','Dørkarme, dørtrin og pedaler','Rat, gearstang og håndtag desinficeret','Lette pletter i sæderne','Ruder indvendigt'],
       ic:'<path d="M7 20v-3h10v3"/><path d="M8 17V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v11"/><path d="M5 12h3M16 12h3"/>'},
-    fuld:{name:'Fuld Vask', desc:'Hele bilen ind og ud i ét besøg.', dur:'ca. 2–3 timer', min:150,
-      list:['Alt fra Udvendig Vask','Alt fra Indvendig Vask','Billigere end hver for sig'],
+    fuld:{name:'Standard Indvendig + Udvendig', desc:'Hele bilen ind og ud i ét besøg.', dur:'ca. 2–3 timer', min:150,
+      list:['Alt fra Standard Udvendig','Alt fra Standard Indvendig','Billigere end hver for sig'],
       ic:'<path d="M5 16h14l-1.5-5.5A2 2 0 0 0 15.6 9H8.4a2 2 0 0 0-1.9 1.5z"/><circle cx="8" cy="17" r="1.6"/><circle cx="16" cy="17" r="1.6"/><path d="M3 13h2M19 13h2"/>'},
-    voks:{name:'Fuld Vask + Voks', desc:'Fuld vask og voks, der beskytter lakken.', dur:'ca. 2–3 timer + voks', min:180, hot:'Populær',
-      list:['Alt fra Fuld Vask','Et lag voks på lakken','Vandet perler af','Dyb glans i lakken'],
+    voks:{name:'Premium Fuldvask', desc:'Ind og ud med voks, dækshine og glasforsegling.', dur:'ca. 2–3 timer + voks', min:180, hot:'Populær',
+      list:['Alt fra Standard Indvendig + Udvendig','Et lag voks på lakken','Dækshine på dækkene','Glasforsegling af ruderne'],
       ic:'<path d="M12 3l1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>'}
   };
   const PRICES={car:{udv:250,uvoks:300,ind:300,fuld:500,voks:600}, big:{udv:350,uvoks:400,ind:400,fuld:600,voks:700}, van:{ind:250}};
@@ -161,7 +161,7 @@
     return '<p class="bk-note warn">'+(firstFree>today?'<b>Fuldt booket indtil '+firstFree.getDate()+'. '+MO[firstFree.getMonth()]+'.</b> ':'')+'Vil du have vasket bilen på en hverdag? Så <a href="sms:'+PHONE+'">skriv en SMS til Viktor</a> på 61 30 22 94, så prøver vi at finde en dag, der passer.</p>'+
       '<div class="bk-cal"><div class="bk-cal-h"><button type="button" data-mon="-1" aria-label="Forrige måned" '+(prevOk?'':'disabled')+'>'+svg('<path d="M15 5l-7 7 7 7"/>',18,2.4)+'</button><b>'+MO[m][0].toUpperCase()+MO[m].slice(1)+' '+y+'</b><button type="button" data-mon="1" aria-label="Næste måned">'+svg('<path d="M9 5l7 7-7 7"/>',18,2.4)+'</button></div>'+
       '<div class="bk-cal-w">'+['Ma','Ti','On','To','Fr','Lø','Sø'].map(w=>'<span>'+w+'</span>').join('')+'</div><div class="bk-cal-d">'+cells+'</div></div>'+
-      (ONLY_UDV.some(x=>{const d=new Date(x+'T12:00:00'); return d>=minDay&&d.getMonth()===m&&d.getFullYear()===y;})?'<p class="bk-udv-note"><span class="bk-udv-dot"></span>'+ONLY_UDV.map(x=>{const d=new Date(x+'T12:00:00'); return d.getDate()+'. '+MO[d.getMonth()];}).join(', ')+': kun ledig til Udvendig Vask'+(NO_MORNING.includes(ONLY_UDV[0])?' fra kl. 12.30':'')+(onlyUdv()?'.':'. Vælg Udvendig Vask, hvis du vil have den dag.')+'</p>':'')+(S.udvMsg?'<p class="bk-err" style="display:block">'+S.udvMsg+'</p>':'')+
+      (ONLY_UDV.some(x=>{const d=new Date(x+'T12:00:00'); return d>=minDay&&d.getMonth()===m&&d.getFullYear()===y;})?'<p class="bk-udv-note"><span class="bk-udv-dot"></span>'+ONLY_UDV.map(x=>{const d=new Date(x+'T12:00:00'); return d.getDate()+'. '+MO[d.getMonth()];}).join(', ')+': kun ledig til Standard Udvendig'+(NO_MORNING.includes(ONLY_UDV[0])?' fra kl. 12.30':'')+(onlyUdv()?'.':'. Vælg Standard Udvendig, hvis du vil have den dag.')+'</p>':'')+(S.udvMsg?'<p class="bk-err" style="display:block">'+S.udvMsg+'</p>':'')+
       '<div class="bk-times" role="group" aria-label="Tidspunkt">'+['Formiddag','Eftermiddag'].map(t=>{ const off=t==='Formiddag'&&noMorning(); return '<button type="button" data-time="'+t+'" aria-pressed="'+(S.time===t)+'"'+(S.time===t?' class="on"':'')+(off?' disabled':'')+'><b>'+t+'</b><small>'+(off?'optaget denne dag':(t==='Formiddag'?'kl. 9.30–12':'kl. 12.30–16'))+'</small></button>'; }).join('')+'</div>'+
       '<label class="bk-field bk-narrow"><span>Ønske til tidspunkt <i>(valgfri)</i></span><input id="f-wish" type="text" placeholder="Fx helst kl. 10" value="'+esc(S.wish)+'"></label>'+
       '<p class="bk-note bk-narrow">'+svg('<path d="M7 16a4 4 0 0 1-.6-7.95A5.5 5.5 0 0 1 17 7.5a3.5 3.5 0 0 1 .5 7"/><path d="M9 19l-1 2M13 19l-1 2M17 19l-1 2"/>',18)+'<span><b>Dårligt vejr?</b> Vasken foregår udenfor. Ved sne, regn, frost eller kraftig blæst kan Viktor aflyse eller flytte tiden. Du får besked på SMS, og det koster ikke noget. Er der 0 grader eller minus, laver Viktor kun indvendig vask, og den udvendige vask flyttes gratis til en ny dag.</span></p>'+
@@ -236,7 +236,7 @@
     const pre=$('bk-pre'); if(pre) pre.textContent=body;
   }
   function render(focus){
-    if(S.date&&udvDay(S.date)&&!onlyUdv()){ S.udvMsg=dayTxt(S.date)+' kan kun bookes til Udvendig Vask, så datoen er fjernet. Vælg en anden dag.'; S.date=null; }
+    if(S.date&&udvDay(S.date)&&!onlyUdv()){ S.udvMsg=dayTxt(S.date)+' kan kun bookes til Standard Udvendig, så datoen er fjernet. Vælg en anden dag.'; S.date=null; }
     const s=STEPS[S.step];
     app.classList.toggle('is-done',S.done);
     stage.innerHTML=S.done?doneView():'<div class="bk-view bk-'+s.key+'">'+head(s)+V[s.key]()+'</div>';
