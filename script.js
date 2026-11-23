@@ -149,17 +149,17 @@
   // Bestillingsformular: SMS'en skrives ud fra valgene
   (function(){
     const f=document.getElementById('order'); if(!f) return;
-    const PRICES={car:{udv:250,ind:300,fuld:500,voks:600},big:{udv:350,ind:400,fuld:600,voks:700},van:{ind:250}};
-    const PKG={udv:'Udvendig Vask',ind:'Indvendig Vask',fuld:'Fuld Vask',voks:'Fuld Vask + Voks'};
+    const PRICES={car:{udv:250,uvoks:300,ind:300,fuld:500,voks:600},big:{udv:350,uvoks:400,ind:400,fuld:600,voks:700},van:{ind:250}};
+    const PKG={udv:'Udvendig Vask',uvoks:'Udvendig Vask + Voks',ind:'Indvendig Vask',fuld:'Fuld Vask',voks:'Fuld Vask + Voks'};
     const SIZE={car:'Personbil',big:'Store biler',van:'Varevogn (kun førerkabinen)'};
     const $=id=>document.getElementById(id);
     const pkg=$('o-pkg'), size=$('o-size'), count=$('o-count'), first=$('o-first'), hose=$('o-hose');
     const krf=n=>n.toLocaleString('da-DK')+' kr.';
     const extra=$('o-extra'); let rowId=0; let wz=null;
-    const PKGOPT='<option value="udv">Udvendig Vask</option><option value="ind">Indvendig Vask</option><option value="fuld">Fuld Vask</option><option value="voks">Fuld Vask + Voks</option>';
+    const PKGOPT='<option value="udv">Udvendig Vask</option><option value="uvoks">Udvendig Vask + Voks</option><option value="ind">Indvendig Vask</option><option value="fuld">Fuld Vask</option><option value="voks">Fuld Vask + Voks</option>';
     const SIZEOPT='<option value="car">Personbil</option><option value="big">Store biler</option><option value="van">Varevogn</option>';
     const TICK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>';
-    const PKGPRICE={udv:'{"car":250,"big":350}',ind:'{"car":300,"big":400,"van":250}',fuld:'{"car":500,"big":600}',voks:'{"car":600,"big":700}'};
+    const PKGPRICE={udv:'{"car":250,"big":350}',uvoks:'{"car":300,"big":400}',ind:'{"car":300,"big":400,"van":250}',fuld:'{"car":500,"big":600}',voks:'{"car":600,"big":700}'};
     function addRow(opt){
       opt=opt&&opt.size?opt:{};
       const i=++rowId, d=document.createElement('div'); d.className='o-row'+(opt.auto?' wz-auto':''); if(opt.auto) d.dataset.auto=opt.size;
@@ -196,7 +196,7 @@
     }
     function render(){
       const R=rows();
-      const inside=R.filter(r=>r.pkg!=='udv');
+      const inside=R.filter(r=>r.pkg!=='udv'&&r.pkg!=='uvoks');
       const nonVan=R.filter(r=>r.size!=='van').reduce((a,r)=>a+r.n,0), cars=R.reduce((a,r)=>a+r.n,0);
       const noIn=!inside.length, allVan=!nonVan;
       $('o-dog').disabled=noIn; $('o-dog-wrap').classList.toggle('off',noIn); if(noIn) $('o-dog').checked=false;
@@ -271,7 +271,7 @@
           const R=rows(), row=(k,v)=>'<div><dt>'+k+'</dt><dd>'+esc(v)+'</dd></div>';
           const ex=[]; if(first.checked) ex.push('Første vask (−20 %)'); if(hose.checked) ex.push('Vask hos Viktor');
           if($('o-dirty').checked) ex.push('Ekstra beskidt'); if($('o-dog').checked) ex.push('Hundehår');
-          const DUR={udv:'ca. 30 min – 1 time',ind:'ca. 1–2 timer',fuld:'ca. 2–3 timer',voks:'ca. 2–3 timer + voks'};
+          const DUR={udv:'ca. 30 min – 1 time',uvoks:'ca. 30 min – 1 time + voks',ind:'ca. 1–2 timer',fuld:'ca. 2–3 timer',voks:'ca. 2–3 timer + voks'};
           const dur=r=>(r.size==='van'&&r.pkg==='ind'?'ca. 1–1½ time':DUR[r.pkg])+(r.n>1?' pr. bil':'');
           const row2=(k,v,sub)=>'<div><dt>'+k+'</dt><dd>'+esc(v)+'<small>'+esc(sub)+'</small></dd></div>';
           sum.innerHTML=R.map(r=>row2(r.n+' × '+SIZE[r.size].replace(' (kun førerkabinen)',''),PKG[r.pkg],'Forventet tid: '+dur(r))).join('')
@@ -398,7 +398,7 @@
       return {go,sync,dropType,reset:resetTypes};
     })();
     // Fra pakkekortene på Priser-siden: udfyld formularen og hop ned til den
-    const KEY={'Udvendig Vask':'udv','Indvendig Vask':'ind','Fuld Vask':'fuld','Fuld Vask + Voks':'voks'};
+    const KEY={'Udvendig Vask':'udv','Udvendig Vask + Voks':'uvoks','Indvendig Vask':'ind','Fuld Vask':'fuld','Fuld Vask + Voks':'voks'};
     document.querySelectorAll('[data-pkg]').forEach(a=>a.addEventListener('click',e=>{
       e.preventDefault();
       const pressed=document.querySelector('.sizes button[aria-pressed="true"]');

@@ -23,6 +23,9 @@
     udv:{name:'Udvendig Vask', desc:'Ren lak, fælge og ruder udenpå.', dur:'ca. 30 min – 1 time', min:45,
       list:['Håndvask med skånsom shampoo','Fælge gjort rene','Ruder udvendigt','Tørret af i hånden'],
       ic:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>'},
+    uvoks:{name:'Udvendig Vask + Voks', desc:'Udvendig vask og voks, der beskytter lakken.', dur:'ca. 30 min – 1 time + voks', min:75,
+      list:['Alt fra Udvendig Vask','Et lag voks på lakken','Vandet perler af'],
+      ic:'<path d="M12 3l1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/>'},
     ind:{name:'Indvendig Vask', desc:'En frisk og ren kabine.', dur:'ca. 1–2 timer', min:90,
       list:['Støvsugning af gulv, sæder og bagagerum','Aftørring af instrumentbræt og døre','Ruder indvendigt'],
       ic:'<path d="M7 20v-3h10v3"/><path d="M8 17V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v11"/><path d="M5 12h3M16 12h3"/>'},
@@ -33,7 +36,7 @@
       list:['Alt fra Fuld Vask','Et lag voks på lakken','Vandet perler af','Dyb glans i lakken'],
       ic:'<path d="M12 3l1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>'}
   };
-  const PRICES={car:{udv:250,ind:300,fuld:500,voks:600}, big:{udv:350,ind:400,fuld:600,voks:700}, van:{ind:250}};
+  const PRICES={car:{udv:250,uvoks:300,ind:300,fuld:500,voks:600}, big:{udv:350,uvoks:400,ind:400,fuld:600,voks:700}, van:{ind:250}};
   const VAN_DUR='ca. 1–1½ time';
 
   const STEPS=[
@@ -66,7 +69,7 @@
   const sel=()=>Object.keys(TYPES).filter(k=>S.types[k]>0);
   const cars=()=>sel().reduce((a,k)=>a+S.types[k],0);
   const nonVan=()=>sel().filter(k=>k!=='van').reduce((a,k)=>a+S.types[k],0);
-  const hasInside=()=>sel().some(k=>S.pkg[k]!=='udv');
+  const hasInside=()=>sel().some(k=>S.pkg[k]!=='udv'&&S.pkg[k]!=='uvoks');
   const WD=['søndag','mandag','tirsdag','onsdag','torsdag','fredag','lørdag'], MO=['januar','februar','marts','april','maj','juni','juli','august','september','oktober','november','december'];
   const dayTxt=d=>WD[d.getDay()][0].toUpperCase()+WD[d.getDay()].slice(1)+' d. '+d.getDate()+'. '+MO[d.getMonth()];
   const iso=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
@@ -131,7 +134,7 @@
   const modelsOf=k=>S.models[k].slice(0,S.types[k]).map(x=>(x||'').trim()).filter(Boolean);
   V.pakke=()=>{
     const ts=sel(); if(!ts.includes(S.tab)) S.tab=ts[0];
-    const k=S.tab, keys=k==='van'?['ind']:['udv','ind','fuld','voks'];
+    const k=S.tab, keys=k==='van'?['ind']:['udv','uvoks','ind','fuld','voks'];
     const tabs=ts.length>1?'<div class="bk-tabs" role="tablist">'+ts.map(t=>'<button type="button" role="tab" data-tab="'+t+'" aria-selected="'+(t===k)+'">'+(S.types[t]>1?S.types[t]+' × ':'')+TYPES[t].short+'<small>'+PK[S.pkg[t]].name+'</small></button>').join('')+'</div>':'';
     return tabs+'<div class="bk-pkgs'+(keys.length===1?' one':'')+'">'+keys.map(p=>{ const P=PK[p], on=S.pkg[k]===p, n=S.types[k];
       return '<button type="button" class="bk-pk'+(P.hot?' hot':'')+(on?' on':'')+'" data-pkg="'+p+'" aria-pressed="'+on+'">'+(P.hot?'<span class="bk-badge">'+P.hot+'</span>':'')+
