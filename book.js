@@ -21,7 +21,7 @@
   };
   const PK={
     udv:{name:'Udvendig Vask', desc:'Ren lak, fælge og ruder udenpå.', dur:'ca. 30 min – 1 time', min:45,
-      list:['Håndvask med skånsom shampoo','Fælge gjort rene','Ruder udvendigt','Tørret af i hånden'],
+      list:['Håndvask med skånsom shampoo','Fælgrens','Ruder udvendigt','Tørret af i hånden'],
       ic:'<path d="M12 3s6 6.5 6 11a6 6 0 0 1-12 0c0-4.5 6-11 6-11z"/>'},
     uvoks:{name:'Udvendig Vask + Voks', desc:'Udvendig vask og voks, der beskytter lakken.', dur:'ca. 30 min – 1 time + voks', min:75,
       list:['Alt fra Udvendig Vask','Et lag voks på lakken','Vandet perler af'],
