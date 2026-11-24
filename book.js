@@ -82,7 +82,10 @@
   const onlyUdv=()=>sel().length>0 && sel().every(k=>S.pkg[k]==='udv');
   const udvDay=d=>ONLY_UDV.includes(iso(d));
   const noMorning=()=>!!(S.date&&NO_MORNING.includes(iso(S.date)));
-  const isFree=d=>d>=minDay && (d.getDay()===0||d.getDay()===6) && !BOOKED.includes(iso(d)) && (!udvDay(d)||onlyUdv());
+  // INGEN SØNDAGE: måneder hvor søndag ikke kan vælges (0=januar, 1=februar)
+  const NO_SUNDAY_MONTHS=[0,1];
+  const noSun=d=>d.getDay()===0&&NO_SUNDAY_MONTHS.includes(d.getMonth());
+  const isFree=d=>d>=minDay && (d.getDay()===6||(d.getDay()===0&&!noSun(d))) && !BOOKED.includes(iso(d)) && (!udvDay(d)||onlyUdv());
   let calMonth=new Date(minDay.getFullYear(),minDay.getMonth(),1,12);
 
   function lines(){
@@ -157,8 +160,9 @@
     let cells=''; for(let i=0;i<start;i++) cells+='<span></span>';
     for(let d=1;d<=days;d++){ const dt=new Date(y,m,d,12), ok=isFree(dt), on=S.date&&iso(S.date)===iso(dt);
       const u=udvDay(dt)&&dt>=minDay, bk=BOOKED.includes(iso(dt));
-      cells+='<button type="button" class="'+(on?'on':'')+(u?' udv':'')+(bk?' booked':'')+'" data-day="'+iso(dt)+'" '+(ok?'':'disabled')+' aria-label="'+dayTxt(dt)+(ok?(u?' (kun udvendig vask)':''):(u?' (kun ledig til udvendig vask)':(bk?' (fuldt booket)':' (optaget)')))+'">'+d+'</button>'; }
+      cells+='<button type="button" class="'+(on?'on':'')+(u?' udv':'')+(bk?' booked':'')+'" data-day="'+iso(dt)+'" '+(ok?'':'disabled')+' aria-label="'+dayTxt(dt)+(ok?(u?' (kun udvendig vask)':''):(u?' (kun ledig til udvendig vask)':(bk?' (fuldt booket)':(noSun(dt)?' (ingen søndage i januar og februar)':' (optaget)'))))+'">'+d+'</button>'; }
     return '<p class="bk-note warn">'+(firstFree>today?'<b>Fuldt booket indtil '+firstFree.getDate()+'. '+MO[firstFree.getMonth()]+'.</b> ':'')+'Vil du have vasket bilen på en hverdag? Så <a href="sms:'+PHONE+'">skriv en SMS til Viktor</a> på 61 30 22 94, så prøver vi at finde en dag, der passer.</p>'+
+      (NO_SUNDAY_MONTHS.includes(m)?'<p class="bk-note">'+svg('<rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/>',18)+'<span><b>Ingen søndage i januar og februar.</b> Kan du ikke om lørdagen, men kun om søndagen? Så <a href="sms:'+PHONE+'">skriv til Viktor</a>, så prøver vi at finde en søndag, der passer.</span></p>':'')+
       '<div class="bk-cal"><div class="bk-cal-h"><button type="button" data-mon="-1" aria-label="Forrige måned" '+(prevOk?'':'disabled')+'>'+svg('<path d="M15 5l-7 7 7 7"/>',18,2.4)+'</button><b>'+MO[m][0].toUpperCase()+MO[m].slice(1)+' '+y+'</b><button type="button" data-mon="1" aria-label="Næste måned">'+svg('<path d="M9 5l7 7-7 7"/>',18,2.4)+'</button></div>'+
       '<div class="bk-cal-w">'+['Ma','Ti','On','To','Fr','Lø','Sø'].map(w=>'<span>'+w+'</span>').join('')+'</div><div class="bk-cal-d">'+cells+'</div></div>'+
       (ONLY_UDV.some(x=>{const d=new Date(x+'T12:00:00'); return d>=minDay&&d.getMonth()===m&&d.getFullYear()===y;})?'<p class="bk-udv-note"><span class="bk-udv-dot"></span>'+ONLY_UDV.map(x=>{const d=new Date(x+'T12:00:00'); return d.getDate()+'. '+MO[d.getMonth()];}).join(', ')+': kun ledig til Standard Udvendig'+(NO_MORNING.includes(ONLY_UDV[0])?' fra kl. 12.30':'')+(onlyUdv()?'.':'. Vælg Standard Udvendig, hvis du vil have den dag.')+'</p>':'')+(S.udvMsg?'<p class="bk-err" style="display:block">'+S.udvMsg+'</p>':'')+
