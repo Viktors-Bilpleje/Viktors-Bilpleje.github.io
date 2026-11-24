@@ -29,11 +29,11 @@
     ind:{name:'Standard Indvendig', desc:'En frisk og ren kabine.', dur:'ca. 1–2 timer', min:90,
       list:['Oprydning af småt affald','Støvsugning af gulv, sæder, måtter og bagagerum','Aftørring af instrumentbræt, døre og paneler','Dørkarme, dørtrin og pedaler','Rat, gearstang og håndtag desinficeret','Lette pletter i sæderne','Ruder indvendigt'],
       ic:'<path d="M7 20v-3h10v3"/><path d="M8 17V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v11"/><path d="M5 12h3M16 12h3"/>'},
-    fuld:{name:'Standard Indvendig + Udvendig', desc:'Hele bilen ind og ud i ét besøg.', dur:'ca. 2–3 timer', min:150,
+    fuld:{name:'Standardvask', desc:'Hele bilen ind og ud i ét besøg.', dur:'ca. 2–3 timer', min:150,
       list:['Alt fra Standard Udvendig','Alt fra Standard Indvendig','Billigere end hver for sig'],
       ic:'<path d="M5 16h14l-1.5-5.5A2 2 0 0 0 15.6 9H8.4a2 2 0 0 0-1.9 1.5z"/><circle cx="8" cy="17" r="1.6"/><circle cx="16" cy="17" r="1.6"/><path d="M3 13h2M19 13h2"/>'},
-    voks:{name:'Premium Fuldvask', desc:'Ind og ud med voks, dækshine og glasforsegling.', dur:'ca. 2–3 timer + voks', min:180, hot:'Populær',
-      list:['Alt fra Standard Indvendig + Udvendig','Et lag voks på lakken','Dækshine på dækkene','Glasforsegling af ruderne'],
+    voks:{name:'Premiumvask', desc:'Ind og ud med voks, dækshine og glasforsegling.', dur:'ca. 2–3 timer + voks', min:180, hot:'Populær',
+      list:['Alt fra Standardvask','Et lag voks på lakken','Dækshine på dækkene','Glasforsegling af ruderne'],
       ic:'<path d="M12 3l1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>'}
   };
   const PRICES={car:{udv:250,uvoks:300,ind:300,fuld:500,voks:600}, big:{udv:350,uvoks:400,ind:400,fuld:600,voks:700}, van:{ind:250}};

@@ -150,13 +150,13 @@
   (function(){
     const f=document.getElementById('order'); if(!f) return;
     const PRICES={car:{udv:250,uvoks:300,ind:300,fuld:500,voks:600},big:{udv:350,uvoks:400,ind:400,fuld:600,voks:700},van:{ind:250}};
-    const PKG={udv:'Standard Udvendig',uvoks:'Premium Udvendig',ind:'Standard Indvendig',fuld:'Standard Indvendig + Udvendig',voks:'Premium Fuldvask'};
+    const PKG={udv:'Standard Udvendig',uvoks:'Premium Udvendig',ind:'Standard Indvendig',fuld:'Standardvask',voks:'Premiumvask'};
     const SIZE={car:'Personbil',big:'Store biler',van:'Varevogn (kun førerkabinen)'};
     const $=id=>document.getElementById(id);
     const pkg=$('o-pkg'), size=$('o-size'), count=$('o-count'), first=$('o-first'), hose=$('o-hose');
     const krf=n=>n.toLocaleString('da-DK')+' kr.';
     const extra=$('o-extra'); let rowId=0; let wz=null;
-    const PKGOPT='<option value="udv">Standard Udvendig</option><option value="uvoks">Premium Udvendig</option><option value="ind">Standard Indvendig</option><option value="fuld">Standard Indvendig + Udvendig</option><option value="voks">Premium Fuldvask</option>';
+    const PKGOPT='<option value="udv">Standard Udvendig</option><option value="uvoks">Premium Udvendig</option><option value="ind">Standard Indvendig</option><option value="fuld">Standardvask</option><option value="voks">Premiumvask</option>';
     const SIZEOPT='<option value="car">Personbil</option><option value="big">Store biler</option><option value="van">Varevogn</option>';
     const TICK='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5 10 17 19 7"/></svg>';
     const PKGPRICE={udv:'{"car":250,"big":350}',uvoks:'{"car":300,"big":400}',ind:'{"car":300,"big":400,"van":250}',fuld:'{"car":500,"big":600}',voks:'{"car":600,"big":700}'};
@@ -398,7 +398,7 @@
       return {go,sync,dropType,reset:resetTypes};
     })();
     // Fra pakkekortene på Priser-siden: udfyld formularen og hop ned til den
-    const KEY={'Standard Udvendig':'udv','Premium Udvendig':'uvoks','Standard Indvendig':'ind','Standard Indvendig + Udvendig':'fuld','Premium Fuldvask':'voks'};
+    const KEY={'Standard Udvendig':'udv','Premium Udvendig':'uvoks','Standard Indvendig':'ind','Standardvask':'fuld','Premiumvask':'voks'};
     document.querySelectorAll('[data-pkg]').forEach(a=>a.addEventListener('click',e=>{
       e.preventDefault();
       const pressed=document.querySelector('.sizes button[aria-pressed="true"]');
