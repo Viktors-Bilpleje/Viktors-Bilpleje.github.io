@@ -12,6 +12,8 @@
   const NO_MORNING=['2026-12-20','2027-01-30'];
   // FULDT BOOKEDE DAGE: kan ikke vælges til nogen vask (år-måned-dag)
   const BOOKED=['2026-12-05','2026-12-06','2026-12-12','2026-12-13','2026-12-19','2026-12-20'];
+  // DAGE MED ÉN FAST TID: kan vælges uanset ugedag, og kun med tiden herunder (år-måned-dag)
+  const SPECIAL={'2026-12-28':'Kl. 10–13','2027-01-02':'Kl. 10–13','2027-01-03':'Kl. 10–13'};
   const REDUCE=matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   const TYPES={
@@ -85,7 +87,8 @@
   // INGEN SØNDAGE: måneder hvor søndag ikke kan vælges (0=januar, 1=februar)
   const NO_SUNDAY_MONTHS=[0,1];
   const noSun=d=>d.getDay()===0&&NO_SUNDAY_MONTHS.includes(d.getMonth());
-  const isFree=d=>d>=minDay && (d.getDay()===6||(d.getDay()===0&&!noSun(d))) && !BOOKED.includes(iso(d)) && (!udvDay(d)||onlyUdv());
+  const special=d=>SPECIAL[iso(d)];
+  const isFree=d=>d>=minDay && !BOOKED.includes(iso(d)) && (!!special(d) || ((d.getDay()===6||(d.getDay()===0&&!noSun(d))) && (!udvDay(d)||onlyUdv())));
   let calMonth=new Date(minDay.getFullYear(),minDay.getMonth(),1,12);
 
   function lines(){
@@ -166,7 +169,7 @@
       '<div class="bk-cal"><div class="bk-cal-h"><button type="button" data-mon="-1" aria-label="Forrige måned" '+(prevOk?'':'disabled')+'>'+svg('<path d="M15 5l-7 7 7 7"/>',18,2.4)+'</button><b>'+MO[m][0].toUpperCase()+MO[m].slice(1)+' '+y+'</b><button type="button" data-mon="1" aria-label="Næste måned">'+svg('<path d="M9 5l7 7-7 7"/>',18,2.4)+'</button></div>'+
       '<div class="bk-cal-w">'+['Ma','Ti','On','To','Fr','Lø','Sø'].map(w=>'<span>'+w+'</span>').join('')+'</div><div class="bk-cal-d">'+cells+'</div></div>'+
       (ONLY_UDV.some(x=>{const d=new Date(x+'T12:00:00'); return d>=minDay&&d.getMonth()===m&&d.getFullYear()===y;})?'<p class="bk-udv-note"><span class="bk-udv-dot"></span>'+ONLY_UDV.map(x=>{const d=new Date(x+'T12:00:00'); return d.getDate()+'. '+MO[d.getMonth()];}).join(', ')+': kun ledig til Standard Udvendig'+(NO_MORNING.includes(ONLY_UDV[0])?' fra kl. 12.30':'')+(onlyUdv()?'.':'. Vælg Standard Udvendig, hvis du vil have den dag.')+'</p>':'')+(S.udvMsg?'<p class="bk-err" style="display:block">'+S.udvMsg+'</p>':'')+
-      '<div class="bk-times" role="group" aria-label="Tidspunkt">'+['Formiddag','Eftermiddag'].map(t=>{ const off=t==='Formiddag'&&noMorning(); return '<button type="button" data-time="'+t+'" aria-pressed="'+(S.time===t)+'"'+(S.time===t?' class="on"':'')+(off?' disabled':'')+'><b>'+t+'</b><small>'+(off?'optaget denne dag':(t==='Formiddag'?'kl. 9.30–12':'kl. 12.30–16'))+'</small></button>'; }).join('')+'</div>'+
+      '<div class="bk-times" role="group" aria-label="Tidspunkt">'+(S.date&&special(S.date)?(t=>'<button type="button" data-time="'+t+'" aria-pressed="'+(S.time===t)+'"'+(S.time===t?' class="on"':'')+'><b>'+t+'</b><small>den eneste tid denne dag</small></button>')(special(S.date)):['Formiddag','Eftermiddag'].map(t=>{ const off=t==='Formiddag'&&noMorning(); return '<button type="button" data-time="'+t+'" aria-pressed="'+(S.time===t)+'"'+(S.time===t?' class="on"':'')+(off?' disabled':'')+'><b>'+t+'</b><small>'+(off?'optaget denne dag':(t==='Formiddag'?'kl. 9.30–12':'kl. 12.30–16'))+'</small></button>'; }).join(''))+'</div>'+
       '<label class="bk-field bk-narrow"><span>Ønske til tidspunkt <i>(valgfri)</i></span><input id="f-wish" type="text" placeholder="Fx helst kl. 10" value="'+esc(S.wish)+'"></label>'+
       '<p class="bk-note bk-narrow">'+svg('<path d="M7 16a4 4 0 0 1-.6-7.95A5.5 5.5 0 0 1 17 7.5a3.5 3.5 0 0 1 .5 7"/><path d="M9 19l-1 2M13 19l-1 2M17 19l-1 2"/>',18)+'<span><b>Dårligt vejr?</b> Vasken foregår udenfor. Ved sne, regn, frost eller kraftig blæst kan Viktor aflyse eller flytte tiden. Du får besked på SMS, og det koster ikke noget. Er der 0 grader eller minus, laver Viktor kun indvendig vask, og den udvendige vask flyttes gratis til en ny dag.</span></p>'+
       '<p class="bk-err" id="bk-err" hidden>Vælg en dag og et tidspunkt.</p>';
@@ -288,7 +291,7 @@
     else if(d.pkg){ S.pkg[S.tab]=d.pkg; render(); }
     else if(d.add){ S[d.add]=!S[d.add]; render(); }
     else if(d.mon){ calMonth=new Date(calMonth.getFullYear(),calMonth.getMonth()+(+d.mon),1,12); render(); }
-    else if(d.day){ S.date=new Date(d.day+'T12:00:00'); S.udvMsg=''; if(noMorning()&&S.time==='Formiddag') S.time=''; render(); }
+    else if(d.day){ S.date=new Date(d.day+'T12:00:00'); S.udvMsg=''; if(noMorning()&&S.time==='Formiddag') S.time=''; const sp=special(S.date); if(sp) S.time=sp; else if(S.time&&S.time!=='Formiddag'&&S.time!=='Eftermiddag') S.time=''; render(); }
     else if(d.time){ S.time=S.time===d.time?'':d.time; render(); }
     else if(d.pay){ S.pay=d.pay; render(); }
     else return;
