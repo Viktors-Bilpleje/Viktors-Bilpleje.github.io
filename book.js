@@ -35,7 +35,7 @@
       list:['Alt fra Standard Udvendig','Alt fra Standard Indvendig','Billigere end hver for sig'],
       ic:'<path d="M5 16h14l-1.5-5.5A2 2 0 0 0 15.6 9H8.4a2 2 0 0 0-1.9 1.5z"/><circle cx="8" cy="17" r="1.6"/><circle cx="16" cy="17" r="1.6"/><path d="M3 13h2M19 13h2"/>'},
     voks:{name:'Premiumvask', desc:'Ind og ud med voks, dækshine og glasforsegling.', dur:'ca. 2–3 timer + voks', min:180, hot:'Populær',
-      list:['Alt fra Standardvask','Et lag voks på lakken','Dækshine på dækkene','Glasforsegling af ruderne'],
+      list:['Alt fra Standardvask','Et lag voks på lakken','Dækshine på dækkene','Glasforsegling af ruderne','Læderpleje, hvis bilen har lædersæder eller læderinteriør'],
       ic:'<path d="M12 3l1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/>'}
   };
   const PRICES={car:{udv:250,uvoks:300,ind:300,fuld:500,voks:600}, big:{udv:350,uvoks:400,ind:400,fuld:600,voks:700}, van:{ind:250}};
