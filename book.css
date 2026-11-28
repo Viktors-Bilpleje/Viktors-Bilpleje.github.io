@@ -216,3 +216,15 @@
 .bk-udv-dot{flex:none; width:7px; height:7px; border-radius:50%; background:var(--signal)}
 .bk-cal-d button.booked{color:#7A776F; text-decoration:line-through; background:transparent; border-color:transparent}
 .bk-times button:disabled{opacity:.45; cursor:default; text-decoration:line-through}
+
+/* Ældrevenlig */
+.bk-where{text-align:center; margin:.2rem 0 .6rem; display:grid; gap:.15rem}
+.bk-where b{font-size:1.1rem; color:var(--bk-ink)}
+.bk-where span{font-size:.95rem; color:var(--bk-muted)}
+.bk-prog{display:none}
+.bk-step button{width:48px; height:48px; font-size:1.5rem}
+.bk-field span{font-size:1rem}
+.bk-field input,.bk-field textarea{font-size:1.1rem}
+.bk-total span{font-size:.8rem}
+.bk-sm{font-size:.95rem}
+.bk-app,.bk-wrap{--bk-muted:#BDB8AE}

@@ -702,7 +702,7 @@ document.querySelectorAll('a[data-pkg][href^="book.html"]').forEach(a=>a.addEven
   // Del overskriften i ord med det samme, så den ikke blinker, før GSAP er hentet
   if(h1){
     const wrap=n=>{ [...n.childNodes].forEach(c=>{ if(c.nodeType===3){ const f=document.createDocumentFragment(); c.textContent.split(/(\s+)/).forEach(w=>{ if(!w) return; if(/^\s+$/.test(w)) f.appendChild(document.createTextNode(w)); else { const o=document.createElement('span'); o.className='gw'; const i=document.createElement('span'); i.className='gw-i'; i.textContent=w; o.appendChild(i); f.appendChild(o);} }); c.replaceWith(f);} else if(c.nodeType===1) wrap(c); }); };
-    wrap(h1); h1.classList.add('gs-split');
+    // (ældrevenlig) overskriften vises med det samme – ingen ord-for-ord animation
   }
   const go=async()=>{
     try{
@@ -711,9 +711,9 @@ document.querySelectorAll('a[data-pkg][href^="book.html"]').forEach(a=>a.addEven
     }catch(e){ if(h1) h1.classList.remove('gs-split'); return; }
     const g=window.gsap; g.registerPlugin(window.ScrollTrigger);
     // 1) Overskriften kommer op ord for ord
-    if(h1) g.fromTo(h1.querySelectorAll('.gw-i'),{yPercent:110,opacity:0},{yPercent:0,opacity:1,duration:.9,ease:'expo.out',stagger:.07,delay:.15,onComplete:()=>h1.classList.remove('gs-split')});
+    if(false) g.fromTo(h1.querySelectorAll('.gw-i'),{yPercent:110,opacity:0},{yPercent:0,opacity:1,duration:.9,ease:'expo.out',stagger:.07,delay:.15,onComplete:()=>h1.classList.remove('gs-split')});
     // 2) Priser og procent hopper op, når de kommer frem (tallet står fast, ingen optælling)
-    document.querySelectorAll('.pk-price .mono, .facts span:nth-child(-n+2) b, .price .mono').forEach(el=>{
+    [].forEach(el=>{
       if(getComputedStyle(el).display==='inline') el.style.display='inline-block';
       g.from(el,{y:14,scale:.85,opacity:0,duration:.6,ease:'back.out(2.2)',scrollTrigger:{trigger:el,start:'top 90%',once:true}});
     });

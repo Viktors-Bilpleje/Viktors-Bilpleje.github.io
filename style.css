@@ -989,3 +989,25 @@ footer{background:#03080B; border-top:1px solid rgba(233,196,106,.18)}
   .topnav::-webkit-scrollbar{display:none}
   .topnav a{font-size:.86rem;padding:.45rem .7rem;background:rgba(255,255,255,.06)}
 }
+
+/* ===== Ældrevenlig: større tekst, mere kontrast, ingen tekst der forsvinder ===== */
+html{font-size:106.25%}
+:root,:root:not([data-theme="light"]),:root[data-theme]{--muted:#BAC5CB; --hall-muted:#C9D2D7}
+.reveal{animation:none!important; opacity:1!important; transform:none!important; filter:none!important}
+.hero .wrap,section.hero .wrap > *{animation:none!important; opacity:1!important; transform:none!important}
+.hero h1{text-shadow:0 2px 18px #000}
+.facts{font-family:var(--font-body); font-size:.98rem; gap:.5rem 1.4rem}
+.eyebrow,.hero .eyebrow{font-size:.85rem; letter-spacing:.12em}
+.hero-rating{font-size:1rem}
+.topnav a{font-size:1rem}
+.btn{font-size:1.05rem; min-height:52px}
+.pk-dur,.km-note,.towns small,.r-meta,.r-count,.hr-n{font-size:.95rem}
+.fq summary{font-size:1.08rem; min-height:56px}
+.fq p{font-size:1.02rem; line-height:1.6}
+.call-easy{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:.3rem 1rem; padding:1rem 1.2rem; border-radius:16px;
+  background:#FFFFFF10; outline:1px solid rgba(233,196,106,.45); outline-offset:-1px; color:#fff; text-decoration:none; max-width:34rem}
+.call-easy span{font-size:1.02rem}
+.call-easy b{font-size:1.45rem; letter-spacing:-.01em; color:#FFD23F; white-space:nowrap}
+.call-easy b::before{content:"☎ "; font-size:1.1rem}
+.pn-short{margin:0 0 1rem; padding:.9rem 1.1rem; border-radius:14px; background:#FFFFFF0D; color:var(--ink); font-size:1rem; line-height:1.5}
+.bk-wrap .call-easy{margin:0 auto 1.6rem; max-width:none}

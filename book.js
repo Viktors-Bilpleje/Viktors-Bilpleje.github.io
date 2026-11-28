@@ -108,6 +108,7 @@
   // ---------- skelet ----------
   app.innerHTML=
     '<ol class="bk-prog" id="bk-prog" aria-label="Trin"></ol>'+
+    '<p class="bk-where" id="bk-where"></p>'+
     '<div class="bk-bar" aria-hidden="true"><span id="bk-bar"></span></div>'+
     '<div class="bk-stage" id="bk-stage" tabindex="-1"></div>'+
     '<div class="bk-foot" id="bk-foot">'+
@@ -239,6 +240,8 @@
   // ---------- visning ----------
   function update(){
     const T=lines(); $('bk-total').textContent=kr(T.total);
+    // Vis først prisen, når man er nået til pakken (eller kom fra en bestemt pakke)
+    $('bk-total').parentNode.style.visibility=(S.step===0&&!q.get('pakke')&&!S.done)?'hidden':'visible';
     const body=smsBody(); send.href='sms:'+PHONE+'?&body='+encodeURIComponent(body);
     const pre=$('bk-pre'); if(pre) pre.textContent=body;
   }
@@ -248,6 +251,7 @@
     app.classList.toggle('is-done',S.done);
     stage.innerHTML=S.done?doneView():'<div class="bk-view bk-'+s.key+'">'+head(s)+V[s.key]()+'</div>';
     let vis=0; [...prog.children].forEach((li,i)=>{ li.hidden=skipStep(i); if(!li.hidden) li.querySelector('.bk-num').textContent=++vis; li.className=i===S.step&&!S.done?'now':(i<S.step||S.done?'past':''); li.querySelector('button').disabled=i>S.reached; if(i===S.step) li.querySelector('button').setAttribute('aria-current','step'); else li.querySelector('button').removeAttribute('aria-current'); });
+    { const vis=STEPS.map((x,i)=>i).filter(i=>!skipStep(i)); const pos=vis.indexOf(S.step); const nx=STEPS[vis[pos+1]]; $('bk-where').innerHTML=S.done?'':'<b>Trin '+(pos+1)+' af '+vis.length+': '+s.label+'</b>'+(nx?'<span>Derefter: '+nx.label+'</span>':''); }
     $('bk-bar').style.width=(S.done?100:(S.step/(STEPS.length-1))*100)+'%';
     back.style.visibility=S.step>0&&!S.done?'visible':'hidden';
     const last=S.step===STEPS.length-1;
